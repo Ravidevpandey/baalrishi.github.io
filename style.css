@@ -1,39 +1,53 @@
-
 body {
-  font-family: sans-serif;
-  background: #fff8e1;
-  color: #3e2723;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
   margin: 0;
-  padding: 0;
+  padding: 20px;
   text-align: center;
 }
+
 .container {
-  padding: 40px 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: #fffdf5;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
+
 .profile-img {
-  max-width: 180px;
-  border-radius: 50%;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 20px;
+  border-radius: 12px;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #8e44ad;
   margin-bottom: 20px;
 }
-h1 {
-  font-size: 2.5em;
-  color: #a97100;
-}
+
 p {
   font-size: 1.1em;
-  max-width: 600px;
-  margin: 0 auto 30px;
+  line-height: 1.8em;
+  margin-bottom: 30px;
 }
-.buttons a {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px 20px;
-  text-decoration: none;
+
+.cta-button {
+  background-color: #25d366;
   color: white;
-  background-color: #ffb300;
+  padding: 14px 28px;
+  text-decoration: none;
   border-radius: 8px;
-  font-weight: bold;
+  font-size: 1.1em;
+  display: inline-block;
+  transition: background-color 0.3s;
 }
-.buttons a:hover {
-  background-color: #ffa000;
+
+.cta-button:hover {
+  background-color: #128c7e;
 }
