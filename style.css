@@ -1,0 +1,39 @@
+
+body {
+  font-family: sans-serif;
+  background: #fff8e1;
+  color: #3e2723;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.container {
+  padding: 40px 20px;
+}
+.profile-img {
+  max-width: 180px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+h1 {
+  font-size: 2.5em;
+  color: #a97100;
+}
+p {
+  font-size: 1.1em;
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+.buttons a {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: white;
+  background-color: #ffb300;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.buttons a:hover {
+  background-color: #ffa000;
+}
