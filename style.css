@@ -26,15 +26,14 @@ body {
   margin:0;
   font-size:16px;
   line-height:1.8;
-  background-color:#e7c98d;
+  background-color:#faf3e3;
   background-image:
-    radial-gradient(1500px 950px at 15% -20%,#f0973dc4,transparent 62%),
-    radial-gradient(1300px 850px at 100% -10%,#f6c33ea3,transparent 58%),
-    radial-gradient(1200px 800px at 100% 105%,#7a2e1f80,transparent 60%),
-    radial-gradient(900px 700px at 0% 105%,#c9781f6b,transparent 55%);
-  background-size:auto,auto,auto,auto;
-  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat;
-  background-attachment:fixed,fixed,fixed,fixed
+    radial-gradient(1400px 1000px at 18% -12%,#f0973d8f,transparent 58%),
+    radial-gradient(1200px 850px at 105% -8%,#f6c33e73,transparent 55%),
+    radial-gradient(1000px 750px at 96% 46%,#9c3a2445,transparent 55%);
+  background-size:auto,auto,auto;
+  background-repeat:no-repeat,no-repeat,no-repeat;
+  background-position:top left,top right,top right
 }
 img {
   max-width:100%;
