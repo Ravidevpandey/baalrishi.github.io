@@ -26,4 +26,4 @@ The existing fees, Instagram destination and payment QR are preserved. Availabil
 
 ## Assets
 
-`assets/spiritual-still-life.webp`: generated editorial spiritual still life. `assets/baalrishi.webp`: optimized copy of the existing symbolic brand artwork; not represented as a practitioner photograph. The original `baalrishi.png` and `qr.png` are retained. Image-generation prompt and provenance are in `assets/IMAGE-NOTES.md`.
+`assets/spiritual-still-life.webp`: generated editorial spiritual still life. `assets/baalrishi-portrait.png`: user-supplied portrait displayed in full, with an Instagram link. `assets/baalrishi.webp` is the previous unused child illustration. The original `baalrishi.png` and `qr.png` are retained. Image-generation prompt and provenance are in `assets/IMAGE-NOTES.md`.
