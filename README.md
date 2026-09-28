@@ -16,7 +16,7 @@ Suggested form fields: name, contact method, selected service, main question, pr
 
 ## Languages
 
-Hindi and English are complete local pages. Other language links open Google Translate's website translation service; its language picker provides additional supported languages. These are external machine translations, not reviewed local translations or a guarantee of support for every language. No API key is exposed and no unsupported embedded translator widget is used. Website language availability does not imply consultation availability in that language.
+Hindi and English are complete local pages. An embedded Google Translate Website Translator widget (`#google_translate_element` in the languages section) lets visitors switch the whole page in place to other languages via a dropdown, instead of opening a separate tab. This is a machine translation, not a reviewed local translation or a guarantee of support for every language. No API key is used or exposed. Website language availability does not imply consultation availability in that language.
 
 ## Preview and deployment
 

@@ -94,20 +94,19 @@ texts = {
 'noticeTitle':['महत्वपूर्ण सूचना — सभी सेवाओं के लिए','Important notice — applies to every service'],
 'notice':['यहां दी गई सेवाएं पारंपरिक मान्यताओं, ज्योतिष और आध्यात्मिक अभ्यास पर आधारित हैं; इन्हें वैज्ञानिक रूप से प्रमाणित भविष्यवाणी न मानें। हम किसी घटना, निश्चित भविष्य, सफलता, विवाह, संतान, रोगमुक्ति, चमत्कार या अन्य परिणाम का दावा या गारंटी नहीं देते। यह चिकित्सा, मानसिक स्वास्थ्य उपचार, कानूनी या वित्तीय सलाह का विकल्प नहीं है। इन विषयों के लिए योग्य पेशेवर से संपर्क करें; निर्धारित उपचार न रोकें। व्यक्तिगत निर्णय अपने विवेक से लें।','These services are based on traditional beliefs, astrology and spiritual practices; they should not be treated as scientifically established predictions. We do not claim or guarantee any event, certain future, success, marriage, children, cure, miracle or other outcome. This is not a substitute for medical care, mental health treatment, legal advice or financial advice. Consult qualified professionals for those matters and do not stop prescribed treatment. Use your own judgment when making decisions.'],
 'langTitle':['अपनी भाषा में पढ़ें','Read in your language'],
-'langText':['हिन्दी और English सीधे उपलब्ध हैं। अन्य भाषाओं के लिए Google Translate में वेबसाइट खोलें और अपनी भाषा चुनें। स्वचालित अनुवाद में त्रुटियां हो सकती हैं; शुल्क और सेवा की जानकारी की पुष्टि हमसे करें।','Hindi and English are available directly. For other languages, open the website in Google Translate and choose your language. Automatic translations may contain errors; confirm fees and service details with us.'],
-'allLang':['Google Translate की अन्य भाषाएँ ↗','More languages on Google Translate ↗'],
+'langText':['हिन्दी और English सीधे उपलब्ध हैं। नीचे दी गई सूची से अपनी भाषा चुनें—पूरा पेज उसी भाषा में तुरंत बदल जाएगा (Google द्वारा स्वचालित अनुवाद)। इसमें त्रुटियां हो सकती हैं; शुल्क और सेवा की जानकारी की पुष्टि हमसे करें।','Hindi and English are available directly. Choose your language from the dropdown below and the whole page switches instantly (automatic translation by Google). It may contain errors; confirm fees and service details with us.'],
 'skip':['सीधे सामग्री पर जाएँ','Skip to content'],
 'footer':['आस्था के साथ, विवेक भी।','A place for faith. A space for reflection.']
 }
 BASE='https://ravidevpandey.github.io/baalrishi.github.io/'
-from urllib.parse import urlencode, urlparse
+from urllib.parse import urlparse
 form=config.get('googleFormUrl','').strip()
 if form:
  u=urlparse(form)
  if u.scheme!='https' or u.hostname not in ('docs.google.com','forms.gle') or (u.hostname=='docs.google.com' and (not u.path.startswith('/forms/') or '/edit' in u.path)): raise ValueError('Use a public HTTPS Google Forms responder link')
+INCLUDED_LANGS='hi,en,bn,bho,mr,gu,ta,te,kn,ml,pa,ur,ar,ne,fr,es,de,pt,ja,zh-CN'
 for lang,n in [('hi',0),('en',1)]:
  def t(key): return texts[key][n]
- def tr(code): return 'https://translate.google.com/translate?'+urlencode({'sl':'en','tl':code,'u':BASE+'en.html'})
  cards=''
  for id,num,icon,price,title,desc,prep,inc,proc,benefits in services:
   benefit_items=''.join(f'<li>{b}</li>' for b in benefits[n])
@@ -115,8 +114,6 @@ for lang,n in [('hi',0),('en',1)]:
  steps=''.join(f'<article><span class="step-num">0{i+1}</span><h3>{a}</h3><p>{b}</p></article>' for i,(a,b) in enumerate(t('steps')))
  faqs=''.join(f'<details><summary>{q}<span aria-hidden="true">＋</span></summary><p>{a}</p></details>' for q,a in t('faqs'))
  nav=''.join(f'<a href="#{id}">{label}</a>' for id,label in zip(['services','how','about','contact'],t('nav')))
- langs=[('bn','বাংলা'),('bho','भोजपुरी'),('mr','मराठी'),('gu','ગુજરાતી'),('ta','தமிழ்'),('te','తెలుగు'),('kn','ಕನ್ನಡ'),('ml','മലയാളം'),('pa','ਪੰਜਾਬੀ'),('ur','اردو'),('ar','العربية'),('ne','नेपाली'),('fr','Français'),('es','Español'),('de','Deutsch'),('pt','Português'),('ja','日本語'),('zh-CN','中文')]
- langlinks=''.join(f'<a href="{e(tr(code))}" target="_blank" rel="noopener noreferrer" lang="{code}">{label} ↗</a>' for code,label in langs)
  formcta=f'<a class="button primary" href="{e(form)}" target="_blank" rel="noopener noreferrer">{t("formButton")}</a>' if form else f'<a class="button outline" href="{config["instagramUrl"]}" target="_blank" rel="noopener noreferrer">{t("instaButton")}</a>'
  html=f'''<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#183d35"><title>{'बाल ऋषि | पारंपरिक ज्योतिष एवं आध्यात्मिक परामर्श' if n==0 else 'Baal Rishi | Traditional Astrology & Spiritual Guidance'}</title><meta name="description" content="{e(t('desc'))}"><link rel="canonical" href="{BASE+('' if n==0 else 'en.html')}"><link rel="alternate" hreflang="hi" href="{BASE}"><link rel="alternate" hreflang="en" href="{BASE}en.html"><meta property="og:title" content="Baal Rishi | बाल ऋषि"><meta property="og:description" content="{e(t('desc'))}"><meta property="og:type" content="website"><meta property="og:image" content="{BASE}assets/spiritual-still-life.webp"><meta property="og:url" content="{BASE+('' if n==0 else 'en.html')}"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head>
@@ -129,8 +126,11 @@ for lang,n in [('hi',0),('en',1)]:
 <section class="container payment" id="payment"><div><p class="eyebrow">{t('paymentTag')}</p><h2>{t('paymentTitle')}</h2><p>{t('paymentText')}</p><p class="small-note">{t('paymentNote')}</p></div><a class="qr-card" href="qr.png" target="_blank" rel="noopener"><img src="qr.png" width="220" height="220" loading="lazy" alt="{'मौजूदा भुगतान QR कोड' if n==0 else 'Existing payment QR code'}"><span>{t('qr')}</span></a></section>
 <section class="section container" id="contact"><div class="section-heading"><p class="eyebrow">{t('contactTag')}</p><h2>{t('contactTitle')}</h2><p>{t('contactText')}</p></div><div class="contact-grid"><article><span class="contact-number">01 / FORM</span><h3>{t('formTitle')}</h3><p>{t('formAvailable') if form else t('formUnavailable')}</p>{formcta}</article><article><span class="contact-number">02 / INSTAGRAM</span><h3>@baalrishi_jyotish</h3><p>{t('instaText')}</p><a class="button primary" href="{config['instagramUrl']}" target="_blank" rel="noopener noreferrer">{t('instaButton')}</a></article></div><p class="privacy-note">{t('privacy')}</p></section>
 <section class="container faq"><h2>{t('faqTitle')}</h2><div>{faqs}</div></section>
-<section class="container section" id="languages"><div class="language-panel"><div><p class="eyebrow">LANGUAGES</p><h2>{t('langTitle')}</h2><p>{t('langText')}</p></div><div><div class="native-languages"><a href="index.html" lang="hi" hreflang="hi" {'aria-current="page"' if n==0 else ''}>हिन्दी</a><a href="en.html" lang="en" hreflang="en" {'aria-current="page"' if n==1 else ''}>English</a></div><div class="language-grid">{langlinks}</div><a class="text-link" href="{e(tr('en'))}" target="_blank" rel="noopener noreferrer">{t('allLang')}</a></div></div></section>
+<section class="container section" id="languages"><div class="language-panel"><div><p class="eyebrow">LANGUAGES</p><h2>{t('langTitle')}</h2><p>{t('langText')}</p></div><div><div class="native-languages"><a href="index.html" lang="hi" hreflang="hi" {'aria-current="page"' if n==0 else ''}>हिन्दी</a><a href="en.html" lang="en" hreflang="en" {'aria-current="page"' if n==1 else ''}>English</a></div><div id="google_translate_element" class="google-translate-widget"></div></div></div></section>
 <aside class="container notice" id="notice"><h2>ⓘ {t('noticeTitle')}</h2><p>{t('notice')}</p></aside></main>
-<footer><div class="container footer-inner"><div class="brand"><span class="brand-mark" aria-hidden="true">✺</span><span><strong>{'बाल ऋषि' if n==0 else 'Baal Rishi'}</strong><small>{t('footer')}</small></span></div><p>© <span id="year">2026</span> Baal Rishi</p><a href="#home">{'ऊपर जाएँ ↑' if n==0 else 'Back to top ↑'}</a></div></footer></body></html>'''
+<footer><div class="container footer-inner"><div class="brand"><span class="brand-mark" aria-hidden="true">✺</span><span><strong>{'बाल ऋषि' if n==0 else 'Baal Rishi'}</strong><small>{t('footer')}</small></span></div><p>© <span id="year">2026</span> Baal Rishi</p><a href="#home">{'ऊपर जाएँ ↑' if n==0 else 'Back to top ↑'}</a></div></footer>
+<script>function googleTranslateElementInit(){{new google.translate.TranslateElement({{pageLanguage:'{lang}',includedLanguages:'{INCLUDED_LANGS}',layout:google.translate.TranslateElement.InlineLayout.SIMPLE,autoDisplay:false}},'google_translate_element')}}</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</body></html>'''
  (ROOT/('index.html' if n==0 else 'en.html')).write_text(html.replace('><', '>\n<') + '\n')
 print('Built Hindi and English pages with',len(services),'services; Google Form configured:',bool(form))
