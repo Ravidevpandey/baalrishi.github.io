@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024" role="img" aria-labelledby="heroIllTitle">
+<title id="heroIllTitle">Traditional kundali chart, a diya and a rudraksha mala, rendered as a decorative illustration</title>
+<defs>
+  <linearGradient id="bgWash" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#f7ead0"/>
+    <stop offset="45%" stop-color="#f3ddc0"/>
+    <stop offset="100%" stop-color="#e9d3b3"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="62%" cy="38%" r="60%">
+    <stop offset="0%" stop-color="#ffdf9a" stop-opacity=".9"/>
+    <stop offset="100%" stop-color="#ffdf9a" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+    <stop offset="0%" stop-color="#b23a4e"/>
+    <stop offset="55%" stop-color="#e08a2e"/>
+    <stop offset="100%" stop-color="#f6d365"/>
+  </linearGradient>
+  <linearGradient id="diyaBody" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#c98a3f"/>
+    <stop offset="100%" stop-color="#8a5a24"/>
+  </linearGradient>
+  <radialGradient id="beadGrad" cx="35%" cy="30%" r="75%">
+    <stop offset="0%" stop-color="#8a4a3a"/>
+    <stop offset="100%" stop-color="#5c2f26"/>
+  </radialGradient>
+</defs>
+
+<rect width="1536" height="1024" fill="url(#bgWash)"/>
+<rect width="1536" height="1024" fill="url(#glow)"/>
+
+<!-- corner mandala flourishes -->
+<g opacity=".5" stroke="#146b5e" stroke-width="2" fill="none">
+  <path d="M90 90 C140 60 190 60 240 90 C190 120 140 120 90 90 Z"/>
+  <path d="M60 120 C90 70 90 20 60 -20" transform="translate(0,110)"/>
+  <circle cx="90" cy="90" r="6" fill="#146b5e" stroke="none"/>
+</g>
+<g opacity=".45" stroke="#b23a4e" stroke-width="2" fill="none" transform="translate(1536,1024) scale(-1,-1)">
+  <path d="M90 90 C140 60 190 60 240 90 C190 120 140 120 90 90 Z"/>
+  <circle cx="90" cy="90" r="6" fill="#b23a4e" stroke="none"/>
+</g>
+
+<!-- radiant sunburst accent, top-left -->
+<g stroke="#ae7234" stroke-width="3" stroke-linecap="round" opacity=".55" transform="translate(150,160)">
+  <circle r="10" fill="#ae7234" stroke="none"/>
+  <g id="rays">
+    <line x1="0" y1="-18" x2="0" y2="-42"/>
+  </g>
+  <use href="#rays" transform="rotate(30)"/>
+  <use href="#rays" transform="rotate(60)"/>
+  <use href="#rays" transform="rotate(90)"/>
+  <use href="#rays" transform="rotate(120)"/>
+  <use href="#rays" transform="rotate(150)"/>
+  <use href="#rays" transform="rotate(180)"/>
+  <use href="#rays" transform="rotate(210)"/>
+  <use href="#rays" transform="rotate(240)"/>
+  <use href="#rays" transform="rotate(270)"/>
+  <use href="#rays" transform="rotate(300)"/>
+  <use href="#rays" transform="rotate(330)"/>
+</g>
+
+<!-- Traditional diamond kundali chart, right of centre -->
+<g transform="translate(960,470)">
+  <rect x="-260" y="-260" width="520" height="520" fill="#fbf4e4" stroke="#ae7234" stroke-width="4" rx="6"/>
+  <path d="M-260 -260 L260 260 M260 -260 L-260 260" stroke="#ae7234" stroke-width="3"/>
+  <path d="M0 -260 L-260 0 L0 260 L260 0 Z" fill="none" stroke="#8a2f28" stroke-width="4"/>
+  <!-- house marks: small dot-and-ring motifs, no font dependency -->
+  <g fill="#8a5a24" opacity=".85">
+    <g id="houseMark"><circle r="5"/><circle r="9" fill="none" stroke="#8a5a24" stroke-width="1.5"/></g>
+    <use href="#houseMark" x="0" y="-190"/>
+    <use href="#houseMark" x="-125" y="-125"/>
+    <use href="#houseMark" x="-190" y="0"/>
+    <use href="#houseMark" x="-125" y="125"/>
+    <use href="#houseMark" x="0" y="195"/>
+    <use href="#houseMark" x="125" y="125"/>
+    <use href="#houseMark" x="190" y="0"/>
+    <use href="#houseMark" x="125" y="-125"/>
+  </g>
+  <circle cx="0" cy="0" r="10" fill="#b23a4e"/>
+</g>
+
+<!-- Diya, foreground left -->
+<g transform="translate(430,660)">
+  <ellipse cx="0" cy="40" rx="140" ry="26" fill="#00000014"/>
+  <path d="M-150 0 C-150 55 -70 80 0 80 C70 80 150 55 150 0 C150 -18 120 -6 60 -2 C10 2 -10 2 -60 -2 C-120 -6 -150 -18 -150 0 Z" fill="url(#diyaBody)" stroke="#5c3a17" stroke-width="3"/>
+  <ellipse cx="0" cy="-2" rx="150" ry="16" fill="#e3ab5c" stroke="#5c3a17" stroke-width="3"/>
+  <path d="M0 -18 C-22 -60 -14 -96 0 -128 C14 -96 22 -60 0 -18 Z" fill="url(#flame)"/>
+  <ellipse cx="0" cy="-60" rx="10" ry="18" fill="#fff3d0" opacity=".85"/>
+</g>
+
+<!-- Rudraksha mala, gentle arc across the lower third -->
+<g fill="url(#beadGrad)" stroke="#3c1f19" stroke-width="1.5">
+  <circle cx="120" cy="860" r="16"/>
+  <circle cx="210" cy="885" r="17"/>
+  <circle cx="305" cy="902" r="17"/>
+  <circle cx="404" cy="912" r="18"/>
+  <circle cx="506" cy="915" r="18"/>
+  <circle cx="608" cy="912" r="18"/>
+  <circle cx="708" cy="902" r="17"/>
+  <circle cx="804" cy="885" r="17"/>
+  <circle cx="895" cy="860" r="16"/>
+</g>
+<path d="M120 860 C 400 950 620 950 895 860" fill="none" stroke="#5c2f26" stroke-width="2" opacity=".5"/>
+
+<!-- lotus accent, bottom right -->
+<g transform="translate(1290,880)" opacity=".8">
+  <g fill="none" stroke="#146b5e" stroke-width="3">
+    <path d="M0 0 C-16 -34 -16 -60 0 -86 C16 -60 16 -34 0 0 Z"/>
+    <path d="M0 0 C-46 -14 -68 -36 -74 -64 C-42 -58 -18 -38 0 0 Z"/>
+    <path d="M0 0 C46 -14 68 -36 74 -64 C42 -58 18 -38 0 0 Z"/>
+  </g>
+  <circle cx="0" cy="2" r="7" fill="#b23a4e"/>
+</g>
+</svg>
