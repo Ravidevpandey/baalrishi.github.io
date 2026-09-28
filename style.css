@@ -5,6 +5,7 @@
   --ink:#203e35;
   --muted:#626960;
   --gold:#ae7234;
+  --maroon:#8a2f28;
   --line:#dedfd3;
   --soft:#efeee4;
   --green:#183d35;
@@ -24,7 +25,15 @@ html {
 body {
   margin:0;
   font-size:16px;
-  line-height:1.8
+  line-height:1.8;
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(1100px 620px at 12% -8%,#f6e4c355,transparent 60%),
+    radial-gradient(900px 560px at 100% 8%,#dfe8dd66,transparent 55%),
+    radial-gradient(circle at 1px 1px,#ae723422 1.4px,transparent 0);
+  background-size:auto,auto,28px 28px;
+  background-repeat:no-repeat,no-repeat,repeat;
+  background-attachment:fixed,fixed,fixed
 }
 img {
   max-width:100%;
@@ -190,6 +199,22 @@ nav a {
   gap:64px;
   align-items:center;
   padding-block:74px 78px
+}
+.hero-copy {
+  position:relative
+}
+.hero-copy:before {
+  content:'ॐ';
+  position:absolute;
+  top:-52px;
+  left:-28px;
+  font-size:190px;
+  font-family:'Noto Serif Devanagari',serif;
+  color:var(--gold);
+  opacity:.07;
+  line-height:1;
+  z-index:-1;
+  pointer-events:none
 }
 .hero h1 {
   font-size:clamp(2.7rem,4.4vw,4rem);
@@ -380,6 +405,28 @@ details[open]>summary>span {
 }
 .service-detail p {
   font-size:.86rem
+}
+.benefit-list {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:9px
+}
+.benefit-list li {
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  font-size:.87rem;
+  color:var(--ink);
+  font-weight:500
+}
+.benefit-list li:before {
+  content:'✓';
+  color:var(--gold);
+  font-weight:700;
+  flex-shrink:0;
+  margin-top:1px
 }
 .service-detail .small-note {
   font-size:.76rem;
