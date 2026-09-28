@@ -1,714 +1,1271 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="बाल ऋषि - ज्योतिष, कुंडली, विवाह, प्रेम, संतान, हस्तरेखा, मंत्र साधना एवं आध्यात्मिक मार्गदर्शन">
-  <title>🔮 बाल ऋषि - ज्योतिष एवं आध्यात्मिक परामर्श</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * { box-sizing: border-box; }
+<title>बाल ऋषि - आध्यात्मिक ज्योतिष परामर्श</title>
 
-    html { scroll-behavior: smooth; }
+<style>
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #fff8e1;
-      color: #222;
-      margin: 0;
-      line-height: 1.6;
-    }
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f7f1ff;
+  color: #29202f;
+}
 
-    header {
-      background: linear-gradient(135deg, #5e35b1, #4527a0);
-      color: white;
-      text-align: center;
-      padding: 28px 15px;
-    }
+header {
+  background: linear-gradient(135deg, #4b176d, #8e44ad, #d4a017);
+  color: white;
+  padding: 22px 15px;
+  text-align: center;
+}
 
-    header h1 {
-      margin: 0 0 10px;
-      font-size: 28px;
-    }
+header h1 {
+  margin: 0;
+  font-size: 30px;
+}
 
-    header p {
-      margin: 5px auto 15px;
-      font-size: 16px;
-    }
+header p {
+  margin: 8px 0 15px;
+  font-size: 16px;
+}
 
-    nav {
-      background: #673ab7;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 7px;
-      padding: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+.language-box {
+  margin-top: 12px;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 8px 12px;
-      background: #5e35b1;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 14px;
-    }
+.language-box select {
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+}
 
-    nav a:hover {
-      background: #9575cd;
-    }
+/* NAVIGATION */
 
-    .container {
-      max-width: 1050px;
-      margin: auto;
-      padding: 20px;
-    }
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #321044;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 10px;
+}
 
-    .main-image {
-      width: 100%;
-      max-width: 400px;
-      display: block;
-      margin: 20px auto;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.2);
-    }
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 9px 13px;
+  border-radius: 7px;
+  font-size: 14px;
+}
 
-    section {
-      margin: 42px 0;
-      scroll-margin-top: 80px;
-    }
+nav a:hover {
+  background: #8e44ad;
+}
 
-    h2 {
-      color: #4527a0;
-      text-align: center;
-      margin-bottom: 12px;
-    }
+/* HERO */
 
-    h3 {
-      color: #5e35b1;
-    }
+.hero {
+  max-width: 1000px;
+  margin: 25px auto;
+  padding: 25px;
+  text-align: center;
+}
 
-    .intro {
-      text-align: center;
-      font-size: 18px;
-    }
+.profile-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid #d4a017;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
 
-    .service-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin-top: 20px;
-    }
+.hero h2 {
+  color: #6d258a;
+  font-size: 28px;
+}
 
-    .service-card {
-      background: #fffdf5;
-      border-radius: 12px;
-      padding: 18px;
-      text-align: left;
-      box-shadow: 0 2px 7px rgba(0,0,0,.12);
-      border-left: 4px solid #673ab7;
-    }
+.hero p {
+  line-height: 1.8;
+}
 
-    .service-card h3 {
-      margin-top: 0;
-    }
+/* DASHBOARD */
 
-    .price {
-      font-size: 18px;
-      font-weight: bold;
-      color: #8e44ad;
-      margin-top: 10px;
-    }
+.dashboard {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
 
-    .fee-box {
-      max-width: 750px;
-      margin: 20px auto;
-      background: #fdf5e6;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.15);
-    }
+.section-title {
+  text-align: center;
+  color: #641f7c;
+  margin: 30px 0 20px;
+}
 
-    .fee-box ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+}
 
-    .fee-box li {
-      padding: 9px 0;
-      border-bottom: 1px solid #eadfc8;
-    }
+.service-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 16px rgba(55,20,70,0.12);
+  transition: 0.25s;
+  cursor: pointer;
+  border: 1px solid #eadcf1;
+}
 
-    .fee-box li:last-child {
-      border-bottom: none;
-    }
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 9px 22px rgba(55,20,70,0.2);
+}
 
-    .insta {
-      display: inline-block;
-      color: white;
-      background: #e4405f;
-      text-decoration: none;
-      padding: 11px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      margin: 8px;
-    }
+.service-card img {
+  width: 100%;
+  height: 145px;
+  object-fit: cover;
+  background: linear-gradient(135deg,#eee1f7,#fff7df);
+}
 
-    .insta:hover {
-      background: #c72f4d;
-    }
+.service-card-content {
+  padding: 15px;
+  text-align: center;
+}
 
-    .qr-section {
-      max-width: 500px;
-      margin: 20px auto;
-      background: #fffdf5;
-      padding: 22px;
-      border-radius: 12px;
-      box-shadow: 0 2px 7px rgba(0,0,0,.12);
-      text-align: center;
-    }
+.service-card h3 {
+  margin: 5px 0 8px;
+  color: #651f80;
+}
 
-    .qr-section img {
-      width: 100%;
-      max-width: 230px;
-      display: block;
-      margin: 15px auto;
-      border-radius: 12px;
-    }
+.service-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+}
 
-    iframe {
-      width: 100%;
-      height: 950px;
-      border: none;
-      border-radius: 10px;
-      margin-top: 15px;
-      background: white;
-    }
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #a16b00;
+}
 
-    .notice {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 15px;
-      background: #fff3cd;
-      border-left: 5px solid #ff9800;
-      border-radius: 8px;
-      text-align: left;
-    }
+/* SERVICE SECTIONS */
 
-    footer {
-      background: #eee;
-      color: #555;
-      text-align: center;
-      padding: 22px;
-      margin-top: 40px;
-      font-size: 14px;
-    }
+.services-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
 
-    @media (max-width: 650px) {
-      header h1 {
-        font-size: 23px;
-      }
+.service-section {
+  background: white;
+  margin: 30px 0;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 5px 18px rgba(50,20,70,0.12);
+  scroll-margin-top: 80px;
+}
 
-      .service-grid {
-        grid-template-columns: 1fr;
-      }
+.service-section h2 {
+  color: #682183;
+  margin-top: 0;
+}
 
-      nav a {
-        font-size: 13px;
-        padding: 7px 9px;
-      }
+.service-inner {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
 
-      .container {
-        padding: 12px;
-      }
+.service-inner img {
+  width: 280px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 14px;
+  background: #f1e7f7;
+}
 
-      iframe {
-        height: 900px;
-      }
-    }
-  </style>
+.service-inner p {
+  line-height: 1.8;
+}
+
+.service-list {
+  padding-left: 20px;
+  line-height: 2;
+}
+
+.book-button {
+  display: inline-block;
+  background: #6f2b88;
+  color: white;
+  text-decoration: none;
+  padding: 11px 18px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.book-button:hover {
+  background: #4d185f;
+}
+
+/* FEES */
+
+.fees {
+  max-width: 900px;
+  margin: 35px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 5px 18px rgba(50,20,70,0.12);
+}
+
+.fee-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid #eee;
+  padding: 13px 0;
+}
+
+.fee-price {
+  font-weight: bold;
+  color: #a16b00;
+}
+
+/* PAYMENT */
+
+.payment {
+  max-width: 700px;
+  margin: 35px auto;
+  padding: 25px;
+  text-align: center;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 5px 18px rgba(50,20,70,0.12);
+}
+
+.qr {
+  width: 250px;
+  max-width: 90%;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* CONTACT */
+
+.contact {
+  max-width: 800px;
+  margin: 35px auto;
+  padding: 25px;
+  text-align: center;
+}
+
+.instagram {
+  display: inline-block;
+  background: #c13584;
+  color: white;
+  padding: 13px 22px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* FORM */
+
+.form-box {
+  max-width: 800px;
+  margin: 30px auto;
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+iframe {
+  width: 100%;
+  min-height: 650px;
+  border: 0;
+}
+
+/* FOOTER */
+
+footer {
+  background: #321044;
+  color: white;
+  text-align: center;
+  padding: 25px 15px;
+  margin-top: 40px;
+  line-height: 1.7;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  header h1 {
+    font-size: 24px;
+  }
+
+  nav a {
+    font-size: 12px;
+    padding: 7px 9px;
+  }
+
+  .hero {
+    padding: 15px;
+  }
+
+  .service-inner {
+    flex-direction: column;
+  }
+
+  .service-inner img {
+    width: 100%;
+    height: 190px;
+  }
+
+  .fee-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <h1>🔮 बाल ऋषि - आध्यात्मिक ज्योतिष परामर्श</h1>
-  <p>ज्योतिष • हस्तरेखा • विवाह • प्रेम • संतान • मंत्र साधना • आध्यात्मिक मार्गदर्शन</p>
+<header id="home">
 
-  <a
-    class="insta"
-    href="https://www.instagram.com/baalrishi_jyotish"
-    target="_blank"
-    rel="noopener noreferrer">
-    📷 Instagram पर संपर्क करें
-  </a>
+  <h1 data-hi="🔮 बाल ऋषि - आध्यात्मिक ज्योतिष परामर्श"
+      data-en="🔮 Baal Rishi - Spiritual Astrology Consultation"
+      data-bho="🔮 बाल ऋषि - आध्यात्मिक ज्योतिष परामर्श"
+      data-mr="🔮 बाल ऋषि - आध्यात्मिक ज्योतिष सल्ला"
+      data-bn="🔮 বাল ঋষি - আধ্যাত্মিক জ্যোতিষ পরামর্শ"
+      data-gu="🔮 બાલ ઋષિ - આધ્યાત્મિક જ્યોતિષ પરામર્શ"
+      data-ta="🔮 பால் ரிஷி - ஆன்மீக ஜோதிட ஆலோசனை">
+      🔮 बाल ऋषि - आध्यात्मिक ज्योतिष परामर्श
+  </h1>
+
+  <p data-hi="कुंडली, विवाह, प्रेम, संतान, मंत्र साधना एवं पारंपरिक ज्योतिषीय मार्गदर्शन"
+     data-en="Guidance for Kundali, Marriage, Relationships, Children, Mantra and Traditional Astrology"
+     data-bho="कुंडली, विवाह, प्रेम, संतान, मंत्र साधना आ ज्योतिषीय मार्गदर्शन"
+     data-mr="कुंडली, विवाह, प्रेम, संतती, मंत्र साधना व पारंपरिक ज्योतिष मार्गदर्शन"
+     data-bn="কুণ্ডলী, বিবাহ, সম্পর্ক, সন্তান, মন্ত্র সাধনা ও ঐতিহ্যবাহী জ্যোতিষ পরামর্শ"
+     data-gu="કુંડળી, લગ્ન, પ્રેમ, સંતાન, મંત્ર સાધના અને પરંપરાગત જ્યોતિષ માર્ગદર્શન"
+     data-ta="ஜாதகம், திருமணம், உறவு, குழந்தை, மந்திர சாதனை மற்றும் பாரம்பரிய ஜோதிட வழிகாட்டுதல்">
+     कुंडली, विवाह, प्रेम, संतान, मंत्र साधना एवं पारंपरिक ज्योतिषीय मार्गदर्शन
+  </p>
+
+  <div class="language-box">
+    🌐
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+      <option value="hi">हिंदी</option>
+      <option value="en">English</option>
+      <option value="bho">भोजपुरी</option>
+      <option value="mr">मराठी</option>
+      <option value="bn">বাংলা</option>
+      <option value="gu">ગુજરાતી</option>
+      <option value="ta">தமிழ்</option>
+    </select>
+  </div>
+
 </header>
 
 <nav>
-  <a href="#home">🏠 होम</a>
-  <a href="#kundali">🧠 कुंडली</a>
-  <a href="#marriage">💍 विवाह</a>
-  <a href="#love">❤️ प्रेम</a>
-  <a href="#family">🏠 कलेश</a>
-  <a href="#children">👶 संतान</a>
-  <a href="#mantra">🕉️ मंत्र</a>
-  <a href="#palm">✋ हस्तरेखा</a>
-  <a href="#remedies">🌿 उपाय</a>
-  <a href="#career">🎓 करियर</a>
-  <a href="#fees">💰 शुल्क</a>
-  <a href="#donation">💸 सहयोग</a>
-  <a href="#contact">📞 संपर्क</a>
+
+  <a href="#home" data-hi="होम" data-en="Home">होम</a>
+
+  <a href="#kundali" data-hi="कुंडली" data-en="Kundali">कुंडली</a>
+
+  <a href="#marriage" data-hi="विवाह" data-en="Marriage">विवाह</a>
+
+  <a href="#love" data-hi="प्रेम" data-en="Love">प्रेम</a>
+
+  <a href="#santan" data-hi="संतान" data-en="Children">संतान</a>
+
+  <a href="#mantra" data-hi="मंत्र" data-en="Mantra">मंत्र</a>
+
+  <a href="#spiritual" data-hi="आध्यात्मिक बाधा" data-en="Spiritual Guidance">
+    आध्यात्मिक बाधा
+  </a>
+
+  <a href="#career" data-hi="करियर" data-en="Career">करियर</a>
+
+  <a href="#fees" data-hi="फीस" data-en="Fees">फीस</a>
+
+  <a href="#contact" data-hi="संपर्क" data-en="Contact">संपर्क</a>
+
 </nav>
 
-<div class="container">
 
-  <img src="baalrishi.png" alt="Baal Rishi" class="main-image">
+<!-- HERO -->
 
-  <!-- HOME -->
-  <section id="home">
-    <h2>🙏 बाल ऋषि में आपका स्वागत है</h2>
+<section class="hero">
 
-    <p class="intro">
-      मैं <strong>बाल ऋषि</strong> — ज्योतिष एवं आध्यात्मिक मार्गदर्शन के माध्यम से
-      जीवन से जुड़े विभिन्न विषयों को समझने में आपकी सहायता करता हूँ।
-      <br><br>
-      विवाह, प्रेम, पारिवारिक कलेश, संतान, करियर, ग्रह दोष,
-      मंत्र-साधना एवं अन्य आध्यात्मिक विषयों पर पारंपरिक मार्गदर्शन।
-    </p>
+  <img src="baalrishi.png"
+       alt="Baal Rishi"
+       class="profile-img">
 
-    <a
-      class="insta"
-      href="https://www.instagram.com/baalrishi_jyotish"
-      target="_blank"
-      rel="noopener noreferrer">
-      📷 Instagram पर चैट करें
-    </a>
-  </section>
+  <h2 data-hi="आपका स्वागत है"
+      data-en="Welcome to Baal Rishi">
+      आपका स्वागत है
+  </h2>
+
+  <p data-hi="पारंपरिक ज्योतिष एवं आध्यात्मिक साधना के आधार पर व्यक्तिगत मार्गदर्शन प्राप्त करें।"
+     data-en="Receive personal guidance based on traditional astrology and spiritual practices.">
+     पारंपरिक ज्योतिष एवं आध्यात्मिक साधना के आधार पर व्यक्तिगत मार्गदर्शन प्राप्त करें।
+  </p>
+
+</section>
 
 
-  <!-- KUNDALI -->
-  <section id="kundali">
-    <h2>🧠 जन्म कुंडली विश्लेषण</h2>
+<!-- DASHBOARD -->
 
-    <div class="service-grid">
+<section class="dashboard" id="dashboard">
 
-      <div class="service-card">
-        <h3>🔮 सम्पूर्ण कुंडली विश्लेषण</h3>
-        <p>
-          जन्म विवरण के आधार पर ग्रहों की स्थिति, दशा-अंतरदशा
-          एवं जीवन के प्रमुख क्षेत्रों का पारंपरिक अध्ययन।
+  <h2 class="section-title"
+      data-hi="🌟 सेवाओं का डैशबोर्ड"
+      data-en="🌟 Services Dashboard">
+      🌟 सेवाओं का डैशबोर्ड
+  </h2>
+
+  <div class="service-grid">
+
+
+    <!-- KUNDALI -->
+
+    <div class="service-card" onclick="goToService('kundali')">
+
+      <img src="images/kundali.jpg" alt="Kundali">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="🔮 जन्म कुंडली"
+            data-en="🔮 Birth Kundali">
+            🔮 जन्म कुंडली
+        </h3>
+
+        <p data-hi="जन्म विवरण के आधार पर जीवन के प्रमुख क्षेत्रों का पारंपरिक ज्योतिषीय विश्लेषण।"
+           data-en="Traditional astrological analysis of important life areas based on birth details.">
+           जन्म विवरण के आधार पर जीवन के प्रमुख क्षेत्रों का पारंपरिक ज्योतिषीय विश्लेषण।
         </p>
-        <div class="price">₹501</div>
-      </div>
 
-      <div class="service-card">
-        <h3>🌟 ग्रह दोष मार्गदर्शन</h3>
-        <p>
-          कुंडली में बताए गए ग्रह संबंधी विषयों के लिए
-          पारंपरिक उपाय एवं साधना संबंधी मार्गदर्शन।
-        </p>
         <div class="price">₹751</div>
+
       </div>
-
     </div>
-  </section>
 
 
-  <!-- MARRIAGE -->
-  <section id="marriage">
-    <h2>💍 विवाह एवं दांपत्य परामर्श</h2>
+    <!-- MARRIAGE -->
 
-    <div class="service-grid">
+    <div class="service-card" onclick="goToService('marriage')">
 
-      <div class="service-card">
-        <h3>💑 विवाह योग एवं समय</h3>
-        <p>
-          विवाह से जुड़े योग एवं पारंपरिक ज्योतिषीय संकेतों
-          का अध्ययन।
+      <img src="images/marriage.jpg" alt="Marriage">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="💍 विवाह मार्गदर्शन"
+            data-en="💍 Marriage Guidance">
+            💍 विवाह मार्गदर्शन
+        </h3>
+
+        <p data-hi="विवाह योग, समय एवं वैवाहिक जीवन से जुड़े पारंपरिक ज्योतिषीय संकेत।"
+           data-en="Traditional guidance on marriage indications, timing and married life.">
+           विवाह योग, समय एवं वैवाहिक जीवन से जुड़े पारंपरिक ज्योतिषीय संकेत।
         </p>
+
+        <div class="price">₹551 से</div>
+
+      </div>
+    </div>
+
+
+    <!-- LOVE -->
+
+    <div class="service-card" onclick="goToService('love')">
+
+      <img src="images/love.jpg" alt="Love">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="❤️ प्रेम एवं संबंध"
+            data-en="❤️ Love & Relationships">
+            ❤️ प्रेम एवं संबंध
+        </h3>
+
+        <p data-hi="प्रेम संबंधों में समझ, संवाद और पारंपरिक ज्योतिषीय मार्गदर्शन।"
+           data-en="Guidance for understanding, communication and relationships through traditional astrology.">
+           प्रेम संबंधों में समझ, संवाद और पारंपरिक ज्योतिषीय मार्गदर्शन।
+        </p>
+
+        <div class="price">₹551 से</div>
+
+      </div>
+    </div>
+
+
+    <!-- SANTAN -->
+
+    <div class="service-card" onclick="goToService('santan')">
+
+      <img src="images/santan.jpg" alt="Children">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="👶 संतान मार्गदर्शन"
+            data-en="👶 Children Guidance">
+            👶 संतान मार्गदर्शन
+        </h3>
+
+        <p data-hi="संतान योग एवं पारंपरिक ज्योतिषीय संकेतों का मार्गदर्शन।"
+           data-en="Traditional astrological guidance regarding children-related indications.">
+           संतान योग एवं पारंपरिक ज्योतिषीय संकेतों का मार्गदर्शन।
+        </p>
+
+        <div class="price">₹751 से</div>
+
+      </div>
+    </div>
+
+
+    <!-- MANTRA -->
+
+    <div class="service-card" onclick="goToService('mantra')">
+
+      <img src="images/mantra.jpg" alt="Mantra">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="🕉️ मंत्र साधना"
+            data-en="🕉️ Mantra Practice">
+            🕉️ मंत्र साधना
+        </h3>
+
+        <p data-hi="परंपरा के अनुसार मंत्र चयन, साधना पद्धति और ध्यान संबंधी मार्गदर्शन।"
+           data-en="Guidance on mantra selection, practice methods and meditation according to tradition.">
+           परंपरा के अनुसार मंत्र चयन, साधना पद्धति और ध्यान संबंधी मार्गदर्शन।
+        </p>
+
+        <div class="price">₹501 से</div>
+
+      </div>
+    </div>
+
+
+    <!-- KALESH -->
+
+    <div class="service-card" onclick="goToService('kalesh')">
+
+      <img src="images/kalesh.jpg" alt="Family Peace">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="🏠 गृह-कलेश एवं शांति"
+            data-en="🏠 Family Peace">
+            🏠 गृह-कलेश एवं शांति
+        </h3>
+
+        <p data-hi="पारिवारिक तनाव और घरेलू अशांति के लिए पारंपरिक आध्यात्मिक उपाय।"
+           data-en="Traditional spiritual guidance for family tension and domestic peace.">
+           पारिवारिक तनाव और घरेलू अशांति के लिए पारंपरिक आध्यात्मिक उपाय।
+        </p>
+
+        <div class="price">₹551 से</div>
+
+      </div>
+    </div>
+
+
+    <!-- BHOOT PRET -->
+
+    <div class="service-card" onclick="goToService('spiritual')">
+
+      <img src="images/bhoot-pret.jpg" alt="Spiritual Guidance">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="👻 भूत-प्रेत / आध्यात्मिक बाधा"
+            data-en="👻 Spiritual / Traditional Guidance">
+            👻 भूत-प्रेत / आध्यात्मिक बाधा
+        </h3>
+
+        <p data-hi="भूत-प्रेत या आध्यात्मिक बाधा की मान्यता से जुड़े पारंपरिक धार्मिक एवं आध्यात्मिक मार्गदर्शन।"
+           data-en="Traditional religious and spiritual guidance regarding beliefs around spiritual disturbances.">
+           भूत-प्रेत या आध्यात्मिक बाधा की मान्यता से जुड़े पारंपरिक धार्मिक एवं आध्यात्मिक मार्गदर्शन।
+        </p>
+
+        <div class="price">₹1100</div>
+
+      </div>
+    </div>
+
+
+    <!-- NAZAR -->
+
+    <div class="service-card" onclick="goToService('nazar')">
+
+      <img src="images/nazar.jpg" alt="Nazar Dosh">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="👁️ नजर दोष"
+            data-en="👁️ Nazar Dosh">
+            👁️ नजर दोष
+        </h3>
+
+        <p data-hi="नजर दोष की पारंपरिक मान्यता के अनुसार धार्मिक उपायों का मार्गदर्शन।"
+           data-en="Traditional religious guidance based on beliefs around Nazar Dosh.">
+           नजर दोष की पारंपरिक मान्यता के अनुसार धार्मिक उपायों का मार्गदर्शन।
+        </p>
+
         <div class="price">₹551</div>
-      </div>
 
-      <div class="service-card">
-        <h3>💞 विवाह में विलंब</h3>
-        <p>
-          विवाह में देरी से जुड़े ज्योतिषीय कारणों का
-          पारंपरिक विश्लेषण एवं उपाय।
+      </div>
+    </div>
+
+
+    <!-- PALMISTRY -->
+
+    <div class="service-card" onclick="goToService('palmistry')">
+
+      <img src="images/palmistry.jpg" alt="Palmistry">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="✋ हस्तरेखा"
+            data-en="✋ Palmistry">
+            ✋ हस्तरेखा
+        </h3>
+
+        <p data-hi="हथेली की प्रमुख रेखाओं और पारंपरिक हस्तरेखा शास्त्र के आधार पर अध्ययन।"
+           data-en="Traditional palm reading based on major lines and palmistry principles.">
+           हथेली की प्रमुख रेखाओं और पारंपरिक हस्तरेखा शास्त्र के आधार पर अध्ययन।
         </p>
+
+        <div class="price">₹351</div>
+
+      </div>
+    </div>
+
+
+    <!-- CAREER -->
+
+    <div class="service-card" onclick="goToService('career')">
+
+      <img src="images/career.jpg" alt="Career">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="💼 करियर एवं व्यवसाय"
+            data-en="💼 Career & Business">
+            💼 करियर एवं व्यवसाय
+        </h3>
+
+        <p data-hi="करियर, नौकरी और व्यवसाय से जुड़े पारंपरिक ज्योतिषीय संकेतों का अध्ययन।"
+           data-en="Traditional astrological guidance regarding career, employment and business.">
+           करियर, नौकरी और व्यवसाय से जुड़े पारंपरिक ज्योतिषीय संकेतों का अध्ययन।
+        </p>
+
+        <div class="price">₹551 से</div>
+
+      </div>
+    </div>
+
+
+    <!-- GRAH -->
+
+    <div class="service-card" onclick="goToService('grah')">
+
+      <img src="images/grah-dosh.jpg" alt="Grah Dosh">
+
+      <div class="service-card-content">
+
+        <h3 data-hi="🌿 ग्रह दोष एवं उपाय"
+            data-en="🌿 Planetary Guidance">
+            🌿 ग्रह दोष एवं उपाय
+        </h3>
+
+        <p data-hi="कुंडली में ग्रहों की स्थिति के आधार पर पारंपरिक उपाय एवं मार्गदर्शन।"
+           data-en="Traditional remedies and guidance based on planetary positions in the birth chart.">
+           कुंडली में ग्रहों की स्थिति के आधार पर पारंपरिक उपाय एवं मार्गदर्शन।
+        </p>
+
         <div class="price">₹751</div>
-      </div>
 
-      <div class="service-card">
-        <h3>❤️ पति-पत्नी संबंध मार्गदर्शन</h3>
-        <p>
-          दांपत्य संबंधों में चल रही परिस्थितियों के लिए
-          ज्योतिषीय एवं आध्यात्मिक मार्गदर्शन।
-        </p>
-        <div class="price">₹751</div>
       </div>
+    </div>
 
-      <div class="service-card">
-        <h3>🕊️ वैवाहिक तनाव / कलेश</h3>
+  </div>
+</section>
+
+
+<!-- SERVICE DETAILS -->
+
+<section class="services-container">
+
+
+  <div class="service-section" id="kundali">
+
+    <div class="service-inner">
+
+      <img src="images/kundali.jpg" alt="Kundali">
+
+      <div>
+
+        <h2>🔮 जन्म कुंडली विश्लेषण</h2>
+
         <p>
-          पारिवारिक एवं वैवाहिक तनाव के लिए पारंपरिक
-          आध्यात्मिक उपाय एवं मार्गदर्शन।
+          जन्म तिथि, समय और स्थान के आधार पर पारंपरिक ज्योतिषीय
+          दृष्टिकोण से जीवन के विभिन्न क्षेत्रों का अध्ययन।
         </p>
-        <div class="price">₹851</div>
+
+        <ul class="service-list">
+          <li>ग्रह एवं भाव स्थिति</li>
+          <li>करियर एवं आर्थिक स्थिति</li>
+          <li>विवाह संबंधी संकेत</li>
+          <li>जीवन के प्रमुख चरणों का अध्ययन</li>
+        </ul>
+
+        <b>फीस: ₹751</b>
+
       </div>
 
     </div>
-  </section>
+
+  </div>
 
 
-  <!-- LOVE -->
-  <section id="love">
-    <h2>❤️ प्रेम एवं संबंध परामर्श</h2>
+  <div class="service-section" id="marriage">
 
-    <div class="service-grid">
+    <div class="service-inner">
 
-      <div class="service-card">
-        <h3>❤️ प्रेम संबंध मार्गदर्शन</h3>
+      <img src="images/marriage.jpg" alt="Marriage">
+
+      <div>
+
+        <h2>💍 विवाह मार्गदर्शन</h2>
+
         <p>
-          प्रेम संबंध से जुड़े प्रश्नों पर कुंडली एवं
-          पारंपरिक ज्योतिषीय मार्गदर्शन।
+          विवाह योग, संभावित समय और वैवाहिक जीवन से जुड़े
+          पारंपरिक ज्योतिषीय संकेतों का अध्ययन।
         </p>
-        <div class="price">₹551</div>
-      </div>
 
-      <div class="service-card">
-        <h3>💔 संबंध में दूरी / मनमुटाव</h3>
-        <p>
-          संबंधों में उत्पन्न दूरी या मनमुटाव के विषय में
-          आध्यात्मिक एवं ज्योतिषीय मार्गदर्शन।
-        </p>
-        <div class="price">₹751</div>
-      </div>
+        <ul class="service-list">
+          <li>विवाह योग</li>
+          <li>विवाह में विलंब संबंधी संकेत</li>
+          <li>विवाह समय संबंधी पारंपरिक विश्लेषण</li>
+          <li>वैवाहिक संबंध मार्गदर्शन</li>
+        </ul>
 
-      <div class="service-card">
-        <h3>💞 प्रेम विवाह मार्गदर्शन</h3>
-        <p>
-          प्रेम विवाह की संभावनाओं एवं पारिवारिक परिस्थितियों
-          का पारंपरिक ज्योतिषीय अध्ययन।
-        </p>
-        <div class="price">₹751</div>
-      </div>
+        <b>फीस: ₹551 से ₹851</b>
 
-      <div class="service-card">
-        <h3>🕉️ संबंध सुधार हेतु साधना</h3>
-        <p>
-          सकारात्मक संवाद, आत्मचिंतन एवं पारंपरिक मंत्र-साधना
-          संबंधी मार्गदर्शन।
-        </p>
-        <div class="price">₹851</div>
       </div>
 
     </div>
-  </section>
+
+  </div>
 
 
-  <!-- FAMILY -->
-  <section id="family">
-    <h2>🏠 गृह-कलेश एवं पारिवारिक शांति</h2>
+  <div class="service-section" id="love">
 
-    <div class="service-grid">
+    <div class="service-inner">
 
-      <div class="service-card">
-        <h3>🕊️ गृह-कलेश निवारण मार्गदर्शन</h3>
+      <img src="images/love.jpg" alt="Love">
+
+      <div>
+
+        <h2>❤️ प्रेम एवं संबंध मार्गदर्शन</h2>
+
         <p>
-          परिवार में बार-बार होने वाले विवाद एवं तनाव के लिए
-          पारंपरिक आध्यात्मिक उपाय।
+          प्रेम संबंधों में संवाद, समझ और पारंपरिक ज्योतिषीय
+          संकेतों के आधार पर मार्गदर्शन।
         </p>
-        <div class="price">₹751</div>
-      </div>
 
-      <div class="service-card">
-        <h3>🌿 पारिवारिक शांति उपाय</h3>
-        <p>
-          घर में सकारात्मक वातावरण एवं मानसिक शांति के लिए
-          पारंपरिक साधना एवं उपाय।
-        </p>
-        <div class="price">₹551</div>
+        <ul class="service-list">
+          <li>प्रेम संबंध मार्गदर्शन — ₹551</li>
+          <li>दूरी एवं मनमुटाव — ₹751</li>
+          <li>प्रेम विवाह मार्गदर्शन — ₹751</li>
+          <li>संबंध सुधार हेतु पारंपरिक साधना — ₹851</li>
+        </ul>
+
       </div>
 
     </div>
-  </section>
+
+  </div>
 
 
-  <!-- CHILDREN -->
-  <section id="children">
-    <h2>👶 संतान संबंधी ज्योतिषीय मार्गदर्शन</h2>
+  <div class="service-section" id="santan">
 
-    <div class="service-grid">
+    <div class="service-inner">
 
-      <div class="service-card">
-        <h3>👶 संतान योग विश्लेषण</h3>
+      <img src="images/santan.jpg" alt="Children">
+
+      <div>
+
+        <h2>👶 संतान संबंधी मार्गदर्शन</h2>
+
         <p>
-          कुंडली के आधार पर संतान संबंधी पारंपरिक ज्योतिषीय
+          संतान योग एवं संतान सुख से जुड़े पारंपरिक ज्योतिषीय
           संकेतों का अध्ययन।
         </p>
-        <div class="price">₹751</div>
-      </div>
 
-      <div class="service-card">
-        <h3>🌿 संतान संबंधी बाधा के लिए उपाय</h3>
+        <ul class="service-list">
+          <li>संतान योग विश्लेषण — ₹751</li>
+          <li>संतान संबंधी पारंपरिक उपाय — ₹1100</li>
+          <li>संतान सुख हेतु आध्यात्मिक साधना — ₹851</li>
+        </ul>
+
         <p>
-          पारंपरिक ज्योतिषीय एवं आध्यात्मिक उपायों के संबंध में
-          मार्गदर्शन।
+          <b>नोट:</b> यह पारंपरिक ज्योतिषीय/आध्यात्मिक मार्गदर्शन है।
+          स्वास्थ्य या प्रजनन संबंधी समस्या में योग्य चिकित्सक की सलाह आवश्यक है।
         </p>
-        <div class="price">₹1100</div>
+
       </div>
 
-      <div class="service-card">
-        <h3>🙏 संतान सुख हेतु साधना मार्गदर्शन</h3>
+    </div>
+
+  </div>
+
+
+  <div class="service-section" id="mantra">
+
+    <div class="service-inner">
+
+      <img src="images/mantra.jpg" alt="Mantra">
+
+      <div>
+
+        <h2>🕉️ मंत्र साधना एवं ध्यान</h2>
+
         <p>
-          पारंपरिक मंत्र, पूजा एवं साधना पद्धतियों की जानकारी।
+          परंपरा के अनुसार मंत्र चयन, जप पद्धति, ध्यान और साधना
+          से जुड़े मार्गदर्शन।
         </p>
-        <div class="price">₹851</div>
+
+        <ul class="service-list">
+          <li>मंत्र चयन — ₹501</li>
+          <li>मंत्र साधना मार्गदर्शन — ₹751</li>
+          <li>मंत्र सिद्धि साधना मार्गदर्शन — ₹1100</li>
+          <li>ध्यान एवं साधना — ₹251</li>
+        </ul>
+
       </div>
 
     </div>
 
-    <div class="notice">
-      <strong>महत्वपूर्ण:</strong>
-      संतान संबंधी विषयों में ज्योतिषीय मार्गदर्शन चिकित्सा का विकल्प नहीं है।
-      किसी स्वास्थ्य या प्रजनन संबंधी समस्या में योग्य डॉक्टर की सलाह लेना आवश्यक है।
-    </div>
-  </section>
+  </div>
 
 
-  <!-- MANTRA -->
-  <section id="mantra">
-    <h2>🕉️ मंत्र एवं साधना मार्गदर्शन</h2>
+  <div class="service-section" id="kalesh">
 
-    <div class="service-grid">
+    <div class="service-inner">
 
-      <div class="service-card">
-        <h3>📿 मंत्र चयन मार्गदर्शन</h3>
+      <img src="images/kalesh.jpg" alt="Family Peace">
+
+      <div>
+
+        <h2>🏠 गृह-कलेश एवं पारिवारिक शांति</h2>
+
         <p>
-          व्यक्ति की परिस्थिति के अनुसार पारंपरिक मंत्र एवं
-          साधना पद्धति के बारे में मार्गदर्शन।
+          परिवार में तनाव, मतभेद और घरेलू अशांति से जुड़े
+          पारंपरिक आध्यात्मिक उपायों का मार्गदर्शन।
         </p>
-        <div class="price">₹501</div>
+
+        <ul class="service-list">
+          <li>गृह-कलेश निवारण मार्गदर्शन — ₹751</li>
+          <li>पारिवारिक शांति उपाय — ₹551</li>
+        </ul>
+
       </div>
 
-      <div class="service-card">
-        <h3>🕉️ मंत्र साधना मार्गदर्शन</h3>
+    </div>
+
+  </div>
+
+
+  <div class="service-section" id="spiritual">
+
+    <div class="service-inner">
+
+      <img src="images/bhoot-pret.jpg" alt="Spiritual Guidance">
+
+      <div>
+
+        <h2>👻 भूत-प्रेत / आध्यात्मिक बाधा मार्गदर्शन</h2>
+
         <p>
-          मंत्र-जप, नियम, साधना की सामान्य विधि एवं अनुशासन
-          संबंधी मार्गदर्शन।
+          भूत-प्रेत या आध्यात्मिक बाधा से जुड़ी मान्यताओं के संदर्भ में
+          पारंपरिक धार्मिक एवं आध्यात्मिक मार्गदर्शन।
         </p>
-        <div class="price">₹751</div>
+
+        <ul class="service-list">
+          <li>पारंपरिक धार्मिक उपाय</li>
+          <li>मंत्र एवं पूजा संबंधी मार्गदर्शन</li>
+          <li>आध्यात्मिक शांति हेतु साधना</li>
+        </ul>
+
+        <b>फीस: ₹1100</b>
+
       </div>
 
-      <div class="service-card">
-        <h3>✨ मंत्र सिद्धि साधना मार्गदर्शन</h3>
+    </div>
+
+  </div>
+
+
+  <div class="service-section" id="nazar">
+
+    <div class="service-inner">
+
+      <img src="images/nazar.jpg" alt="Nazar Dosh">
+
+      <div>
+
+        <h2>👁️ नजर दोष संबंधी पारंपरिक उपाय</h2>
+
         <p>
-          पारंपरिक मंत्र-साधना की प्रक्रिया, जप एवं अनुशासन
-          के संबंध में आध्यात्मिक मार्गदर्शन।
+          नजर दोष की पारंपरिक मान्यता के अनुसार धार्मिक एवं
+          आध्यात्मिक उपायों का मार्गदर्शन।
         </p>
-        <div class="price">₹1100</div>
+
+        <b>फीस: ₹551</b>
+
       </div>
 
-      <div class="service-card">
-        <h3>🙏 ध्यान एवं साधना मार्गदर्शन</h3>
+    </div>
+
+  </div>
+
+
+  <div class="service-section" id="palmistry">
+
+    <div class="service-inner">
+
+      <img src="images/palmistry.jpg" alt="Palmistry">
+
+      <div>
+
+        <h2>✋ हस्तरेखा अध्ययन</h2>
+
         <p>
-          ध्यान, जप और सकारात्मक आध्यात्मिक अभ्यासों के लिए
-          व्यक्तिगत मार्गदर्शन।
+          हथेली की प्रमुख रेखाओं और पारंपरिक हस्तरेखा शास्त्र
+          के आधार पर व्यक्तिगत अध्ययन।
         </p>
-        <div class="price">₹251</div>
+
+        <b>फीस: ₹351</b>
+
       </div>
 
     </div>
 
-    <div class="notice">
-      मंत्र-साधना आध्यात्मिक अभ्यास है। किसी परिणाम की निश्चित या
-      गारंटीकृत घोषणा नहीं की जाती।
-    </div>
-  </section>
+  </div>
 
 
-  <!-- PALM -->
-  <section id="palm">
-    <h2>✋ हस्तरेखा परामर्श</h2>
+  <div class="service-section" id="career">
 
-    <div class="service-card">
-      <h3>✋ हस्तरेखा अध्ययन</h3>
-      <p>
-        हथेली की प्रमुख रेखाओं एवं पारंपरिक हस्तरेखा शास्त्र
-        के आधार पर जीवन से जुड़े संकेतों का अध्ययन।
-      </p>
-      <div class="price">₹351</div>
-    </div>
-  </section>
+    <div class="service-inner">
 
+      <img src="images/career.jpg" alt="Career">
 
-  <!-- REMEDIES -->
-  <section id="remedies">
-    <h2>🌿 विशेष वैदिक उपाय</h2>
+      <div>
 
-    <div class="service-grid">
+        <h2>💼 करियर एवं व्यवसाय</h2>
 
-      <div class="service-card">
-        <h3>🌑 ग्रह दोष उपाय</h3>
-        <p>पारंपरिक ग्रह संबंधी उपाय एवं साधना मार्गदर्शन।</p>
-        <div class="price">₹751</div>
-      </div>
-
-      <div class="service-card">
-        <h3>👁️ नजर दोष संबंधी मार्गदर्शन</h3>
-        <p>पारंपरिक आध्यात्मिक उपायों के बारे में मार्गदर्शन।</p>
-        <div class="price">₹551</div>
-      </div>
-
-      <div class="service-card">
-        <h3>🏠 नकारात्मक वातावरण हेतु उपाय</h3>
-        <p>घर के सकारात्मक वातावरण के लिए पारंपरिक उपाय।</p>
-        <div class="price">₹751</div>
-      </div>
-
-      <div class="service-card">
-        <h3>🙏 आध्यात्मिक शांति मार्गदर्शन</h3>
-        <p>ध्यान, मंत्र एवं आध्यात्मिक अभ्यासों संबंधी मार्गदर्शन।</p>
-        <div class="price">₹501</div>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- CAREER -->
-  <section id="career">
-    <h2>🎓 करियर एवं व्यवसाय</h2>
-
-    <div class="service-grid">
-
-      <div class="service-card">
-        <h3>🎓 करियर मार्गदर्शन</h3>
         <p>
-          शिक्षा एवं करियर से जुड़े प्रश्नों पर पारंपरिक
-          ज्योतिषीय मार्गदर्शन।
+          नौकरी, करियर और व्यवसाय से जुड़े पारंपरिक
+          ज्योतिषीय संकेतों का अध्ययन।
         </p>
-        <div class="price">₹551</div>
+
+        <ul class="service-list">
+          <li>करियर मार्गदर्शन — ₹551</li>
+          <li>व्यवसाय मार्गदर्शन — ₹751</li>
+        </ul>
+
       </div>
 
-      <div class="service-card">
-        <h3>💼 व्यवसाय मार्गदर्शन</h3>
+    </div>
+
+  </div>
+
+
+  <div class="service-section" id="grah">
+
+    <div class="service-inner">
+
+      <img src="images/grah-dosh.jpg" alt="Planetary Guidance">
+
+      <div>
+
+        <h2>🌿 ग्रह दोष एवं पारंपरिक उपाय</h2>
+
         <p>
-          व्यवसाय से जुड़े निर्णयों के लिए पारंपरिक
-          ज्योतिषीय दृष्टिकोण से मार्गदर्शन।
+          जन्म कुंडली में ग्रहों की स्थिति के आधार पर
+          पारंपरिक धार्मिक उपायों का मार्गदर्शन।
         </p>
-        <div class="price">₹751</div>
+
+        <b>फीस: ₹751</b>
+
       </div>
 
     </div>
-  </section>
+
+  </div>
+
+</section>
 
 
-  <!-- COMPLETE FEES -->
-  <section id="fees">
-    <h2>💰 सम्पूर्ण सेवा शुल्क</h2>
+<!-- FEES -->
 
-    <div class="fee-box">
-      <ul>
-        <li>🧠 जन्म कुंडली विश्लेषण — <b>₹501</b></li>
-        <li>🌟 ग्रह दोष मार्गदर्शन — <b>₹751</b></li>
+<section class="fees" id="fees">
 
-        <li>💑 विवाह योग एवं समय — <b>₹551</b></li>
-        <li>💞 विवाह में विलंब — <b>₹751</b></li>
-        <li>❤️ पति-पत्नी संबंध मार्गदर्शन — <b>₹751</b></li>
-        <li>🕊️ वैवाहिक तनाव / कलेश — <b>₹851</b></li>
+  <h2 class="section-title">💰 सेवा शुल्क</h2>
 
-        <li>❤️ प्रेम संबंध मार्गदर्शन — <b>₹551</b></li>
-        <li>💔 संबंध में दूरी / मनमुटाव — <b>₹751</b></li>
-        <li>💞 प्रेम विवाह मार्गदर्शन — <b>₹751</b></li>
-        <li>🕉️ संबंध सुधार हेतु साधना — <b>₹851</b></li>
+  <div class="fee-row">
+    <span>जन्म कुंडली विश्लेषण</span>
+    <span class="fee-price">₹751</span>
+  </div>
 
-        <li>🏠 गृह-कलेश निवारण मार्गदर्शन — <b>₹751</b></li>
-        <li>🌿 पारिवारिक शांति उपाय — <b>₹551</b></li>
+  <div class="fee-row">
+    <span>विवाह योग एवं समय</span>
+    <span class="fee-price">₹551</span>
+  </div>
 
-        <li>👶 संतान योग विश्लेषण — <b>₹751</b></li>
-        <li>🌿 संतान संबंधी बाधा हेतु उपाय — <b>₹1100</b></li>
-        <li>🙏 संतान सुख हेतु साधना — <b>₹851</b></li>
+  <div class="fee-row">
+    <span>विवाह में विलंब मार्गदर्शन</span>
+    <span class="fee-price">₹751</span>
+  </div>
 
-        <li>📿 मंत्र चयन मार्गदर्शन — <b>₹501</b></li>
-        <li>🕉️ मंत्र साधना मार्गदर्शन — <b>₹751</b></li>
-        <li>✨ मंत्र सिद्धि साधना मार्गदर्शन — <b>₹1100</b></li>
-        <li>🙏 ध्यान एवं साधना मार्गदर्शन — <b>₹251</b></li>
+  <div class="fee-row">
+    <span>पति-पत्नी संबंध मार्गदर्शन</span>
+    <span class="fee-price">₹751</span>
+  </div>
 
-        <li>✋ हस्तरेखा परामर्श — <b>₹351</b></li>
+  <div class="fee-row">
+    <span>वैवाहिक तनाव / कलेश</span>
+    <span class="fee-price">₹851</span>
+  </div>
 
-        <li>👁️ नजर दोष संबंधी मार्गदर्शन — <b>₹551</b></li>
-        <li>🏠 नकारात्मक वातावरण हेतु उपाय — <b>₹751</b></li>
-        <li>🎓 करियर मार्गदर्शन — <b>₹551</b></li>
-        <li>💼 व्यवसाय मार्गदर्शन — <b>₹751</b></li>
-      </ul>
-    </div>
+  <div class="fee-row">
+    <span>प्रेम संबंध मार्गदर्शन</span>
+    <span class="fee-price">₹551</span>
+  </div>
 
-    <p>
-      <b>नोट:</b> ऊपर दी गई सभी राशि सेवा शुल्क है।
-      प्रत्येक सेवा में पारंपरिक ज्योतिषीय/आध्यात्मिक मार्गदर्शन दिया जाएगा।
-    </p>
-  </section>
+  <div class="fee-row">
+    <span>संबंध में दूरी / मनमुटाव</span>
+    <span class="fee-price">₹751</span>
+  </div>
+
+  <div class="fee-row">
+    <span>प्रेम विवाह मार्गदर्शन</span>
+    <span class="fee-price">₹751</span>
+  </div>
+
+  <div class="fee-row">
+    <span>संबंध सुधार हेतु साधना</span>
+    <span class="fee-price">₹851</span>
+  </div>
+
+  <div class="fee-row">
+    <span>संतान योग विश्लेषण</span>
+    <span class="fee-price">₹751</span>
+  </div>
+
+  <div class="fee-row">
+    <span>संतान संबंधी पारंपरिक उपाय</span>
+    <span class="fee-price">₹1100</span>
+  </div>
+
+  <div class="fee-row">
+    <span>मंत्र चयन</span>
+    <span class="fee-price">₹501</span>
+  </div>
+
+  <div class="fee-row">
+    <span>मंत्र साधना</span>
+    <span class="fee-price">₹751</span>
+  </div>
+
+  <div class="fee-row">
+    <span>मंत्र सिद्धि साधना मार्गदर्शन</span>
+    <span class="fee-price">₹1100</span>
+  </div>
+
+  <div class="fee-row">
+    <span>गृह-कलेश निवारण</span>
+    <span class="fee-price">₹751</span>
+  </div>
+
+  <div class="fee-row">
+    <span>भूत-प्रेत / आध्यात्मिक बाधा मार्गदर्शन</span>
+    <span class="fee-price">₹1100</span>
+  </div>
+
+  <div class="fee-row">
+    <span>नजर दोष संबंधी उपाय</span>
+    <span class="fee-price">₹551</span>
+  </div>
+
+  <div class="fee-row">
+    <span>हस्तरेखा</span>
+    <span class="fee-price">₹351</span>
+  </div>
+
+  <div class="fee-row">
+    <span>करियर मार्गदर्शन</span>
+    <span class="fee-price">₹551</span>
+  </div>
+
+  <div class="fee-row">
+    <span>व्यवसाय मार्गदर्शन</span>
+    <span class="fee-price">₹751</span>
+  </div>
+
+</section>
 
 
-  <!-- DONATION -->
-  <section id="donation">
-    <h2>💸 सहयोग (Donation)</h2>
+<!-- PAYMENT -->
 
-    <p>
-      🙏 यदि आप धार्मिक या सामाजिक कार्यों में सहयोग करना चाहते हैं,
-      तो नीचे दिए गए QR Code के माध्यम से अपनी इच्छा अनुसार सहयोग कर सकते हैं।
-    </p>
+<section class="payment">
 
-    <div class="qr-section">
-      <h3>📲 UPI द्वारा सहयोग करें</h3>
+  <h2>💳 भुगतान / UPI</h2>
 
-      <img src="qr.png" alt="UPI Payment QR Code">
+  <p>
+    सेवा शुल्क का भुगतान नीचे दिए गए QR Code के माध्यम से किया जा सकता है।
+  </p>
 
-      <p>
-        अपने UPI ऐप से QR Code स्कैन करके भुगतान करें।
-      </p>
-    </div>
-  </section>
+  <img src="qr.png"
+       alt="UPI Payment QR"
+       class="qr">
+
+</section>
 
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <h2>📞 संपर्क करें</h2>
+<!-- CONTACT -->
 
-    <p>
-      🔹 परामर्श के लिए Instagram पर संदेश भेजें।<br>
-      🔹 अपनी व्यक्तिगत जानकारी साझा करते समय सावधानी रखें।
-    </p>
+<section class="contact" id="contact">
 
-    <a
-      class="insta"
-      href="https://www.instagram.com/baalrishi_jyotish"
-      target="_blank"
-      rel="noopener noreferrer">
-      📷 Instagram पर चैट करें
-    </a>
+  <h2>📱 संपर्क करें</h2>
 
-    <h3>📋 ऑनलाइन परामर्श फॉर्म</h3>
+  <p>
+    परामर्श एवं सेवा संबंधी जानकारी के लिए Instagram पर संपर्क करें।
+  </p>
 
-    <iframe
-      src="https://docs.google.com/forms/d/e/1FAIpQLSc9sm80QtLafEtXRoHEvQXW5_XmkYJspzCLKrb_G753vutL1Q/viewform?embedded=true"
-      loading="lazy">
-      Loading…
-    </iframe>
-  </section>
+  <a class="instagram"
+     href="https://www.instagram.com/baalrishi_jyotish"
+     target="_blank">
+     📸 Instagram पर संपर्क करें
+  </a>
 
-</div>
+</section>
+
+
+<!-- GOOGLE FORM -->
+
+<section class="form-box">
+
+  <h2 class="section-title">
+    📝 परामर्श फॉर्म
+  </h2>
+
+  <iframe
+    src="https://docs.google.com/forms/d/e/1FAIpQLSdXXXXXXXXXXXX/viewform">
+  </iframe>
+
+</section>
 
 
 <footer>
-  © 2026 Baal Rishi | Jyotish • Dharma • Spiritual Guidance
+
+  <p>
+    © 2026 Baal Rishi — Spiritual Astrology Consultation
+  </p>
+
+  <p>
+    यह वेबसाइट पारंपरिक ज्योतिष एवं आध्यात्मिक मार्गदर्शन के लिए है।
+    स्वास्थ्य, कानूनी या वित्तीय मामलों में संबंधित योग्य विशेषज्ञ की सलाह लें।
+  </p>
+
 </footer>
+
+
+<script>
+
+/* SERVICE SCROLL */
+
+function goToService(id) {
+
+  const element = document.getElementById(id);
+
+  if (element) {
+
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  }
+
+}
+
+
+/* LANGUAGE SYSTEM */
+
+function changeLanguage(language) {
+
+  document.documentElement.lang = language;
+
+  const elements = document.querySelectorAll("[data-" + language + "]");
+
+  document.querySelectorAll("[data-hi], [data-en], [data-bho], [data-mr], [data-bn], [data-gu], [data-ta]")
+    .forEach(function(element) {
+
+      const value = element.getAttribute("data-" + language);
+
+      if (value) {
+        element.innerHTML = value;
+      }
+
+    });
+
+  localStorage.setItem("baalRishiLanguage", language);
+
+}
+
+
+/* REMEMBER LANGUAGE */
+
+window.addEventListener("DOMContentLoaded", function() {
+
+  const savedLanguage =
+    localStorage.getItem("baalRishiLanguage") || "hi";
+
+  const select =
+    document.getElementById("languageSelect");
+
+  select.value = savedLanguage;
+
+  changeLanguage(savedLanguage);
+
+});
+
+</script>
 
 </body>
 </html>
