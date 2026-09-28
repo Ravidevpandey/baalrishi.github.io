@@ -26,16 +26,15 @@ body {
   margin:0;
   font-size:16px;
   line-height:1.8;
-  background-color:#f8f1e0;
+  background-color:#faf1de;
   background-image:
-    radial-gradient(1100px 640px at 6% -10%,#ff9d4285,transparent 56%),
-    radial-gradient(950px 600px at 100% 0%,#1f8a7a5c,transparent 52%),
-    radial-gradient(900px 560px at 96% 92%,#b23a4e52,transparent 55%),
-    radial-gradient(700px 460px at 8% 100%,#f2c94c66,transparent 55%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke-width='1.1' stroke-opacity='0.5'%3E%3Cg stroke='%23ae7234'%3E%3Ccircle cx='70' cy='70' r='3'/%3E%3Cpath d='M70 34 C82 46 82 58 70 70 C58 58 58 46 70 34 Z'/%3E%3Cpath d='M70 106 C82 94 82 82 70 70 C58 82 58 94 70 106 Z'/%3E%3C/g%3E%3Cg stroke='%23146b5e'%3E%3Cpath d='M34 70 C46 58 58 58 70 70 C58 82 46 82 34 70 Z'/%3E%3Cpath d='M106 70 C94 58 82 58 70 70 C82 82 94 82 106 70 Z'/%3E%3C/g%3E%3Cg stroke='%23b23a4e' stroke-opacity='.4'%3E%3Ccircle cx='0' cy='0' r='2.6'/%3E%3Ccircle cx='140' cy='0' r='2.6'/%3E%3Ccircle cx='0' cy='140' r='2.6'/%3E%3Ccircle cx='140' cy='140' r='2.6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  background-size:auto,auto,auto,auto,140px 140px;
-  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
-  background-attachment:fixed,fixed,fixed,fixed,fixed
+    radial-gradient(1500px 900px at 20% -15%,#ffb15f70,transparent 60%),
+    radial-gradient(1100px 720px at 100% 0%,#1f8a7a3d,transparent 55%),
+    radial-gradient(900px 620px at 90% 100%,#b23a4e30,transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23ae7234' stroke-width='1.1' stroke-opacity='0.32'%3E%3Ccircle cx='70' cy='70' r='3'/%3E%3Cpath d='M70 34 C82 46 82 58 70 70 C58 58 58 46 70 34 Z'/%3E%3Cpath d='M70 106 C82 94 82 82 70 70 C58 82 58 94 70 106 Z'/%3E%3Cpath d='M34 70 C46 58 58 58 70 70 C58 82 46 82 34 70 Z'/%3E%3Cpath d='M106 70 C94 58 82 58 70 70 C82 82 94 82 106 70 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:auto,auto,auto,140px 140px;
+  background-repeat:no-repeat,no-repeat,no-repeat,repeat;
+  background-attachment:fixed,fixed,fixed,fixed
 }
 img {
   max-width:100%;
@@ -305,8 +304,7 @@ html[lang=en] .hero h1 em {
   color:var(--muted)
 }
 .values-strip {
-  border-block:1px solid var(--line);
-  background:linear-gradient(90deg,#f6dfb655,#dcece555 50%,#f3c9c355)
+  border-block:1px solid #d9caa8
 }
 .values-strip>.container {
   display:flex;
@@ -522,8 +520,7 @@ details[open]>summary>span {
   text-underline-offset:3px
 }
 .how-section {
-  background:linear-gradient(160deg,#eef2e8 0%,#f5ecd9 55%,#f6e3df 100%);
-  border-block:1px solid var(--line)
+  border-block:1px solid #d9caa8
 }
 .steps {
   display:grid;
@@ -582,7 +579,7 @@ details[open]>summary>span {
   align-items:center;
   border:1px solid var(--line);
   border-radius:12px;
-  background:linear-gradient(135deg,#f7ecd4,#eef2e5 60%,#f6e2dd);
+  background:#f6ecd6;
   padding:45px
 }
 .payment h2 {
