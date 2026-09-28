@@ -26,12 +26,12 @@ body {
   margin:0;
   font-size:16px;
   line-height:1.8;
-  background-color:#eee0c4;
+  background-color:#e7c98d;
   background-image:
-    radial-gradient(1500px 900px at 20% -15%,#f0973dab,transparent 62%),
-    radial-gradient(1100px 720px at 100% 0%,#1f8a7a6b,transparent 58%),
-    radial-gradient(1000px 700px at 90% 100%,#8a2f284d,transparent 58%),
-    radial-gradient(800px 600px at 0% 100%,#8a5a2440,transparent 55%);
+    radial-gradient(1500px 950px at 15% -20%,#f0973dc4,transparent 62%),
+    radial-gradient(1300px 850px at 100% -10%,#f6c33ea3,transparent 58%),
+    radial-gradient(1200px 800px at 100% 105%,#7a2e1f80,transparent 60%),
+    radial-gradient(900px 700px at 0% 105%,#c9781f6b,transparent 55%);
   background-size:auto,auto,auto,auto;
   background-repeat:no-repeat,no-repeat,no-repeat,no-repeat;
   background-attachment:fixed,fixed,fixed,fixed
