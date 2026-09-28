@@ -26,14 +26,14 @@ body {
   margin:0;
   font-size:16px;
   line-height:1.8;
-  background-color:#faf1de;
+  background-color:#eee0c4;
   background-image:
-    radial-gradient(1500px 900px at 20% -15%,#ffb15f70,transparent 60%),
-    radial-gradient(1100px 720px at 100% 0%,#1f8a7a3d,transparent 55%),
-    radial-gradient(900px 620px at 90% 100%,#b23a4e30,transparent 55%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23ae7234' stroke-width='1.1' stroke-opacity='0.32'%3E%3Ccircle cx='70' cy='70' r='3'/%3E%3Cpath d='M70 34 C82 46 82 58 70 70 C58 58 58 46 70 34 Z'/%3E%3Cpath d='M70 106 C82 94 82 82 70 70 C58 82 58 94 70 106 Z'/%3E%3Cpath d='M34 70 C46 58 58 58 70 70 C58 82 46 82 34 70 Z'/%3E%3Cpath d='M106 70 C94 58 82 58 70 70 C82 82 94 82 106 70 Z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size:auto,auto,auto,140px 140px;
-  background-repeat:no-repeat,no-repeat,no-repeat,repeat;
+    radial-gradient(1500px 900px at 20% -15%,#f0973dab,transparent 62%),
+    radial-gradient(1100px 720px at 100% 0%,#1f8a7a6b,transparent 58%),
+    radial-gradient(1000px 700px at 90% 100%,#8a2f284d,transparent 58%),
+    radial-gradient(800px 600px at 0% 100%,#8a5a2440,transparent 55%);
+  background-size:auto,auto,auto,auto;
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat;
   background-attachment:fixed,fixed,fixed,fixed
 }
 img {
