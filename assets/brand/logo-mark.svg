@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Antarodaya">
+  <defs>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7c948"/><stop offset="1" stop-color="#e2711d"/></linearGradient>
+    <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f6353"/><stop offset="1" stop-color="#183d35"/></linearGradient>
+  </defs>
+  <g stroke="#c0802f" stroke-width="2.6" stroke-linecap="round">
+    <path d="M32 24.5V15M40.2 26.7 44.5 19.3M45.8 32.6 53.2 28.3M23.8 26.7 19.5 19.3M18.2 32.6 10.8 28.3"/>
+  </g>
+  <path d="M20.5 40a11.5 11.5 0 0 1 23 0Z" fill="url(#sun)"/>
+  <path d="M32 58C21 58 12.5 50 11.5 39.5 20 41 28 47 32 58Z" fill="url(#petal)"/>
+  <path d="M32 58C43 58 51.5 50 52.5 39.5 44 41 36 47 32 58Z" fill="url(#petal)"/>
+  <path d="M32 58C27.5 54 26.5 47.5 32 42.5 37.5 47.5 36.5 54 32 58Z" fill="#8a2f28"/>
+</svg>

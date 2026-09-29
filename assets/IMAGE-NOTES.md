@@ -9,3 +9,7 @@ Use case: photorealistic-natural. Asset type: professional Indian spiritual cons
 `assets/baalrishi.webp` is an optimized copy of the repository's original symbolic brand illustration. `qr.png` remains unchanged.
 
 `assets/baalrishi-portrait.png`: supplied by the user as `1788443170190.png`; copied unchanged and displayed in full, replacing the child illustration on the website. No image generation or retouching was used for this portrait.
+
+## Antarodaya brand (2026-09-29)
+
+`assets/brand/logo-mark.svg` (header/footer logo) and `assets/favicon.svg` (app/browser icon) are hand-written SVGs: a sun rising out of a lotus — *antar* (inner) + *udaya* (rising). PNG icons (`icon-192`, `icon-512`, `icon-maskable-512`, `apple-touch-icon`) are rendered from the favicon SVG. `og-image.png` (1200×630 social share preview) is rendered from HTML with Playfair Display and Noto Devanagari fonts.

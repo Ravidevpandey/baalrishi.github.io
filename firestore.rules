@@ -1,0 +1,71 @@
+rules_version = '2';
+
+// Security rules for the Antarodaya website (reviews + customer accounts).
+// Deploy: Firebase console → Firestore Database → Rules → paste this file → Publish.
+// Keep the admin list in sync with assets/js/firebase-config.js.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+    function verified() {
+      return signedIn() && request.auth.token.email_verified == true;
+    }
+    function isAdmin() {
+      return verified() && request.auth.token.email in ['pandeyravidev2@gmail.com'];
+    }
+    function isOwner(data) {
+      return signedIn() && data.uid == request.auth.uid;
+    }
+    function validReview(d) {
+      return d.rating is int && d.rating >= 1 && d.rating <= 5
+        && d.text is string && d.text.size() >= 10 && d.text.size() <= 1000
+        && d.name is string && d.name.size() >= 1 && d.name.size() <= 60
+        && d.get('service', '') is string && d.get('service', '').size() <= 60
+        && d.get('lang', 'hi') in ['hi', 'en'];
+    }
+
+    // Customer reviews. New and edited reviews stay "pending" until the admin publishes them.
+    match /reviews/{reviewId} {
+      allow read: if resource.data.status == 'approved' || isOwner(resource.data) || isAdmin();
+
+      allow create: if verified()
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'rating', 'text', 'service', 'lang', 'status', 'createdAt'])
+        && request.resource.data.keys().hasAll(['uid', 'name', 'rating', 'text', 'status', 'createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.createdAt == request.time
+        && validReview(request.resource.data);
+
+      allow update: if isAdmin()
+        || (verified() && isOwner(resource.data)
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'rating', 'text', 'service', 'status', 'updatedAt'])
+            && request.resource.data.status == 'pending'
+            && request.resource.data.updatedAt == request.time
+            && validReview(request.resource.data));
+
+      allow delete: if isAdmin() || isOwner(resource.data);
+    }
+
+    // Customer profiles, readable by the customer and the admin.
+    match /users/{uid} {
+      allow read: if (signedIn() && request.auth.uid == uid) || isAdmin();
+
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'email', 'photoURL', 'provider', 'createdAt', 'lastLoginAt'])
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.name is string && request.resource.data.name.size() <= 60
+        && request.resource.data.photoURL.matches('^(https://[a-z0-9.-]+[.]googleusercontent[.]com/.*)?$');
+
+      allow update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'email', 'photoURL', 'provider', 'lastLoginAt'])
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.name is string && request.resource.data.name.size() <= 60
+        && request.resource.data.photoURL.matches('^(https://[a-z0-9.-]+[.]googleusercontent[.]com/.*)?$');
+
+      allow delete: if isAdmin() || (signedIn() && request.auth.uid == uid);
+    }
+  }
+}

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-en.html
+
+Sitemap: https://antarodaya.in/sitemap.xml

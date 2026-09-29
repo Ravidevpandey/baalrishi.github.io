@@ -1,29 +1,52 @@
-# Baal Rishi website
+# Antarodaya (अंत्योदय) website
 
-Responsive static website for GitHub Pages. Hindi: `index.html`; English: `en.html`. All services, disclosures and FAQs are rendered in HTML and work without JavaScript.
+Responsive static website for GitHub Pages, served at https://antarodaya.in (see `CNAME`).
+
+| Page | Hindi | English |
+|---|---|---|
+| Home | `index.html` | `en.html` |
+| Customer account | `account.html` | `account-en.html` |
+| Admin panel | `admin.html` | `admin-en.html` |
+
+All pages are generated. Services, disclosures and FAQs work without JavaScript; login and reviews need JavaScript.
 
 ## Update content
 
-Edit `scripts/build.py`, then run `python3 scripts/build.py`. Commit both generated HTML pages along with the source. Styling is in `style.css`.
+Edit `scripts/build.py`, then run `python3 scripts/build.py`. Commit the generated HTML pages and `sitemap.xml` together with the source. Styling is in `style.css`; interactive features are in `assets/js/`.
 
-## Google Form
+## Login, reviews and admin panel (Firebase)
 
-Open your own form at https://forms.google.com. Publish it / enable responder access, then copy the **responder link** from Publish/Send → link. Test the link in a private browser window. Do not use the editor URL ending in `/edit`.
+- Customers log in with Google or email/password, write a review (1–5 stars) and see its status and your reply on their account page.
+- Email/password customers must verify their email before posting (reduces spam).
+- New and edited reviews stay **pending** until the admin publishes them from the admin panel. The admin can reply, publish, hide or delete, and can see registered users.
+- Admin access is granted to the emails listed in `firestore.rules` (enforced) and `assets/js/firebase-config.js` (only shows the menu link). Keep both lists in sync.
+- Until `assets/js/firebase-config.js` has an `apiKey`, the site shows a "coming soon" message for login and reviews.
 
-Put the exact public URL in `site-config.json` under `googleFormUrl`, then run `python3 scripts/build.py`. Accepted hosts: `forms.gle` and `docs.google.com/forms/`. Until configured, both pages clearly state that the form is unavailable and provide the existing Instagram contact link.
+Setup steps: see [`docs/FIREBASE-SETUP.md`](docs/FIREBASE-SETUP.md).
 
-Suggested form fields: name, contact method, selected service, main question, preferred consultation language; birth details only when relevant. Avoid collecting medical reports, identity documents, banking credentials or third-party data without consent. Explain the service limits and how submitted information is used in the form itself.
+### Local testing with emulators
+
+```
+firebase emulators:start --project demo-antarodaya --only auth,firestore
+python3 -m http.server 8000
+```
+
+Open http://localhost:8000/?emulator — the site then uses the local emulators instead of the live project.
 
 ## Languages
 
-Hindi and English are complete local pages. An embedded Google Translate Website Translator widget (`#google_translate_element` in the languages section) lets visitors switch the whole page in place to other languages via a dropdown, instead of opening a separate tab. This is a machine translation, not a reviewed local translation or a guarantee of support for every language. No API key is used or exposed. Website language availability does not imply consultation availability in that language.
+Hindi and English are complete local pages; the हिं / EN switch sits in the header. The globe button opens Google's Website Translator for other languages (machine translation, may contain errors; no API key used). Website language availability does not imply consultation availability in that language.
 
-## Preview and deployment
+## Google Form
 
-Run `python3 -m http.server 8000` in this folder. GitHub Pages should publish the `main` branch, `/ (root)`. Expected project URL: https://ravidevpandey.github.io/baalrishi.github.io/
+Put the public responder link (not the `/edit` URL) in `site-config.json` under `googleFormUrl`, then run the build. Accepted hosts: `forms.gle` and `docs.google.com/forms/`.
 
-The existing fees, Instagram destination and payment QR are preserved. Availability, fee range details, consultation format and refund terms must be confirmed by the owner with the customer before payment.
+## SEO
+
+Each home page has a keyword-focused title and description, canonical and `hreflang` links, Open Graph/Twitter tags with `assets/brand/og-image.png`, and JSON-LD (Organization, WebSite, WebPage, Service with INR price ranges, FAQPage). `robots.txt` and `sitemap.xml` point to https://antarodaya.in. Account and admin pages are `noindex`.
+
+Review stars from the site's own reviews are deliberately **not** added as `AggregateRating` markup: Google does not show star snippets for self-hosted reviews of your own business and can treat it as spam. For stars in Google Search/Maps, use a Google Business Profile.
 
 ## Assets
 
-`assets/spiritual-still-life.webp`: generated editorial spiritual still life. `assets/baalrishi-portrait.png`: user-supplied portrait displayed in full, with an Instagram link. `assets/baalrishi.webp` is the previous unused child illustration. The original `baalrishi.png` and `qr.png` are retained. Image-generation prompt and provenance are in `assets/IMAGE-NOTES.md`.
+Brand assets are in `assets/brand/` (see `assets/IMAGE-NOTES.md`). `assets/baalrishi-portrait.png` is the supplied portrait; `qr.png` is the existing payment QR.

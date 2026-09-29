@@ -2,10 +2,15 @@
 // Core content, navigation, service details and language links work without JavaScript.
 const year = document.getElementById('year');
 if (year) year.textContent = String(new Date().getFullYear());
-// Preserve the current section when switching between the two local translations.
-document.querySelectorAll('.native-languages a').forEach(link => {
+// Preserve the current section when switching between the Hindi and English pages.
+document.querySelectorAll('.lang-switch a').forEach(link => {
   link.addEventListener('click', () => {
-    const hash = window.location.hash;
-    if (hash && hash !== '#languages') link.hash = hash;
+    if (window.location.hash) link.hash = window.location.hash;
+  });
+});
+// Close the "more languages" popover when clicking elsewhere.
+document.addEventListener('click', event => {
+  document.querySelectorAll('details.more-langs[open]').forEach(d => {
+    if (!d.contains(event.target)) d.open = false;
   });
 });
