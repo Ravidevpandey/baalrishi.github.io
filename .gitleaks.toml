@@ -3,6 +3,6 @@
 [extend]
 useDefault = true
 
-[[allowlists]]
+[allowlist]
 description = "Firebase web app config is public by design"
 paths = ['''assets/js/firebase-config\.js''']
