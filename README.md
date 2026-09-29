@@ -23,10 +23,12 @@ Edit `scripts/build.py`, then run `python3 scripts/build.py`. Commit the generat
 - Customers log in with Google or email/password, write a review (1–5 stars) and see its status and your reply on their account page.
 - Email/password customers must verify their email before posting (reduces spam).
 - New and edited reviews stay **pending** until the admin publishes them from the admin panel. The admin can reply, publish, hide or delete, and can see registered users.
+- Published reviews are kept and shown best first; the admin can feature reviews. Unpublished or hidden reviews and profiles with no login for 30 days carry an `expireAt` and are deleted by the daily **Daily cleanup** workflow (`scripts/cleanup.py`).
+- Customers can delete their own account; the privacy policy is `privacy.html` / `privacy-hi.html` (generated).
 - Admin access is granted to the emails listed in `firestore.rules` (enforced) and `assets/js/firebase-config.js` (only shows the menu link). Keep both lists in sync.
 - Until `assets/js/firebase-config.js` has an `apiKey`, the site shows a "coming soon" message for login and reviews.
 
-Setup steps: see [`docs/FIREBASE-SETUP.md`](docs/FIREBASE-SETUP.md).
+Firebase project: `antarodaya-in` (Firestore in asia-south1). Deploy rules and auth providers with `firebase deploy --only firestore:rules,auth --project antarodaya-in`. Original manual setup notes: [`docs/FIREBASE-SETUP.md`](docs/FIREBASE-SETUP.md).
 
 ### Local testing with emulators
 

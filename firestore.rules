@@ -18,8 +18,8 @@ service cloud.firestore {
     function isOwner(data) {
       return signedIn() && data.uid == request.auth.uid;
     }
-    // Data is kept for 30 days: every review and profile carries an expireAt about 30 days ahead,
-    // and a Firestore TTL policy (firestore.indexes.json) deletes it after that.
+    // Unpublished reviews and profiles carry an expireAt about 30 days ahead; the daily cleanup
+    // workflow (.github/workflows/cleanup.yml) deletes documents once expireAt has passed.
     function expiresIn30Days(d) {
       return d.expireAt is timestamp
         && d.expireAt > request.time + duration.value(29, 'd')

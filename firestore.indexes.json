@@ -1,7 +1,0 @@
-{
-  "indexes": [],
-  "fieldOverrides": [
-    { "collectionGroup": "reviews", "fieldPath": "expireAt", "ttl": true, "indexes": [] },
-    { "collectionGroup": "users", "fieldPath": "expireAt", "ttl": true, "indexes": [] }
-  ]
-}
