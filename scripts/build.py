@@ -1,7 +1,7 @@
 """Build both static language pages. Run: python3 scripts/build.py"""
 from pathlib import Path
 from html import escape as e
-import json
+import json, hashlib, base64
 ROOT = Path(__file__).resolve().parent.parent
 config = json.loads((ROOT / 'site-config.json').read_text())
 # Each service: id, number, symbol, title, description, options, what to prepare, what is included, process, benefits.
@@ -226,6 +226,23 @@ USER_ICON='<span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="
 # Each page kind in Hindi (n=0) and English (n=1).
 # English is the default (index.html); Hindi pages carry a -hi / hi prefix.
 FILES={'home':['hi.html','index.html'],'account':['account-hi.html','account.html'],'admin':['admin-hi.html','admin.html'],'privacy':['privacy-hi.html','privacy.html']}
+# Content Security Policy (GitHub Pages cannot send headers, so it goes in a meta tag).
+# Only the translate bootstrap is inline; it is allowed by hash. 127.0.0.1 is for the local emulators.
+def translate_init(lang):
+ return f"function googleTranslateElementInit(){{new google.translate.TranslateElement({{pageLanguage:'{lang}',includedLanguages:'{INCLUDED_LANGS}',layout:google.translate.TranslateElement.InlineLayout.SIMPLE,autoDisplay:false}},'google_translate_element')}}"
+# Google Translate runs one inline script inside an about:srcdoc frame. If Google changes it, translation
+# stops and the browser console prints the new 'sha256-...' value to put here.
+TRANSLATE_SRCDOC_HASH="'sha256-R6kjt5FwTd5vAw94Q08NLDZsSaGTzg4NsdIfKtECSp0='"
+def csp(inline_scripts=()):
+ hashes=' '.join(["'sha256-"+base64.b64encode(hashlib.sha256(x.encode()).digest()).decode()+"'" for x in inline_scripts]+([TRANSLATE_SRCDOC_HASH] if inline_scripts else []))
+ return ("default-src 'self'; "
+  f"script-src 'self' {hashes} https://www.gstatic.com https://apis.google.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; "
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com https://translate.googleapis.com; "
+  "font-src 'self' https://fonts.gstatic.com; "
+  "img-src 'self' data: https:; "
+  "connect-src 'self' https://*.googleapis.com https://script.google.com https://script.googleusercontent.com http://127.0.0.1:9099 http://127.0.0.1:8080; "
+  "frame-src 'self' https://antarodaya-in.firebaseapp.com https://accounts.google.com https://translate.google.com; "
+  "manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'").replace('  ',' ')
 def rupees(n):
  return '₹'+f'{n:,}'
 for lang,n in [('hi',0),('en',1)]:
@@ -242,13 +259,13 @@ for lang,n in [('hi',0),('en',1)]:
   translate=f'<details class="more-langs"><summary aria-label="{t("langTitle")}" title="{t("langTitle")}">{GLOBE_ICON}</summary><div class="lang-pop"><strong>{t("langTitle")}</strong><div id="google_translate_element" class="google-translate-widget"></div><small>{t("langText")}</small></div></details>' if kind=='home' else ''
   return f'''<header class="site-header"><div class="container header-inner"><div class="brand-wrap"><a href="{prefix}#home" class="brand" aria-label="{brand}"><img class="brand-logo" src="assets/brand/logo-mark.svg" width="52" height="52" alt=""><span><strong>{brand}</strong><small>{t('brand')}</small></span></a><details class="brand-meaning"><summary title="{t('meaningLabel')}"><span aria-hidden="true">✦</span><span class="sr-only">{t('meaningLabel')}</span></summary><div class="meaning-pop"><img src="assets/brand/logo-mark.svg" width="56" height="56" alt=""><strong>{t('meaningLabel')}</strong>{''.join(f'<p>{x}</p>' for x in t('meaning'))}<a class="text-link" href="{prefix}#services">{t('explore')}</a></div></details></div><nav aria-label="{'मुख्य नेविगेशन' if n==0 else 'Main navigation'}">{nav}</nav><div class="header-tools"><div class="lang-switch" role="group" aria-label="Language / भाषा"><a href="{hi_file}" lang="hi" hreflang="hi" {'aria-current="page"' if n==0 else ''}>हिं<span class="sr-only">दी</span></a><a href="{en_file}" lang="en" hreflang="en" {'aria-current="page"' if n==1 else ''}>EN</a></div>{translate}<div class="account-wrap"><a class="account-btn" href="{FILES['account'][n]}" data-account-button>{USER_ICON}<span class="account-label">{t('login')}</span></a></div></div></div></header>'''
  footer=f'''<footer><div class="container footer-inner"><div class="brand"><img class="brand-logo" src="assets/brand/logo-mark.svg" width="44" height="44" alt=""><span><strong>{brand}</strong><small>{t('footer')}</small></span></div><nav class="footer-links" aria-label="Footer"><a href="{home}#services">{t('nav')[0]}</a><a href="{home}#rashi">{t('nav')[1]}</a><a href="{home}#reviews">{t('nav')[4]}</a><a href="{FILES['account'][n]}">{t('accountTitle')}</a><a href="{FILES['privacy'][n]}">{t('privacyTitle')}</a><a href="{config['instagramUrl']}" target="_blank" rel="noopener noreferrer">Instagram</a></nav><div class="footer-connect"><strong>{t('connect')}</strong>{contact_links()}<small>{t('hours')}: {t('hoursText')}</small></div><p>© <span id="year">2026</span> {brand} · antarodaya.in</p></div></footer>'''
- def head(kind,title,desc,extra=''):
+ def head(kind,title,desc,extra='',inline=()):
   hi_file,en_file=FILES[kind]
   me=FILES[kind][n]
   url=BASE+('' if me=='index.html' else me)
   robots='<meta name="robots" content="noindex,nofollow">' if kind in ('account','admin') else ''
   return f'''<!doctype html>
-<html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#183d35"><title>{title}</title><meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{url}"><link rel="alternate" hreflang="hi" href="{BASE+('' if hi_file=='index.html' else hi_file)}"><link rel="alternate" hreflang="en" href="{BASE+en_file}"><link rel="alternate" hreflang="x-default" href="{BASE+('' if en_file=='index.html' else en_file)}"><meta property="og:site_name" content="Antarodaya | अंतरोदय"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:locale" content="{'hi_IN' if n==0 else 'en_IN'}"><meta property="og:image" content="{BASE}assets/brand/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:url" content="{url}"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="assets/brand/icon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><script src="app.js" defer></script><script type="module" src="assets/js/main.js"></script>{extra}</head>'''
+<html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="{csp(inline)}"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#183d35"><title>{title}</title><meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{url}"><link rel="alternate" hreflang="hi" href="{BASE+('' if hi_file=='index.html' else hi_file)}"><link rel="alternate" hreflang="en" href="{BASE+en_file}"><link rel="alternate" hreflang="x-default" href="{BASE+('' if en_file=='index.html' else en_file)}"><meta property="og:site_name" content="Antarodaya | अंतरोदय"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:locale" content="{'hi_IN' if n==0 else 'en_IN'}"><meta property="og:image" content="{BASE}assets/brand/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:url" content="{url}"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="assets/brand/icon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><script src="app.js" defer></script><script type="module" src="assets/js/main.js"></script>{extra}</head>'''
  # ---- Home page ----
  cards=''
  for id,num,icon,title,desc,options,prep,inc,proc,benefits in services:
@@ -272,7 +289,7 @@ for lang,n in [('hi',0),('en',1)]:
      'hasOfferCatalog':{'@type':'OfferCatalog','name':sv[3][n],'itemListElement':[{'@type':'Offer','name':o[n],'description':o[3+n],'price':o[2],'priceCurrency':'INR','url':page_url+'#'+sv[0]} for o in sv[5]]}} for sv in services],
   {'@type':'FAQPage','@id':page_url+'#faq','inLanguage':lang,'mainEntity':[{'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}} for q,a in t('faqs')]}]}
  ld_json=json.dumps(ld,ensure_ascii=False).replace('</','<\\/')
- html=head('home',t('metaTitle'),t('metaDesc'),f'<script type="application/ld+json">{ld_json}</script>')+f'''
+ html=head('home',t('metaTitle'),t('metaDesc'),f'<script type="application/ld+json">{ld_json}</script>',inline=(translate_init(lang),))+f'''
 <body data-page="home"><a class="skip-link" href="#main">{t('skip')}</a>{header('home')}
 <main id="main"><section class="hero container" id="home"><div class="hero-copy"><p class="eyebrow">{t('eyebrow')}</p><h1>{t('hero')}</h1><p class="hero-description">{t('desc')}</p><div class="hero-actions"><a class="button primary" href="#booking">{t('book')} <span aria-hidden="true">↗</span></a><a class="text-link" href="#services">{t('explore')}</a></div><p class="hero-note"><span aria-hidden="true">✧</span> {t('heroNote')}</p></div><div class="hero-art"><img src="assets/hero-illustration.svg" width="1536" height="1024" fetchpriority="high" alt="{'दीपक, रुद्राक्ष और पारंपरिक कुंडली की प्रतीकात्मक सज्जा' if n==0 else 'A symbolic arrangement of a diya, prayer beads and a traditional birth chart'}"><div class="image-caption"><img src="assets/brand/logo-mark.svg" width="34" height="34" alt=""><div><strong>{'ज्ञान · आस्था · चिंतन' if n==0 else 'Wisdom · Faith · Reflection'}</strong><small>ANTARODAYA</small></div></div></div></section>
 <div class="values-strip"><div class="container"><span>✧ {'पारंपरिक दृष्टिकोण' if n==0 else 'Traditional perspectives'}</span><span>✧ {'स्पष्ट सेवा विवरण' if n==0 else 'Clear service details'}</span><span>✧ {'आपका निर्णय, आपकी स्वतंत्रता' if n==0 else 'Your choice, your agency'}</span></div></div>
@@ -288,7 +305,7 @@ for lang,n in [('hi',0),('en',1)]:
 <aside class="container notice" id="notice"><h2>ⓘ {t('noticeTitle')}</h2><p>{t('notice')}</p></aside></main>
 {footer}
 <script type="application/json" id="site-data">{site_json}</script>
-<script>function googleTranslateElementInit(){{new google.translate.TranslateElement({{pageLanguage:'{lang}',includedLanguages:'{INCLUDED_LANGS}',layout:google.translate.TranslateElement.InlineLayout.SIMPLE,autoDisplay:false}},'google_translate_element')}}</script>
+<script>{translate_init(lang)}</script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 </body></html>'''
  (ROOT/FILES['home'][n]).write_text(html.replace('><', '>\n<') + '\n')
@@ -315,6 +332,6 @@ for lang,n in [('hi',0),('en',1)]:
 '''+''.join(f'''<url><loc>{BASE+loc}</loc><xhtml:link rel="alternate" hreflang="en" href="{BASE}"/><xhtml:link rel="alternate" hreflang="hi" href="{BASE}hi.html"/><xhtml:link rel="alternate" hreflang="x-default" href="{BASE}"/><changefreq>weekly</changefreq><priority>{pr}</priority></url>
 ''' for loc,pr in [('','1.0'),('hi.html','0.9'),('privacy.html','0.3'),('privacy-hi.html','0.3')])+'</urlset>\n')
 # Old addresses from before English became the default: send visitors to the new pages.
-for old,new in [('en.html',''),('account-en.html','account.html'),('admin-en.html','admin.html')]:
+for old,new in [('en.html','')]:
  (ROOT/old).write_text(f'<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="{BASE+new}"><meta http-equiv="refresh" content="0;url=./{new}"><title>Antarodaya</title></head><body><a href="./{new}">Antarodaya</a></body></html>\n')
 print('Built home, account and admin pages (hi + en) with',len(services),'services; Google Form configured:',bool(form))

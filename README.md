@@ -7,8 +7,9 @@ Responsive static website for GitHub Pages, served at https://antarodaya.in (see
 | Home | `hi.html` | `index.html` (default) |
 | Customer account | `account-hi.html` | `account.html` |
 | Admin panel | `admin-hi.html` | `admin.html` |
+| Privacy policy | `privacy-hi.html` | `privacy.html` |
 
-English opens first; the हिं / EN switch in the header changes language. `en.html`, `account-en.html` and `admin-en.html` only redirect old links. All pages are generated. Services, disclosures and FAQs work without JavaScript; login and reviews need JavaScript.
+English opens first; the हिं / EN switch in the header changes language. `en.html` only redirects the old English address. All pages are generated. Services, disclosures and FAQs work without JavaScript; login and reviews need JavaScript.
 
 ## Services and fees
 
@@ -30,7 +31,7 @@ Edit `scripts/build.py`, then run `python3 scripts/build.py`. Commit the generat
 - Admin access is granted to the emails listed in `firestore.rules` (enforced) and `assets/js/firebase-config.js` (only shows the menu link). Keep both lists in sync.
 - Until `assets/js/firebase-config.js` has an `apiKey`, the site shows a "coming soon" message for login and reviews.
 
-Firebase project: `antarodaya-in` (Firestore in asia-south1). Deploy rules and auth providers with `firebase deploy --only firestore:rules,auth --project antarodaya-in`. Original manual setup notes: [`docs/FIREBASE-SETUP.md`](docs/FIREBASE-SETUP.md).
+Firebase project: `antarodaya-in` (Firestore in asia-south1). Deploy rules and auth providers with `firebase deploy --only firestore:rules,auth --project antarodaya-in`. How the Firebase project, access and credentials are set up: [`docs/FIREBASE.md`](docs/FIREBASE.md).
 
 ### Local testing with emulators
 

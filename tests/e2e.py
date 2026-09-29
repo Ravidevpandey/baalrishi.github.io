@@ -32,7 +32,9 @@ def verify_email(email):
     urllib.request.urlopen(link).read()
 
 async def new_page(browser, width=1280):
-    ctx = await browser.new_context(viewport={'width': width, 'height': 900}, ignore_https_errors=os.environ.get('E2E_IGNORE_HTTPS_ERRORS') == '1')
+    # The harness evaluates snippets with new Function(), which the site's CSP (rightly) forbids;
+    # CSP itself is checked separately in csp_check() with a normal browser context.
+    ctx = await browser.new_context(viewport={'width': width, 'height': 900}, bypass_csp=True, ignore_https_errors=os.environ.get('E2E_IGNORE_HTTPS_ERRORS') == '1')
     page = await ctx.new_page()
     errors = []
     page.on('pageerror', lambda e: errors.append(str(e)))
@@ -58,6 +60,20 @@ async def rules_probe(page, code):
       try { await (new Function('auth','db','F', 'return (async()=>{' + code + '})()'))(auth, db, F); return 'ok'; }
       catch (e) { return e.code || String(e); }
     }""", code)
+
+async def csp_check(browser):
+    """Load every page under the real Content Security Policy and fail on any blocked resource."""
+    ctx = await browser.new_context(ignore_https_errors=os.environ.get('E2E_IGNORE_HTTPS_ERRORS') == '1')
+    blocked = []
+    for path in ('', 'hi.html?emulator', 'account.html', 'admin-hi.html', 'privacy.html'):
+        page = await ctx.new_page()
+        page.on('console', lambda m: blocked.append(m.text[:200]) if 'Content Security Policy' in m.text and 'gen204' not in m.text else None)
+        await page.goto(BASE + path, wait_until='load')
+        await page.wait_for_timeout(1500)
+        await page.close()
+    await ctx.close()
+    check('pages load under the Content Security Policy', not blocked, '; '.join(blocked[:2]))
+
 
 async def main():
     reset()
@@ -283,6 +299,7 @@ async def main():
         await mob.click('[data-account-button]')
         await mob.screenshot(path=S + 't-mobile-login.png')
 
+        await csp_check(browser)
         for pg in (cust, adm, pub, mob):
             errs = [e for e in pg.errors if 'permission' not in e.lower() and 'Failed to load resource' not in e]
             check('no JS errors on ' + (pg.url.split('/')[-1] or 'index'), not errs, '; '.join(errs[:3]))
