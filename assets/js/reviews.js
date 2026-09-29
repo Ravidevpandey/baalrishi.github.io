@@ -24,8 +24,18 @@ export async function initReviews() {
   const list = section.querySelector('[data-review-list]');
   const summary = section.querySelector('[data-rating-summary]');
   const services = siteData().services || [];
-  section.querySelector('[data-write-review]').addEventListener('click', async () => {
+  let reviews = [];
+  let filter = 0;
+  const write = async () => {
     if (await openReviewForm()) load();
+  };
+  section.querySelector('[data-write-review]').addEventListener('click', write);
+  summary.querySelectorAll('[data-bar] button').forEach(button => {
+    button.addEventListener('click', () => {
+      const value = Number(button.closest('[data-bar]').dataset.bar);
+      filter = filter === value ? 0 : value;
+      renderList();
+    });
   });
 
   async function load() {
@@ -36,38 +46,54 @@ export async function initReviews() {
     try {
       const { db, F } = await getFirebase();
       const snap = await F.getDocs(F.query(F.collection(db, 'reviews'), F.where('status', '==', 'approved')));
-      const reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
-      renderSummary(reviews);
-      renderList(reviews);
+      renderSummary();
+      renderList();
     } catch {
       list.replaceChildren(el('p', { class: 'review-empty' }, T.err.default));
     }
   }
 
-  function renderSummary(reviews) {
+  function renderSummary() {
     const n = reviews.length;
     const avg = n ? reviews.reduce((sum, r) => sum + r.rating, 0) / n : 0;
     summary.querySelector('[data-avg]').textContent = n ? formatNumber(avg) : '—';
     summary.querySelector('[data-avg-stars]').replaceChildren(stars(avg, false));
-    summary.querySelector('[data-count]').textContent = n === 1 ? T.basedOnOne : n ? T.basedOn(n) : T.noReviews;
+    summary.querySelector('[data-count]').textContent = n === 1 ? T.basedOnOne : n ? T.basedOn(n) : T.noRatings;
     summary.querySelectorAll('[data-bar]').forEach(row => {
       const value = Number(row.dataset.bar);
       const count = reviews.filter(r => r.rating === value).length;
       row.querySelector('i').style.width = n ? `${(count / n) * 100}%` : '0';
       row.querySelector('output').textContent = count;
+      row.querySelector('button').disabled = count === 0;
     });
   }
 
-  function renderList(reviews) {
+  function renderList() {
+    summary.querySelectorAll('[data-bar]').forEach(row => {
+      row.querySelector('button').setAttribute('aria-pressed', String(Number(row.dataset.bar) === filter));
+    });
     if (!reviews.length) {
-      list.replaceChildren(el('p', { class: 'review-empty' }, T.noReviews));
+      list.replaceChildren(el('div', { class: 'review-empty first' },
+        stars(5, false),
+        el('strong', {}, T.firstTitle),
+        el('p', {}, T.noReviews),
+        el('button', { type: 'button', class: 'button primary', onclick: write }, T.firstReview)));
+      return;
+    }
+    const shownReviews = filter ? reviews.filter(r => r.rating === filter) : reviews;
+    const bar = filter && el('div', { class: 'filter-bar' },
+      el('span', {}, T.filtered(filter)),
+      el('button', { type: 'button', class: 'link-button strong', onclick: () => { filter = 0; renderList(); } }, T.showAll));
+    if (!shownReviews.length) {
+      list.replaceChildren(...[bar, el('p', { class: 'review-empty' }, T.noneForFilter)].filter(Boolean));
       return;
     }
     let shown = PAGE;
     const draw = () => {
-      const more = shown < reviews.length && el('button', { type: 'button', class: 'button outline', onclick: () => { shown += PAGE; draw(); } }, T.showMore);
-      list.replaceChildren(...reviews.slice(0, shown).map(r => reviewCard(r, services)), ...(more ? [more] : []));
+      const more = shown < shownReviews.length && el('button', { type: 'button', class: 'button outline', onclick: () => { shown += PAGE; draw(); } }, T.showMore);
+      list.replaceChildren(...[bar, ...shownReviews.slice(0, shown).map(r => reviewCard(r, services)), more].filter(Boolean));
     };
     draw();
   }

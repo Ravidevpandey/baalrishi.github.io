@@ -2319,3 +2319,69 @@ html[lang=hi] *,:lang(hi) {
     flex:none
   }
 }
+
+/* Clickable rating filter and first-review empty state */
+.rating-bars li {
+  display:block
+}
+.bar-row {
+  width:100%;
+  display:grid;
+  grid-template-columns:30px 1fr 24px;
+  align-items:center;
+  gap:10px;
+  font:inherit;
+  font-size:.78rem;
+  color:var(--muted);
+  background:none;
+  border:0;
+  border-radius:8px;
+  padding:4px 6px;
+  margin:0 -6px;
+  width:calc(100% + 12px);
+  cursor:pointer;
+  text-align:left
+}
+.bar-row:hover:not(:disabled) {
+  background:#f3ecdc
+}
+.bar-row[aria-pressed=true] {
+  background:#f6e6c4;
+  color:var(--ink);
+  font-weight:700
+}
+.bar-row:disabled {
+  cursor:default
+}
+.bar-row output {
+  text-align:right
+}
+.review-empty.first {
+  display:grid;
+  justify-items:center;
+  gap:10px;
+  padding:42px 28px
+}
+.review-empty.first .stars .star {
+  width:26px;
+  height:26px
+}
+.review-empty.first strong {
+  font-family:'Playfair Display','Noto Serif Devanagari',serif;
+  font-size:1.35rem;
+  color:var(--ink)
+}
+.review-empty.first p {
+  max-width:40ch
+}
+.filter-bar {
+  grid-column:1/-1;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:10px 16px;
+  background:#f6efdf;
+  border-radius:10px;
+  font-size:.86rem
+}

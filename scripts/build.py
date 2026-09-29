@@ -213,7 +213,7 @@ for lang,n in [('hi',0),('en',1)]:
  steps=''.join(f'<article><span class="step-num">0{i+1}</span><h3>{a}</h3><p>{b}</p></article>' for i,(a,b) in enumerate(t('steps')))
  faqs=''.join(f'<details><summary>{q}<span aria-hidden="true">{PLUS_ICON}</span></summary><p>{a}</p></details>' for q,a in t('faqs'))
  formcta=f'<a class="button primary" href="{e(form)}" target="_blank" rel="noopener noreferrer">{t("formButton")}</a>' if form else f'<a class="button outline" href="{config["instagramUrl"]}" target="_blank" rel="noopener noreferrer">{t("instaButton")}</a>'
- bars=''.join(f'<li data-bar="{i}"><span>{i}★</span><span class="bar"><i></i></span><output>0</output></li>' for i in range(5,0,-1))
+ bars=''.join(f'<li data-bar="{i}"><button type="button" class="bar-row" aria-pressed="false" disabled><span>{i}★</span><span class="bar"><i></i></span><output>0</output></button></li>' for i in range(5,0,-1))
  page_url=BASE+('' if home=='index.html' else home)
  ld={'@context':'https://schema.org','@graph':[
   {'@type':'Organization','@id':BASE+'#org','name':'Antarodaya','alternateName':'अंतरोदय','url':BASE,'logo':BASE+'assets/brand/icon-512.png','image':BASE+'assets/brand/og-image.png','description':t('metaDesc'),'sameAs':[config['instagramUrl'].split('?')[0]],'areaServed':{'@type':'Country','name':'India'},'knowsLanguage':['hi','en']},
