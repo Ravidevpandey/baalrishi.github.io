@@ -1,5 +1,15 @@
 {
   "firestore": { "rules": "firestore.rules" },
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Antarodaya",
+        "supportEmail": "pandeyravidev2@gmail.com",
+        "authorizedRedirectUris": ["https://antarodaya.in", "https://www.antarodaya.in"]
+      }
+    }
+  },
   "emulators": {
     "auth": { "port": 9099 },
     "firestore": { "port": 8080 },

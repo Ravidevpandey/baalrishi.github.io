@@ -1,14 +1,13 @@
 // Firebase web app settings. Paste the values from:
 // Firebase console → Project settings → General → Your apps → Web app → SDK setup and configuration → Config.
 // These values are public by design; your data is protected by firestore.rules.
-// While apiKey is empty, login and reviews show a friendly "coming soon" message.
 export const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  projectId: '',
-  storageBucket: '',
-  messagingSenderId: '',
-  appId: ''
+  apiKey: 'AIzaSyAUbUYOKopdMg7poHYGujqkqxEC2lmezF4',
+  authDomain: 'antarodaya-in.firebaseapp.com',
+  projectId: 'antarodaya-in',
+  storageBucket: 'antarodaya-in.firebasestorage.app',
+  messagingSenderId: '963565839058',
+  appId: '1:963565839058:web:e9066e667ddc65368f430b'
 };
 
 // Accounts that see the admin panel. Must match the list in firestore.rules,
