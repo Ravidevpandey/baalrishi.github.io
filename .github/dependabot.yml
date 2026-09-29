@@ -1,0 +1,11 @@
+# Keeps the pinned GitHub Actions and test dependencies up to date with weekly pull requests.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: pip
+    directory: /tests
+    schedule:
+      interval: weekly

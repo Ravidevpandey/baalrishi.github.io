@@ -1,0 +1,8 @@
+# Gitleaks configuration: default rules, plus an exception for the Firebase web config,
+# whose apiKey is public by design (data is protected by firestore.rules).
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Firebase web app config is public by design"
+paths = ['''assets/js/firebase-config\.js''']
