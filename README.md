@@ -4,11 +4,15 @@ Responsive static website for GitHub Pages, served at https://antarodaya.in (see
 
 | Page | Hindi | English |
 |---|---|---|
-| Home | `index.html` | `en.html` |
-| Customer account | `account.html` | `account-en.html` |
-| Admin panel | `admin.html` | `admin-en.html` |
+| Home | `hi.html` | `index.html` (default) |
+| Customer account | `account-hi.html` | `account.html` |
+| Admin panel | `admin-hi.html` | `admin.html` |
 
-All pages are generated. Services, disclosures and FAQs work without JavaScript; login and reviews need JavaScript.
+English opens first; the हिं / EN switch in the header changes language. `en.html`, `account-en.html` and `admin-en.html` only redirect old links. All pages are generated. Services, disclosures and FAQs work without JavaScript; login and reviews need JavaScript.
+
+## Services and fees
+
+Five services, each with options and fees, are defined at the top of `scripts/build.py` (`services`). Each option is `(Hindi name, English name, fee, Hindi detail, English detail)`; change a fee there and rebuild. Moon-sign remedies for the "Rashi remedies" section are in `rashis`.
 
 ## Update content
 
@@ -35,7 +39,7 @@ Open http://localhost:8000/?emulator — the site then uses the local emulators 
 
 ## Languages
 
-Hindi and English are complete local pages; the हिं / EN switch sits in the header. The globe button opens Google's Website Translator for other languages (machine translation, may contain errors; no API key used). Website language availability does not imply consultation availability in that language.
+Hindi and English are complete local pages (English is the default); the हिं / EN switch sits in the header. The globe button opens Google's Website Translator for other languages (machine translation, may contain errors; no API key used). Website language availability does not imply consultation availability in that language.
 
 ## Google Form
 
@@ -49,4 +53,4 @@ Review stars from the site's own reviews are deliberately **not** added as `Aggr
 
 ## Assets
 
-Brand assets are in `assets/brand/` (see `assets/IMAGE-NOTES.md`). `assets/baalrishi-portrait.png` is the supplied portrait; `qr.png` is the existing payment QR.
+Brand assets are in `assets/brand/` (see `assets/IMAGE-NOTES.md`). `assets/antarodaya-portrait.png` is the supplied portrait; `qr.png` is the existing payment QR.

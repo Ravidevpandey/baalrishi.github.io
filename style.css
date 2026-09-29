@@ -353,15 +353,15 @@ html[lang=en] .hero h1 em {
   background:#fbead2;
   color:#a2661c
 }
-#marriage .service-symbol {
+#relationships .service-symbol {
   background:#f6dfe1;
   color:#8a2f28
 }
-#love .service-symbol {
+#palm .service-symbol {
   background:#fbe3e0;
   color:#b23a4e
 }
-#santan .service-symbol {
+#family .service-symbol {
   background:#dff0e8;
   color:#146b5e
 }
@@ -2060,4 +2060,262 @@ button.button {
 /* Letter-spacing splits Devanagari conjuncts apart, so Hindi text keeps natural spacing. */
 html[lang=hi] *,:lang(hi) {
   letter-spacing:0!important
+}
+
+/* Brand meaning popover */
+.brand-wrap {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  position:relative
+}
+.brand-meaning summary {
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  min-height:0;
+  padding:0;
+  border-radius:50%;
+  border:1px solid #e6cfa8;
+  background:#fff6e4;
+  color:var(--gold);
+  font-size:.9rem;
+  cursor:pointer;
+  transition:transform .2s,background .2s
+}
+.brand-meaning summary:hover,.brand-meaning[open] summary {
+  background:#fde9c2;
+  transform:rotate(45deg)
+}
+.meaning-pop {
+  position:absolute;
+  left:0;
+  top:calc(100% + 12px);
+  width:min(360px,calc(100vw - 32px));
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  z-index:40;
+  display:grid;
+  gap:10px
+}
+.meaning-pop img {
+  width:56px;
+  height:56px
+}
+.meaning-pop strong {
+  font-family:'Playfair Display','Noto Serif Devanagari',serif;
+  font-size:1.3rem;
+  font-weight:600
+}
+.meaning-pop p {
+  font-size:.88rem;
+  line-height:1.65
+}
+.meaning-pop p:first-of-type {
+  color:var(--ink);
+  font-size:.95rem
+}
+.meaning-pop p strong {
+  font-family:inherit;
+  font-size:inherit;
+  color:var(--gold)
+}
+
+/* Service options */
+.fee small {
+  font-size:.8rem;
+  font-weight:500;
+  color:var(--muted)
+}
+.options-title {
+  font-size:.74rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin:18px 0 6px
+}
+.option-list {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid
+}
+.option-list li {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+  padding:8px 0;
+  border-bottom:1px dashed #e4dccb;
+  font-size:.86rem;
+  line-height:1.45
+}
+.option-list li:last-child {
+  border-bottom:0
+}
+.option-list b {
+  flex:none;
+  font-weight:700;
+  color:var(--green);
+  background:#f3eee1;
+  border-radius:999px;
+  padding:1px 10px;
+  font-size:.82rem
+}
+.service-card>.fee-note {
+  margin-top:10px
+}
+.option-detail {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:10px
+}
+.option-detail li {
+  display:grid;
+  gap:2px;
+  font-size:.84rem;
+  line-height:1.55;
+  color:var(--muted)
+}
+.option-detail strong {
+  color:var(--ink);
+  font-size:.86rem
+}
+.service-card>p {
+  min-height:0
+}
+
+/* Rashi remedies */
+.rashi-grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px
+}
+.rashi-card {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+  display:grid;
+  gap:6px;
+  align-content:start;
+  transition:transform .2s,box-shadow .2s
+}
+.rashi-card:hover {
+  transform:translateY(-3px);
+  box-shadow:var(--shadow)
+}
+.rashi-glyph {
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:1.5rem;
+  color:#a2661c;
+  background:linear-gradient(135deg,#fff3d6,#fbe0c0);
+  box-shadow:inset 0 0 0 1.5px #e3b877;
+  font-family:'Noto Sans Symbols 2','Segoe UI Symbol','DejaVu Sans',sans-serif
+}
+.rashi-card h3 {
+  font-size:1.12rem;
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  margin-top:6px
+}
+.rashi-card h3 small {
+  font-size:.78rem;
+  font-weight:500;
+  color:var(--muted)
+}
+.rashi-card p {
+  font-size:.84rem;
+  line-height:1.6
+}
+.rashi-meta {
+  color:var(--gold)!important;
+  font-weight:600;
+  font-size:.78rem!important
+}
+.rashi-mantra {
+  color:var(--maroon)!important;
+  font-family:'Noto Serif Devanagari',serif
+}
+.rashi-mantra span {
+  font-family:'DM Sans','Noto Sans Devanagari',sans-serif;
+  color:var(--muted);
+  font-size:.76rem
+}
+.rashi-foot {
+  margin-top:24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap
+}
+.rashi-foot .small-note {
+  max-width:640px;
+  font-size:.8rem
+}
+@media(max-width:1050px) {
+  .rashi-grid {
+    grid-template-columns:repeat(3,minmax(0,1fr))
+  }
+}
+@media(max-width:800px) {
+  .brand-wrap {
+    flex:1
+  }
+  .brand-wrap .brand {
+    flex:none
+  }
+  .rashi-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))
+  }
+}
+@media(max-width:580px) {
+  .rashi-grid {
+    gap:10px
+  }
+  .rashi-card {
+    padding:15px
+  }
+  .brand-meaning summary {
+    width:24px;
+    height:24px;
+    font-size:.75rem
+  }
+}
+.service-symbol svg {
+  width:30px;
+  height:30px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round
+}
+@media(max-width:580px) {
+  .brand-wrap,.brand-wrap .brand,.brand-wrap .brand>span {
+    min-width:0
+  }
+  .brand-wrap .brand {
+    flex:0 1 auto
+  }
+  .brand-wrap .brand small {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis
+  }
+  .brand-meaning {
+    flex:none
+  }
 }

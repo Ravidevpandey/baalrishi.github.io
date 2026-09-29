@@ -8,9 +8,9 @@ document.querySelectorAll('.lang-switch a').forEach(link => {
     if (window.location.hash) link.hash = window.location.hash;
   });
 });
-// Close the "more languages" popover when clicking elsewhere.
+// Close header popovers (brand meaning, more languages) when clicking elsewhere.
 document.addEventListener('click', event => {
-  document.querySelectorAll('details.more-langs[open]').forEach(d => {
+  document.querySelectorAll('details.more-langs[open], details.brand-meaning[open]').forEach(d => {
     if (!d.contains(event.target)) d.open = false;
   });
 });
