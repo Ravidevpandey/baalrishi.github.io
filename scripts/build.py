@@ -85,6 +85,32 @@ rashis = [
 ('♑︎','मकर','Capricorn','शनि','Saturn','शनिवार','Saturday','ॐ शं शनैश्चराय नमः','शनिवार को पीपल के नीचे सरसों के तेल का दीपक जलाएँ और ज़रूरतमंदों की मदद करें।','Light a mustard-oil lamp under a peepal tree on Saturdays and help those in need.'),
 ('♒︎','कुंभ','Aquarius','शनि','Saturn','शनिवार','Saturday','ॐ शं शनैश्चराय नमः','शनिवार को काले तिल का दान करें और श्रमिकों के प्रति दयालु रहें।','Donate black sesame on Saturdays and be kind to workers.'),
 ('♓︎','मीन','Pisces','गुरु','Jupiter','गुरुवार','Thursday','ॐ बृं बृहस्पतये नमः','गुरुवार को केले के वृक्ष की पूजा करें और धार्मिक पुस्तकों का दान करें।','Worship a banana tree on Thursdays and donate spiritual books.')]
+# Privacy notice (Digital Personal Data Protection Act, 2023). Each section: (heading, [paragraphs]).
+PRIVACY_UPDATED=['29 सितंबर 2026','29 September 2026']
+CONTACT_EMAIL='pandeyravidev2@gmail.com'
+privacy=[
+[('हम कौन हैं','Antarodaya / अंतरोदय (antarodaya.in) पारंपरिक ज्योतिष और आध्यात्मिक परामर्श की सेवा है। इस नीति में बताया गया है कि वेबसाइट पर लॉगिन, अनुभव (रिव्यू) और परामर्श के लिए आपकी कौन-सी जानकारी ली जाती है और उसका उपयोग कैसे होता है।'),
+ ('हम कौन-सी जानकारी लेते हैं','• खाता: आपका नाम, ईमेल और (Google से लॉगिन करने पर) प्रोफ़ाइल फोटो।<br>• अनुभव: आपकी रेटिंग, लिखा हुआ अनुभव, चुनी गई सेवा और दिखने वाला नाम।<br>• परामर्श: फॉर्म या Instagram पर आप जो विवरण भेजते हैं, जैसे जन्म तिथि, समय, स्थान, हथेली की फोटो और आपका प्रश्न।<br>हम भुगतान कार्ड, UPI PIN, OTP या बैंक पासवर्ड कभी नहीं लेते।'),
+ ('उपयोग का उद्देश्य','लॉगिन करवाना, आपका अनुभव दिखाना और उसका उत्तर देना, परामर्श देना और आपसे संपर्क करना। हम आपकी जानकारी बेचते नहीं हैं और विज्ञापन के लिए उपयोग नहीं करते।'),
+ ('सहमति','लॉगिन करके और अनुभव भेजते समय सहमति का बॉक्स चुनकर आप इस नीति के अनुसार जानकारी के उपयोग की सहमति देते हैं। आप कभी भी सहमति वापस ले सकते हैं: अपना अनुभव या पूरा खाता हटा दें।'),
+ ('जानकारी कहाँ रखी जाती है','लॉगिन और अनुभव Google Firebase पर भारत (मुंबई, asia-south1) में रखे जाते हैं। परामर्श फॉर्म Google Forms पर, संदेश Instagram पर और वेबसाइट GitHub Pages पर होस्ट है। इन सेवाओं पर उनकी अपनी गोपनीयता नीतियाँ भी लागू होती हैं।'),
+ ('कितने समय तक','प्रकाशित अनुभव वेबसाइट पर तब तक रहते हैं जब तक आप उन्हें हटा नहीं देते। जो अनुभव प्रकाशित नहीं हुए या छिपा दिए गए, वे 30 दिन बाद अपने आप मिट जाते हैं। जिस प्रोफ़ाइल से 30 दिन तक लॉगिन नहीं हुआ, वह भी अपने आप मिट जाती है। परामर्श के लिए भेजा गया विवरण परामर्श पूरा होने के बाद ज़रूरत न रहने पर हटा दिया जाता है।'),
+ ('आपके अधिकार','आप अपनी जानकारी देख, सुधार और हटा सकते हैं। "मेरा खाता" पेज पर अपना नाम बदलें, अपना अनुभव बदलें या हटाएँ, या "मेरा खाता हटाएँ" दबाकर खाता और सभी अनुभव तुरंत मिटा दें। किसी और मदद के लिए नीचे दिए ईमेल पर लिखें।'),
+ ('बच्चे','खाता और अनुभव 18 वर्ष या उससे अधिक आयु के व्यक्तियों के लिए है। बच्चे से जुड़ी सेवा (जैसे बाल कुंडली या नामाक्षर) माता-पिता या अभिभावक ही लें।'),
+ ('सुरक्षा','डेटा HTTPS से भेजा जाता है। सर्वर पर लगे नियमों के कारण हर व्यक्ति केवल अपना डेटा देख सकता है; केवल एडमिन अनुभव प्रकाशित कर सकता है। लॉगिन बनाए रखने के लिए आपके ब्राउज़र में Firebase की जानकारी सेव रहती है; हम विज्ञापन या ट्रैकिंग कुकीज़ का उपयोग नहीं करते।'),
+ ('शिकायत एवं संपर्क',f'गोपनीयता से जुड़ी किसी भी शिकायत या अनुरोध के लिए ईमेल करें: {CONTACT_EMAIL}। हम 30 दिनों के भीतर उत्तर देने का प्रयास करते हैं।'),
+ ('बदलाव','इस नीति में बदलाव होने पर नई तारीख के साथ यहीं अपडेट किया जाएगा।')],
+[('Who we are','Antarodaya (antarodaya.in) offers traditional astrology and spiritual guidance. This notice explains what personal data we collect for login, reviews and consultations, and how we use it.'),
+ ('What we collect','• Account: your name, email and, if you sign in with Google, your profile photo.<br>• Reviews: your rating, what you write, the service you chose and the name you want shown.<br>• Consultations: what you send through the form or Instagram, such as birth date, time and place, palm photos and your question.<br>We never ask for card details, UPI PIN, OTP or bank passwords.'),
+ ('Why we use it','To let you log in, show and reply to your review, provide your consultation and contact you. We do not sell your data or use it for advertising.'),
+ ('Consent','By logging in, and by ticking the consent box when you submit a review, you agree to this use of your data. You can withdraw consent at any time by deleting your review or your whole account.'),
+ ('Where it is stored','Login and review data are stored with Google Firebase in India (Mumbai, asia-south1). The consultation form uses Google Forms, messages use Instagram, and the website is hosted on GitHub Pages. Their own privacy policies also apply.'),
+ ('How long we keep it','Published reviews stay on the website until you delete them. Reviews that are not published, or are hidden, are deleted automatically after 30 days. A profile with no login for 30 days is also deleted automatically. Consultation details are deleted once they are no longer needed after your consultation.'),
+ ('Your rights','You can see, correct and delete your data. On the My account page you can change your name, edit or delete a review, or press "Delete my account" to erase your account and all your reviews at once. For anything else, email us at the address below.'),
+ ('Children','Accounts and reviews are for people aged 18 or over. Services about a child (such as a child’s kundli or baby name letters) should be requested by a parent or guardian.'),
+ ('Security','Data travels over HTTPS. Server-side rules let each person see only their own data, and only the admin can publish reviews. Firebase keeps you signed in using storage in your browser; we do not use advertising or tracking cookies.'),
+ ('Grievances and contact',f'For any privacy request or complaint, email {CONTACT_EMAIL}. We aim to reply within 30 days.'),
+ ('Changes','If this notice changes, the new version will be posted here with a new date.')]]
 texts = {
 'nav':[['सेवाएँ','राशि उपाय','प्रक्रिया','हमारे बारे में','अनुभव','संपर्क'],['Services','Rashi remedies','How it works','About','Reviews','Contact']],
 'brand':['पारंपरिक ज्ञान • सहज मार्गदर्शन','Traditional wisdom • Thoughtful guidance'],
@@ -160,6 +186,8 @@ texts = {
 'accountTitle':['मेरा खाता','My account'],
 'adminTitle':['एडमिन पैनल','Admin panel'],
 'login':['लॉगिन','Log in'],
+'privacyTitle':['गोपनीयता नीति','Privacy policy'],
+'privacyUpdated':['अंतिम अपडेट','Last updated'],
 'skip':['सीधे सामग्री पर जाएँ','Skip to content'],
 'footer':['आस्था के साथ, विवेक भी।','A place for faith. A space for reflection.']
 }
@@ -177,14 +205,14 @@ GLOBE_ICON='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="curr
 USER_ICON='<span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.4 0-8 2.3-8 5.2V21h16v-1.8c0-2.9-3.6-5.2-8-5.2Z"/></svg></span>'
 # Each page kind in Hindi (n=0) and English (n=1).
 # English is the default (index.html); Hindi pages carry a -hi / hi prefix.
-FILES={'home':['hi.html','index.html'],'account':['account-hi.html','account.html'],'admin':['admin-hi.html','admin.html']}
+FILES={'home':['hi.html','index.html'],'account':['account-hi.html','account.html'],'admin':['admin-hi.html','admin.html'],'privacy':['privacy-hi.html','privacy.html']}
 def rupees(n):
  return '₹'+f'{n:,}'
 for lang,n in [('hi',0),('en',1)]:
  def t(key): return texts[key][n]
  brand=BRAND[n]
  home=FILES['home'][n]
- site_data={'lang':lang,'homeUrl':home,'accountUrl':FILES['account'][n],'adminUrl':FILES['admin'][n],'instagramUrl':config['instagramUrl'],'formUrl':form,
+ site_data={'lang':lang,'homeUrl':home,'accountUrl':FILES['account'][n],'privacyUrl':FILES['privacy'][n],'adminUrl':FILES['admin'][n],'instagramUrl':config['instagramUrl'],'formUrl':form,
   'services':[{'id':s[0],'title':s[3][n]} for s in services]}
  site_json=json.dumps(site_data,ensure_ascii=False).replace('</','<\\/')
  def header(kind):
@@ -193,12 +221,12 @@ for lang,n in [('hi',0),('en',1)]:
   hi_file,en_file=FILES[kind]
   translate=f'<details class="more-langs"><summary aria-label="{t("langTitle")}" title="{t("langTitle")}">{GLOBE_ICON}</summary><div class="lang-pop"><strong>{t("langTitle")}</strong><div id="google_translate_element" class="google-translate-widget"></div><small>{t("langText")}</small></div></details>' if kind=='home' else ''
   return f'''<header class="site-header"><div class="container header-inner"><div class="brand-wrap"><a href="{prefix}#home" class="brand" aria-label="{brand}"><img class="brand-logo" src="assets/brand/logo-mark.svg" width="52" height="52" alt=""><span><strong>{brand}</strong><small>{t('brand')}</small></span></a><details class="brand-meaning"><summary title="{t('meaningLabel')}"><span aria-hidden="true">✦</span><span class="sr-only">{t('meaningLabel')}</span></summary><div class="meaning-pop"><img src="assets/brand/logo-mark.svg" width="56" height="56" alt=""><strong>{t('meaningLabel')}</strong>{''.join(f'<p>{x}</p>' for x in t('meaning'))}<a class="text-link" href="{prefix}#services">{t('explore')}</a></div></details></div><nav aria-label="{'मुख्य नेविगेशन' if n==0 else 'Main navigation'}">{nav}</nav><div class="header-tools"><div class="lang-switch" role="group" aria-label="Language / भाषा"><a href="{hi_file}" lang="hi" hreflang="hi" {'aria-current="page"' if n==0 else ''}>हिं<span class="sr-only">दी</span></a><a href="{en_file}" lang="en" hreflang="en" {'aria-current="page"' if n==1 else ''}>EN</a></div>{translate}<div class="account-wrap"><a class="account-btn" href="{FILES['account'][n]}" data-account-button>{USER_ICON}<span class="account-label">{t('login')}</span></a></div></div></div></header>'''
- footer=f'''<footer><div class="container footer-inner"><div class="brand"><img class="brand-logo" src="assets/brand/logo-mark.svg" width="44" height="44" alt=""><span><strong>{brand}</strong><small>{t('footer')}</small></span></div><nav class="footer-links" aria-label="Footer"><a href="{home}#services">{t('nav')[0]}</a><a href="{home}#rashi">{t('nav')[1]}</a><a href="{home}#reviews">{t('nav')[4]}</a><a href="{FILES['account'][n]}">{t('accountTitle')}</a><a href="{config['instagramUrl']}" target="_blank" rel="noopener noreferrer">Instagram</a></nav><p>© <span id="year">2026</span> {brand} · antarodaya.in</p></div></footer>'''
+ footer=f'''<footer><div class="container footer-inner"><div class="brand"><img class="brand-logo" src="assets/brand/logo-mark.svg" width="44" height="44" alt=""><span><strong>{brand}</strong><small>{t('footer')}</small></span></div><nav class="footer-links" aria-label="Footer"><a href="{home}#services">{t('nav')[0]}</a><a href="{home}#rashi">{t('nav')[1]}</a><a href="{home}#reviews">{t('nav')[4]}</a><a href="{FILES['account'][n]}">{t('accountTitle')}</a><a href="{FILES['privacy'][n]}">{t('privacyTitle')}</a><a href="{config['instagramUrl']}" target="_blank" rel="noopener noreferrer">Instagram</a></nav><p>© <span id="year">2026</span> {brand} · antarodaya.in</p></div></footer>'''
  def head(kind,title,desc,extra=''):
   hi_file,en_file=FILES[kind]
   me=FILES[kind][n]
   url=BASE+('' if me=='index.html' else me)
-  robots='<meta name="robots" content="noindex,nofollow">' if kind!='home' else ''
+  robots='<meta name="robots" content="noindex,nofollow">' if kind in ('account','admin') else ''
   return f'''<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#183d35"><title>{title}</title><meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{url}"><link rel="alternate" hreflang="hi" href="{BASE+('' if hi_file=='index.html' else hi_file)}"><link rel="alternate" hreflang="en" href="{BASE+en_file}"><link rel="alternate" hreflang="x-default" href="{BASE+('' if en_file=='index.html' else en_file)}"><meta property="og:site_name" content="Antarodaya | अंतरोदय"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:locale" content="{'hi_IN' if n==0 else 'en_IN'}"><meta property="og:image" content="{BASE}assets/brand/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:url" content="{url}"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="assets/brand/icon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><script src="app.js" defer></script><script type="module" src="assets/js/main.js"></script>{extra}</head>'''
  # ---- Home page ----
@@ -253,10 +281,18 @@ for lang,n in [('hi',0),('en',1)]:
 <script type="application/json" id="site-data">{site_json}</script>
 </body></html>'''
   (ROOT/FILES[kind][n]).write_text(page.replace('><', '>\n<') + '\n')
+ sections=''.join(f'<section><h2>{h}</h2><p>{body}</p></section>' for h,body in privacy[n])
+ page=head('privacy',f"{t('privacyTitle')} | {brand}",t('metaDesc'))+f'''
+<body data-page="privacy"><a class="skip-link" href="#main">{t('skip')}</a>{header('privacy')}
+<main id="main" class="container legal"><p class="eyebrow">{brand}</p><h1>{t('privacyTitle')}</h1><p class="small-note">{t('privacyUpdated')}: {PRIVACY_UPDATED[n]}</p>{sections}</main>
+{footer}
+<script type="application/json" id="site-data">{site_json}</script>
+</body></html>'''
+ (ROOT/FILES['privacy'][n]).write_text(page.replace('><', '>\n<') + '\n')
 (ROOT/'sitemap.xml').write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 '''+''.join(f'''<url><loc>{BASE+loc}</loc><xhtml:link rel="alternate" hreflang="en" href="{BASE}"/><xhtml:link rel="alternate" hreflang="hi" href="{BASE}hi.html"/><xhtml:link rel="alternate" hreflang="x-default" href="{BASE}"/><changefreq>weekly</changefreq><priority>{pr}</priority></url>
-''' for loc,pr in [('','1.0'),('hi.html','0.9')])+'</urlset>\n')
+''' for loc,pr in [('','1.0'),('hi.html','0.9'),('privacy.html','0.3'),('privacy-hi.html','0.3')])+'</urlset>\n')
 # Old addresses from before English became the default: send visitors to the new pages.
 for old,new in [('en.html',''),('account-en.html','account.html'),('admin-en.html','admin.html')]:
  (ROOT/old).write_text(f'<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="{BASE+new}"><meta http-equiv="refresh" content="0;url=./{new}"><title>Antarodaya</title></head><body><a href="./{new}">Antarodaya</a></body></html>\n')

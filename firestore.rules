@@ -18,6 +18,13 @@ service cloud.firestore {
     function isOwner(data) {
       return signedIn() && data.uid == request.auth.uid;
     }
+    // Data is kept for 30 days: every review and profile carries an expireAt about 30 days ahead,
+    // and a Firestore TTL policy (firestore.indexes.json) deletes it after that.
+    function expiresIn30Days(d) {
+      return d.expireAt is timestamp
+        && d.expireAt > request.time + duration.value(29, 'd')
+        && d.expireAt < request.time + duration.value(31, 'd');
+    }
     function validReview(d) {
       return d.rating is int && d.rating >= 1 && d.rating <= 5
         && d.text is string && d.text.size() >= 10 && d.text.size() <= 1000
@@ -31,8 +38,9 @@ service cloud.firestore {
       allow read: if resource.data.status == 'approved' || isOwner(resource.data) || isAdmin();
 
       allow create: if verified()
-        && request.resource.data.keys().hasOnly(['uid', 'name', 'rating', 'text', 'service', 'lang', 'status', 'createdAt'])
-        && request.resource.data.keys().hasAll(['uid', 'name', 'rating', 'text', 'status', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'rating', 'text', 'service', 'lang', 'status', 'createdAt', 'expireAt'])
+        && request.resource.data.keys().hasAll(['uid', 'name', 'rating', 'text', 'status', 'createdAt', 'expireAt'])
+        && expiresIn30Days(request.resource.data)
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.status == 'pending'
         && request.resource.data.createdAt == request.time
@@ -53,14 +61,16 @@ service cloud.firestore {
       allow read: if (signedIn() && request.auth.uid == uid) || isAdmin();
 
       allow create: if signedIn() && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['name', 'email', 'photoURL', 'provider', 'createdAt', 'lastLoginAt'])
+        && request.resource.data.keys().hasOnly(['name', 'email', 'photoURL', 'provider', 'createdAt', 'lastLoginAt', 'expireAt'])
         && request.resource.data.createdAt == request.time
+        && expiresIn30Days(request.resource.data)
         && request.resource.data.email == request.auth.token.email
         && request.resource.data.name is string && request.resource.data.name.size() <= 60
         && request.resource.data.photoURL.matches('^(https://[a-z0-9.-]+[.]googleusercontent[.]com/.*)?$');
 
       allow update: if signedIn() && request.auth.uid == uid
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'email', 'photoURL', 'provider', 'lastLoginAt'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'email', 'photoURL', 'provider', 'lastLoginAt', 'expireAt'])
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['expireAt']) || expiresIn30Days(request.resource.data))
         && request.resource.data.email == request.auth.token.email
         && request.resource.data.name is string && request.resource.data.name.size() <= 60
         && request.resource.data.photoURL.matches('^(https://[a-z0-9.-]+[.]googleusercontent[.]com/.*)?$');

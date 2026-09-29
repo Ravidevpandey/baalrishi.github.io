@@ -33,4 +33,9 @@ export function getFirebase() {
   return ready;
 }
 
+// Unpublished reviews and inactive profiles are deleted 30 days after expireAt is set
+// (Firestore TTL policy). Published reviews have no expireAt and are kept.
+export const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
+export const isLive = doc => !doc.expireAt?.toMillis || doc.expireAt.toMillis() > Date.now();
+
 export const isAdmin = user => Boolean(user && user.emailVerified && adminEmails.includes((user.email || '').toLowerCase()));

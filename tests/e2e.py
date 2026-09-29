@@ -37,6 +37,7 @@ async def new_page(browser, width=1280):
     errors = []
     page.on('pageerror', lambda e: errors.append(str(e)))
     page.on('console', lambda m: errors.append(m.text) if m.type == 'error' and 'translate' not in m.text else None)
+    page.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
     page.errors = errors
     return page
 
@@ -98,10 +99,15 @@ async def main():
         check('after verification the review form opens', True)
         await cust.screenshot(path=S + 't-review-form.png')
 
+        xs = [await cust.locator(f'dialog label[for=rate-{i}]').bounding_box() for i in (1, 5)]
+        check('stars run 1 to 5 from left to right', xs[0]['x'] < xs[1]['x'])
+        await cust.locator('dialog label[for=rate-2]').hover()
+        check('hovering star 2 lights exactly 2 stars', await cust.locator('dialog .star-input label.on').count() == 2)
         await cust.click('dialog button[type=submit]')
         check('validation: rating required', 'रेटिंग' in await cust.locator('dialog .form-error').inner_text())
         await cust.click('dialog label[for=rate-5]')
         check('rating word shown', await cust.locator('dialog .rating-hint').inner_text() == 'उत्कृष्ट')
+        check('choosing 5 lights all 5 stars', await cust.locator('dialog .star-input label.on').count() == 5)
         await cust.fill('dialog textarea', 'बहुत ही शांत और स्पष्ट परामर्श मिला। मेरे सवालों को ध्यान से सुना गया।')
         await cust.select_option('dialog select', 'kundali')
         await cust.click('dialog button[type=submit]')
@@ -127,6 +133,10 @@ async def main():
         check('rules: cannot post as another user', r == 'permission-denied', r)
         r = await rules_probe(cust, "await F.addDoc(F.collection(db,'reviews'),{uid:auth.currentUser.uid,name:'X',rating:9,text:'bad rating value',status:'pending',createdAt:F.serverTimestamp()})")
         check('rules: rating must be 1-5', r == 'permission-denied', r)
+        r = await rules_probe(cust, "await F.addDoc(F.collection(db,'reviews'),{uid:auth.currentUser.uid,name:'X',rating:5,text:'no expiry field here',status:'pending',createdAt:F.serverTimestamp()})")
+        check('rules: review must carry a 30-day expiry', r == 'permission-denied', r)
+        r = await rules_probe(cust, "await F.addDoc(F.collection(db,'reviews'),{uid:auth.currentUser.uid,name:'X',rating:5,text:'expiry a year away',status:'pending',createdAt:F.serverTimestamp(),expireAt:F.Timestamp.fromMillis(Date.now()+365*864e5)})")
+        check('rules: expiry cannot be pushed beyond 30 days', r == 'permission-denied', r)
         r = await rules_probe(cust, "await F.getDocs(F.collection(db,'users'))")
         check('rules: customer cannot list all users', r == 'permission-denied', r)
         r = await rules_probe(cust, "await F.getDocs(F.collection(db,'reviews'))")
@@ -160,6 +170,13 @@ async def main():
         await adm.click('button.success')
         await expect(adm.locator('.stat').nth(1)).to_contain_text('0')
         check('admin reply saved and review published', True)
+        kept = await adm.evaluate("""async()=>{const {getFirebase}=await import('/assets/js/firebase.js');const {db,F}=await getFirebase();
+          const s=await F.getDocs(F.query(F.collection(db,'reviews'),F.where('status','==','approved')));return s.docs.every(d=>!('expireAt' in d.data()))}""")
+        check('published review has no expiry (kept)', kept)
+        await adm.click('.tabs button >> nth=1')
+        await adm.click('button[aria-pressed="false"]:has-text("Feature")')
+        await expect(adm.locator('.chip.featured')).to_be_visible()
+        check('admin can feature a review', True)
         await adm.click('.tabs button >> nth=4')
         await expect(adm.locator('.users-table tbody tr')).to_have_count(2)
         check('admin users tab lists users', True)
@@ -170,6 +187,7 @@ async def main():
         await pub.goto(BASE + 'hi.html?emulator#reviews', wait_until='load')
         await expect(pub.locator('.review-card')).to_have_count(1)
         check('public sees published review', True)
+        check('featured review shows badge', await pub.locator('.review-card.featured .featured-badge').is_visible())
         await pub.click('[data-bar="5"] button')
         await expect(pub.locator('.filter-bar')).to_be_visible()
         check('5-star filter shows matching reviews', await pub.locator('.review-card').count() == 1)
@@ -192,6 +210,16 @@ async def main():
         await expect(cust.locator('.my-reviews .chip')).to_have_text('जाँच में')
         check('edited review returns to pending', True)
         await cust.screenshot(path=S + 't-account.png', full_page=True)
+
+        await cust.click('button:has-text("मेरा खाता हटाएँ")')
+        await expect(cust.locator('.toast')).to_contain_text('हटा दिए गए')
+        gone = await cust.evaluate("""async()=>{const {getFirebase}=await import('/assets/js/firebase.js');const {auth}=await getFirebase();return auth.currentUser===null}""")
+        check('customer can delete own account', gone)
+        await adm.goto(BASE + 'admin.html', wait_until='load')
+        await expect(adm.locator('.stat').nth(0)).to_contain_text('0')
+        check('deleting account removes its reviews and profile', '1' in await adm.locator('.stat').nth(3).inner_text())
+        await pub.goto(BASE + 'privacy-hi.html', wait_until='load')
+        check('privacy policy page renders', await pub.locator('h1').inner_text() == 'गोपनीयता नीति')
 
         # mobile screenshots
         mob = await new_page(browser, 390)

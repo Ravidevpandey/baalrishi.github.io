@@ -1,5 +1,5 @@
 // Login dialog, header account menu and customer profile record.
-import { configured, getFirebase, isAdmin } from './firebase.js';
+import { configured, getFirebase, isAdmin, RETENTION_MS } from './firebase.js';
 import { T, errorText } from './i18n.js';
 import { el, icon, avatar, modal, toast, siteData } from './ui.js';
 
@@ -44,7 +44,8 @@ async function saveProfile(user) {
     email: user.email,
     photoURL: user.photoURL || '',
     provider: user.providerData[0]?.providerId || 'password',
-    lastLoginAt: F.serverTimestamp()
+    lastLoginAt: F.serverTimestamp(),
+    expireAt: F.Timestamp.fromMillis(Date.now() + RETENTION_MS)
   };
   const snap = await F.getDoc(ref);
   if (snap.exists()) await F.updateDoc(ref, fields);
@@ -126,7 +127,8 @@ export function openLogin(mode = 'login') {
     const google = el('button', { type: 'button', class: 'button google block' }, icon('google'), T.google);
     const body = el('div', { class: 'modal-body auth' },
       intro, google, el('div', { class: 'divider' }, el('span', {}, T.or)), form,
-      el('div', { class: 'auth-foot' }, forgot, el('p', {}, switchText, ' ', switchButton)));
+      el('div', { class: 'auth-foot' }, forgot, el('p', {}, switchText, ' ', switchButton)),
+      el('p', { class: 'legal-note' }, T.agreePrefix, ' ', el('a', { href: siteData().privacyUrl || 'privacy.html' }, T.privacyPolicy)));
     const dialog = modal(T.loginTitle, body);
     dialog.addEventListener('close', () => finish(currentUser));
 

@@ -1,5 +1,5 @@
 // Write / edit review dialog, shared by the home page and the account page.
-import { getFirebase } from './firebase.js';
+import { getFirebase, RETENTION_MS } from './firebase.js';
 import { lang, T, errorText } from './i18n.js';
 import { el, icon, modal, toast, siteData } from './ui.js';
 import { requireUser, resendVerification, refreshUser } from './auth-ui.js';
@@ -36,8 +36,17 @@ export async function openReviewForm(existing = null) {
       const id = `rate-${i}`;
       starInputs.append(
         el('input', { type: 'radio', name: 'rating', value: i, id, checked: existing?.rating === i }),
-        el('label', { for: id, title: T.ratingWords[i - 1] }, icon('star'), el('span', { class: 'sr-only' }, `${i} – ${T.ratingWords[i - 1]}`)));
+        el('label', { for: id, title: T.ratingWords[i - 1], 'data-value': i }, icon('star'), el('span', { class: 'sr-only' }, `${i} – ${T.ratingWords[i - 1]}`)));
     }
+    // Stars 1..N light up for the hovered or chosen rating (left to right = 1 to 5).
+    const paint = value => starInputs.querySelectorAll('label').forEach(label => {
+      label.classList.toggle('on', Number(label.dataset.value) <= value);
+    });
+    starInputs.addEventListener('mouseover', event => {
+      const label = event.target.closest('label');
+      if (label) paint(Number(label.dataset.value));
+    });
+    starInputs.addEventListener('mouseleave', () => paint(Number(starInputs.querySelector('input:checked')?.value || 0)));
     const count = el('small', { class: 'char-count' });
     const textarea = el('textarea', { name: 'text', rows: 5, maxlength: 1000, minlength: 10, required: true, placeholder: T.reviewPlaceholder });
     textarea.value = existing?.text || '';
@@ -60,6 +69,7 @@ export async function openReviewForm(existing = null) {
     const updateHint = () => {
       const value = Number(form.rating.value || 0);
       ratingHint.textContent = value ? T.ratingWords[value - 1] : '';
+      paint(value);
     };
     const updateCount = () => { count.textContent = `${textarea.value.length}/1000`; };
     starInputs.addEventListener('change', updateHint);
@@ -90,7 +100,7 @@ export async function openReviewForm(existing = null) {
         if (existing) {
           await F.updateDoc(F.doc(db, 'reviews', existing.id), { ...data, updatedAt: F.serverTimestamp() });
         } else {
-          await F.addDoc(F.collection(db, 'reviews'), { ...data, uid: user.uid, lang, createdAt: F.serverTimestamp() });
+          await F.addDoc(F.collection(db, 'reviews'), { ...data, uid: user.uid, lang, createdAt: F.serverTimestamp(), expireAt: F.Timestamp.fromMillis(Date.now() + RETENTION_MS) });
         }
         saved = true;
         toast(T.submitted);

@@ -1,14 +1,20 @@
 // Public "experiences" section on the home page: rating summary and published reviews.
-import { configured, getFirebase } from './firebase.js';
+import { configured, getFirebase, isLive } from './firebase.js';
 import { T } from './i18n.js';
 import { el, stars, avatar, formatDate, formatNumber, siteData } from './ui.js';
 import { openReviewForm } from './review-form.js';
 
 const PAGE = 6;
 
+// Best first: featured, then more stars, then newest.
+export const bestFirst = (a, b) => (Number(Boolean(b.featured)) - Number(Boolean(a.featured)))
+  || (b.rating - a.rating)
+  || ((b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+
 export function reviewCard(review, services) {
   const service = services.find(s => s.id === review.service);
-  return el('article', { class: 'review-card' },
+  return el('article', { class: `review-card${review.featured ? ' featured' : ''}` },
+    review.featured && el('span', { class: 'featured-badge' }, `★ ${T.featured}`),
     el('header', {},
       avatar(review.name),
       el('div', {}, el('strong', {}, review.name), el('small', {}, [formatDate(review.createdAt), service && ` · ${service.title}`].filter(Boolean).join(''))),
@@ -46,8 +52,7 @@ export async function initReviews() {
     try {
       const { db, F } = await getFirebase();
       const snap = await F.getDocs(F.query(F.collection(db, 'reviews'), F.where('status', '==', 'approved')));
-      reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-        .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+      reviews = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(isLive).sort(bestFirst);
       renderSummary();
       renderList();
     } catch {

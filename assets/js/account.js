@@ -1,5 +1,5 @@
 // Customer account page: profile, quick actions and the customer's own reviews with replies.
-import { configured, getFirebase } from './firebase.js';
+import { configured, getFirebase, isLive } from './firebase.js';
 import { T, errorText } from './i18n.js';
 import { el, stars, avatar, formatDate, toast, siteData } from './ui.js';
 import { onUser, openLogin, logout, updateDisplayName, resendVerification, refreshUser } from './auth-ui.js';
@@ -34,7 +34,10 @@ export function initAccount() {
         el('dt', {}, T.verification), el('dd', {}, el('span', { class: `chip ${user.emailVerified ? 'approved' : 'pending'}` }, user.emailVerified ? T.emailVerified : T.emailNotVerified))),
       el('div', { class: 'button-row' },
         el('button', { class: 'button primary', type: 'submit' }, T.save),
-        el('button', { class: 'button outline', type: 'button', onclick: logout }, T.logout)));
+        el('button', { class: 'button outline', type: 'button', onclick: logout }, T.logout)),
+      el('div', { class: 'danger-zone' },
+        el('p', { class: 'small-note' }, T.deleteAccountHelp, ' ', el('a', { href: data.privacyUrl }, T.privacyPolicy)),
+        el('button', { class: 'button danger small', type: 'button', onclick: deleteAccount }, T.deleteAccount)));
     profileForm.addEventListener('submit', async event => {
       event.preventDefault();
       const value = nameInput.value.trim();
@@ -46,6 +49,27 @@ export function initAccount() {
         toast(errorText(err), 'error');
       }
     });
+
+    // Erases the customer's reviews, profile and login account (right to erasure).
+    async function deleteAccount() {
+      if (!confirm(T.confirmDeleteAccount)) return;
+      try {
+        const { auth, db, A, F } = await getFirebase();
+        const snap = await F.getDocs(F.query(F.collection(db, 'reviews'), F.where('uid', '==', user.uid)));
+        await Promise.all(snap.docs.map(d => F.deleteDoc(d.ref)));
+        await F.deleteDoc(F.doc(db, 'users', user.uid));
+        await A.deleteUser(auth.currentUser);
+        toast(T.accountDeleted);
+      } catch (err) {
+        if (err.code === 'auth/requires-recent-login') {
+          toast(T.reloginToDelete, 'error');
+          await logout();
+          openLogin();
+        } else {
+          toast(errorText(err), 'error');
+        }
+      }
+    }
 
     const verifyBanner = !user.emailVerified && el('div', { class: 'banner' },
       el('p', {}, T.verifyNeeded),
@@ -79,7 +103,7 @@ export function initAccount() {
       try {
         const { db, F } = await getFirebase();
         const snap = await F.getDocs(F.query(F.collection(db, 'reviews'), F.where('uid', '==', u.uid)));
-        const mine = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        const mine = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(isLive)
           .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
         if (!mine.length) {
           reviewsBox.replaceChildren(el('p', { class: 'review-empty' }, T.noMyReviews));
@@ -92,7 +116,7 @@ export function initAccount() {
             el('span', { class: `chip ${r.status}`, title: T.statusHelp[r.status] }, T.status[r.status] || r.status),
             el('small', {}, [formatDate(r.createdAt), services.find(s => s.id === r.service)?.title].filter(Boolean).join(' · '))),
           el('p', { class: 'review-text' }, r.text),
-          el('p', { class: 'small-note' }, T.statusHelp[r.status] || ''),
+          el('p', { class: 'small-note' }, T.statusHelp[r.status] || '', r.status !== 'approved' && r.expireAt ? ` ${T.expiresOn(formatDate(r.expireAt))}` : ''),
           r.reply?.text && el('div', { class: 'review-reply' }, el('strong', {}, T.replyFrom), el('p', {}, r.reply.text)),
           el('div', { class: 'button-row' },
             el('button', { type: 'button', class: 'button outline small', onclick: async () => { if (await openReviewForm(r)) loadMine(u); } }, T.edit),

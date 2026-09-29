@@ -1,5 +1,5 @@
 // Admin panel: moderate reviews, reply to customers and view registered users.
-import { configured, getFirebase, isAdmin } from './firebase.js';
+import { configured, getFirebase, isAdmin, isLive, RETENTION_MS } from './firebase.js';
 import { T, errorText } from './i18n.js';
 import { el, stars, avatar, formatDate, formatNumber, toast, siteData } from './ui.js';
 import { onUser, openLogin } from './auth-ui.js';
@@ -34,8 +34,8 @@ export function initAdmin() {
         F.getDocs(F.collection(db, 'users'))
       ]);
       const byTime = (a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0);
-      reviews = r.docs.map(d => ({ id: d.id, ...d.data() })).sort(byTime);
-      users = u.docs.map(d => ({ id: d.id, ...d.data() })).sort(byTime);
+      reviews = r.docs.map(d => ({ id: d.id, ...d.data() })).filter(isLive).sort(byTime);
+      users = u.docs.map(d => ({ id: d.id, ...d.data() })).filter(isLive).sort(byTime);
       render();
     } catch (err) {
       root.replaceChildren(el('p', { class: 'review-empty' }, errorText(err)));
@@ -68,7 +68,7 @@ export function initAdmin() {
     root.replaceChildren(
       el('section', { class: 'account-hero' },
         el('img', { src: 'assets/brand/logo-mark.svg', width: 64, height: 64, alt: '' }),
-        el('div', {}, el('p', { class: 'eyebrow' }, T.brand), el('h1', {}, T.adminTitle), el('p', {}, T.adminIntro))),
+        el('div', {}, el('p', { class: 'eyebrow' }, T.brand), el('h1', {}, T.adminTitle), el('p', {}, T.adminIntro), el('p', { class: 'small-note' }, T.retentionNote))),
       el('div', { class: 'stats' },
         stat(T.statTotal, reviews.length),
         stat(T.statPending, count('pending'), count('pending') > 0),
@@ -116,6 +116,16 @@ export function initAdmin() {
       const { F } = await getFirebase();
       change(r.id, { reply: F.deleteField() }, { reply: null });
     };
+    // Published reviews are kept; unpublished ones expire 30 days from now.
+    const publish = async () => {
+      const { F } = await getFirebase();
+      change(r.id, { status: 'approved', expireAt: F.deleteField() }, { status: 'approved', expireAt: null });
+    };
+    const hide = async () => {
+      const { F } = await getFirebase();
+      const expireAt = F.Timestamp.fromMillis(Date.now() + RETENTION_MS);
+      change(r.id, { status: 'hidden', featured: false, expireAt }, { status: 'hidden', featured: false, expireAt });
+    };
     const removeReview = async () => {
       if (!confirm(T.confirmDelete)) return;
       try {
@@ -134,7 +144,7 @@ export function initAdmin() {
         el('div', {},
           el('strong', {}, r.name),
           el('small', {}, [user?.email, formatDate(r.createdAt), service?.title, r.updatedAt && T.edited].filter(Boolean).join(' · '))),
-        el('div', { class: 'card-meta' }, stars(r.rating), el('span', { class: `chip ${r.status}` }, T.status[r.status] || r.status))),
+        el('div', { class: 'card-meta' }, stars(r.rating), r.featured && el('span', { class: 'chip featured' }, T.featured), el('span', { class: `chip ${r.status}` }, T.status[r.status] || r.status))),
       el('p', { class: 'review-text' }, r.text),
       el('div', { class: 'reply-editor' },
         el('label', {}, el('strong', {}, T.reply), replyBox),
@@ -144,8 +154,9 @@ export function initAdmin() {
         el('button', { type: 'button', class: 'button primary small', onclick: saveReply }, T.saveReply),
         r.reply?.text && el('button', { type: 'button', class: 'button outline small', onclick: removeReply }, T.removeReply),
         el('span', { class: 'spacer' }),
-        r.status !== 'approved' && el('button', { type: 'button', class: 'button success small', onclick: () => change(r.id, { status: 'approved' }) }, T.publish),
-        r.status !== 'hidden' && el('button', { type: 'button', class: 'button outline small', onclick: () => change(r.id, { status: 'hidden' }) }, T.hide),
+        r.status === 'approved' && el('button', { type: 'button', class: `button small ${r.featured ? 'gold' : 'outline'}`, 'aria-pressed': String(Boolean(r.featured)), onclick: () => change(r.id, { featured: !r.featured }) }, r.featured ? T.unfeature : T.feature),
+        r.status !== 'approved' && el('button', { type: 'button', class: 'button success small', onclick: publish }, T.publish),
+        r.status !== 'hidden' && el('button', { type: 'button', class: 'button outline small', onclick: hide }, T.hide),
         el('button', { type: 'button', class: 'button danger small', onclick: removeReview }, T.delete)));
   }
 }
