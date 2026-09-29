@@ -2057,3 +2057,7 @@ button.button {
 .lang-pop .goog-te-gadget-simple a img,.lang-pop .goog-te-gadget-simple a span[style*="border-left"] {
   display:none
 }
+/* Letter-spacing splits Devanagari conjuncts apart, so Hindi text keeps natural spacing. */
+html[lang=hi] *,:lang(hi) {
+  letter-spacing:0!important
+}

@@ -1,4 +1,4 @@
-# Antarodaya (अंत्योदय) website
+# Antarodaya (अंतरोदय) website
 
 Responsive static website for GitHub Pages, served at https://antarodaya.in (see `CNAME`).
 

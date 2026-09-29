@@ -50,7 +50,7 @@ texts = {
 'brand':['पारंपरिक ज्ञान • सहज मार्गदर्शन','Traditional wisdom • Thoughtful guidance'],
 'eyebrow':['आस्था, समझ और आत्मचिंतन','FAITH. REFLECTION. PERSPECTIVE.'],
 'hero':['परंपरा से जुड़ें।<br><em>खुद को समझें।</em>','Rooted in tradition.<br><em>Space to reflect.</em>'],
-'desc':['जीवन के सवालों पर एक ठहराव, एक बातचीत और एक नया दृष्टिकोण। अंत्योदय के साथ पारंपरिक ज्योतिष एवं आध्यात्मिक परामर्श।','A moment to pause. A conversation about what matters. Explore traditional astrology and spiritual guidance with Antarodaya.'],
+'desc':['जीवन के सवालों पर एक ठहराव, एक बातचीत और एक नया दृष्टिकोण। अंतरोदय के साथ पारंपरिक ज्योतिष एवं आध्यात्मिक परामर्श।','A moment to pause. A conversation about what matters. Explore traditional astrology and spiritual guidance with Antarodaya.'],
 'book':['परामर्श के लिए संपर्क करें','Enquire about a consultation'],
 'explore':['हमारी सेवाएँ देखें ↗','Explore our services ↗'],
 'heroNote':['आस्था-आधारित मार्गदर्शन · परिणाम की गारंटी नहीं','Faith-based guidance · No guaranteed outcomes'],
@@ -69,11 +69,11 @@ texts = {
 'howTag':['सरल और स्पष्ट','SIMPLE & CONSIDERED'],
 'howTitle':['परामर्श तक, तीन आसान कदम','Your consultation, in three steps'],
 'steps':[[('सेवा चुनें','विवरण पढ़ें और वह सेवा चुनें जो आपके प्रश्न से संबंधित हो।'),('पहले बात करें','फॉर्म या Instagram से संपर्क करें। शुल्क, माध्यम, उपलब्ध समय और रद्द करने की शर्तें पहले तय करें।'),('फिर परामर्श लें','पुष्टि के बाद ही भुगतान करें और तय माध्यम पर परामर्श में शामिल हों।')],[('Explore a service','Read the details and choose the service that relates to your question.'),('Confirm the details','Contact us by form or Instagram. Agree on the fee, format, availability and cancellation terms first.'),('Join your consultation','Pay only after confirmation and join through the agreed consultation format.')]],
-'aboutTag':['अंत्योदय के बारे में','ABOUT ANTARODAYA'],
+'aboutTag':['अंतरोदय के बारे में','ABOUT ANTARODAYA'],
 'aboutTitle':['परंपरा का सम्मान।<br>आपकी समझ को महत्व।','Respect for tradition.<br>Room for your own judgment.'],
-'aboutText':['अंत्योदय पारंपरिक ज्योतिष, कुंडली अध्ययन और आध्यात्मिक अभ्यास से जुड़े विषयों पर परामर्श का स्थान है। हमारा उद्देश्य आपकी जिज्ञासाओं पर संवाद और आत्मचिंतन में सहायता करना है।','Antarodaya is a space for consultation on traditional astrology, birth-chart interpretation and spiritual practice. Our purpose is to support conversation and personal reflection around your questions.'],
+'aboutText':['अंतरोदय पारंपरिक ज्योतिष, कुंडली अध्ययन और आध्यात्मिक अभ्यास से जुड़े विषयों पर परामर्श का स्थान है। हमारा उद्देश्य आपकी जिज्ञासाओं पर संवाद और आत्मचिंतन में सहायता करना है।','Antarodaya is a space for consultation on traditional astrology, birth-chart interpretation and spiritual practice. Our purpose is to support conversation and personal reflection around your questions.'],
 'aboutText2':['आपके निर्णय आपके हैं। किसी भी अभ्यास में भाग लेना स्वैच्छिक है। हम भय, चमत्कार या निश्चित भविष्य के वादे के आधार पर सेवा नहीं देते।','Your decisions remain your own. Every practice is voluntary. Our services are not based on fear, miracles or promises of a certain future.'],
-'illustration':['अंत्योदय — परामर्शदाता का चित्र','Antarodaya — consultant portrait'],
+'illustration':['अंतरोदय — परामर्शदाता का चित्र','Antarodaya — consultant portrait'],
 'paymentTag':['पुष्टि के बाद भुगतान','PAYMENT AFTER CONFIRMATION'],
 'paymentTitle':['पहले जानकारी। फिर भुगतान।','Clarity first. Payment second.'],
 'paymentText':['सेवा, अंतिम शुल्क, परामर्श का समय, माध्यम और रद्द करने या रिफंड की शर्तें पहले संपर्क करके समझ लें। भुगतान मात्र से बुकिंग की पुष्टि नहीं होती।','Contact us first to confirm the service, final fee, consultation time, format and cancellation or refund terms. Payment alone does not confirm a booking.'],
@@ -95,8 +95,8 @@ texts = {
 'notice':['यहां दी गई सेवाएं पारंपरिक मान्यताओं, ज्योतिष और आध्यात्मिक अभ्यास पर आधारित हैं; इन्हें वैज्ञानिक रूप से प्रमाणित भविष्यवाणी न मानें। हम किसी घटना, निश्चित भविष्य, सफलता, विवाह, संतान, रोगमुक्ति, चमत्कार या अन्य परिणाम का दावा या गारंटी नहीं देते। यह चिकित्सा, मानसिक स्वास्थ्य उपचार, कानूनी या वित्तीय सलाह का विकल्प नहीं है। इन विषयों के लिए योग्य पेशेवर से संपर्क करें; निर्धारित उपचार न रोकें। व्यक्तिगत निर्णय अपने विवेक से लें।','These services are based on traditional beliefs, astrology and spiritual practices; they should not be treated as scientifically established predictions. We do not claim or guarantee any event, certain future, success, marriage, children, cure, miracle or other outcome. This is not a substitute for medical care, mental health treatment, legal advice or financial advice. Consult qualified professionals for those matters and do not stop prescribed treatment. Use your own judgment when making decisions.'],
 'langTitle':['दूसरी भाषा में पढ़ें','Read in another language'],
 'langText':['Google द्वारा स्वचालित अनुवाद। इसमें त्रुटियां हो सकती हैं; शुल्क और सेवा की पुष्टि हमसे करें।','Automatic translation by Google. It may contain errors; confirm fees and service details with us.'],
-'metaTitle':['अंत्योदय | ऑनलाइन ज्योतिष परामर्श, कुंडली विश्लेषण एवं आध्यात्मिक मार्गदर्शन','Antarodaya | Astrology Consultation, Kundali Reading & Spiritual Guidance'],
-'metaDesc':['अंत्योदय पर पारंपरिक ज्योतिष परामर्श: जन्म कुंडली विश्लेषण, विवाह मार्गदर्शन, प्रेम एवं संबंध, संतान व परिवार और मंत्र साधना। स्पष्ट शुल्क।','Traditional astrology with Antarodaya: kundali (birth chart) reading, marriage, love & relationship guidance, family questions and mantra meditation. Clear fees.'],
+'metaTitle':['अंतरोदय | ऑनलाइन ज्योतिष परामर्श, कुंडली विश्लेषण एवं आध्यात्मिक मार्गदर्शन','Antarodaya | Astrology Consultation, Kundali Reading & Spiritual Guidance'],
+'metaDesc':['अंतरोदय पर पारंपरिक ज्योतिष परामर्श: जन्म कुंडली विश्लेषण, विवाह मार्गदर्शन, प्रेम एवं संबंध, संतान व परिवार और मंत्र साधना। स्पष्ट शुल्क।','Traditional astrology with Antarodaya: kundali (birth chart) reading, marriage, love & relationship guidance, family questions and mantra meditation. Clear fees.'],
 'reviewsTag':['लोगों के अनुभव','IN THEIR OWN WORDS'],
 'reviewsTitle':['जिन्होंने हम पर भरोसा किया','Experiences from people we have guided'],
 'reviewsIntro':['हर अनुभव लॉगिन किए हुए ग्राहक द्वारा लिखा गया है और प्रकाशित होने से पहले जाँचा जाता है। अनुभव व्यक्तिगत हैं; ये किसी परिणाम की गारंटी नहीं हैं।','Every experience is written by a signed-in client and checked before it is published. Experiences are personal and are not a guarantee of any outcome.'],
@@ -112,7 +112,7 @@ texts = {
 'footer':['आस्था के साथ, विवेक भी।','A place for faith. A space for reflection.']
 }
 BASE='https://antarodaya.in/'
-BRAND=['अंत्योदय','Antarodaya']
+BRAND=['अंतरोदय','Antarodaya']
 from urllib.parse import urlparse
 import re
 form=config.get('googleFormUrl','').strip()
@@ -148,7 +148,7 @@ for lang,n in [('hi',0),('en',1)]:
   url=BASE+('' if me=='index.html' else me)
   robots='<meta name="robots" content="noindex,nofollow">' if kind!='home' else ''
   return f'''<!doctype html>
-<html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#183d35"><title>{title}</title><meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{url}"><link rel="alternate" hreflang="hi" href="{BASE+('' if hi_file=='index.html' else hi_file)}"><link rel="alternate" hreflang="en" href="{BASE+en_file}"><link rel="alternate" hreflang="x-default" href="{BASE+('' if hi_file=='index.html' else hi_file)}"><meta property="og:site_name" content="Antarodaya | अंत्योदय"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:locale" content="{'hi_IN' if n==0 else 'en_IN'}"><meta property="og:image" content="{BASE}assets/brand/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:url" content="{url}"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="assets/brand/icon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><script src="app.js" defer></script><script type="module" src="assets/js/main.js"></script>{extra}</head>'''
+<html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#183d35"><title>{title}</title><meta name="description" content="{e(desc)}">{robots}<link rel="canonical" href="{url}"><link rel="alternate" hreflang="hi" href="{BASE+('' if hi_file=='index.html' else hi_file)}"><link rel="alternate" hreflang="en" href="{BASE+en_file}"><link rel="alternate" hreflang="x-default" href="{BASE+('' if hi_file=='index.html' else hi_file)}"><meta property="og:site_name" content="Antarodaya | अंतरोदय"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:locale" content="{'hi_IN' if n==0 else 'en_IN'}"><meta property="og:image" content="{BASE}assets/brand/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:url" content="{url}"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="assets/brand/icon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><script src="app.js" defer></script><script type="module" src="assets/js/main.js"></script>{extra}</head>'''
  # ---- Home page ----
  cards=''
  for id,num,icon,price,title,desc,prep,inc,proc,benefits in services:
@@ -160,8 +160,8 @@ for lang,n in [('hi',0),('en',1)]:
  bars=''.join(f'<li data-bar="{i}"><span>{i}★</span><span class="bar"><i></i></span><output>0</output></li>' for i in range(5,0,-1))
  page_url=BASE+('' if n==0 else 'en.html')
  ld={'@context':'https://schema.org','@graph':[
-  {'@type':'Organization','@id':BASE+'#org','name':'Antarodaya','alternateName':'अंत्योदय','url':BASE,'logo':BASE+'assets/brand/icon-512.png','image':BASE+'assets/brand/og-image.png','description':t('metaDesc'),'sameAs':[config['instagramUrl'].split('?')[0]],'areaServed':{'@type':'Country','name':'India'},'knowsLanguage':['hi','en']},
-  {'@type':'WebSite','@id':BASE+'#website','url':BASE,'name':'Antarodaya','alternateName':'अंत्योदय','inLanguage':['hi','en'],'publisher':{'@id':BASE+'#org'}},
+  {'@type':'Organization','@id':BASE+'#org','name':'Antarodaya','alternateName':'अंतरोदय','url':BASE,'logo':BASE+'assets/brand/icon-512.png','image':BASE+'assets/brand/og-image.png','description':t('metaDesc'),'sameAs':[config['instagramUrl'].split('?')[0]],'areaServed':{'@type':'Country','name':'India'},'knowsLanguage':['hi','en']},
+  {'@type':'WebSite','@id':BASE+'#website','url':BASE,'name':'Antarodaya','alternateName':'अंतरोदय','inLanguage':['hi','en'],'publisher':{'@id':BASE+'#org'}},
   {'@type':'WebPage','@id':page_url+'#page','url':page_url,'name':t('metaTitle'),'description':t('metaDesc'),'inLanguage':lang,'isPartOf':{'@id':BASE+'#website'},'about':{'@id':BASE+'#org'}},
   *[{'@type':'Service','@id':page_url+'#'+s[0],'name':s[4][n],'description':s[5][n],'serviceType':'Astrology consultation','provider':{'@id':BASE+'#org'},'areaServed':{'@type':'Country','name':'India'},
      'offers':{'@type':'Offer','priceCurrency':'INR','url':page_url+'#'+s[0],'priceSpecification':{'@type':'PriceSpecification','priceCurrency':'INR','minPrice':prices(s[3])[0],'maxPrice':prices(s[3])[1]}}} for s in services],
