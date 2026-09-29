@@ -4,6 +4,7 @@ import { T, errorText } from './i18n.js';
 import { el, stars, avatar, formatDate, toast, siteData } from './ui.js';
 import { onUser, openLogin, logout, updateDisplayName, resendVerification, refreshUser } from './auth-ui.js';
 import { openReviewForm } from './review-form.js';
+import { formatSlot, slotId } from './booking.js';
 
 export function initAccount() {
   const root = document.querySelector('[data-app]');
@@ -23,6 +24,7 @@ export function initAccount() {
     const method = user.providerData[0]?.providerId === 'google.com' ? 'Google' : T.email;
     const since = formatDate(user.metadata.creationTime ? new Date(user.metadata.creationTime) : null);
     const reviewsBox = el('div', { class: 'my-reviews', 'aria-live': 'polite' }, el('p', { class: 'review-empty' }, T.reviewsLoading));
+    const bookingsBox = el('div', { class: 'my-bookings', 'aria-live': 'polite' }, el('p', { class: 'review-empty' }, T.reviewsLoading));
 
     const nameInput = el('input', { name: 'name', maxlength: 60, required: true, autocomplete: 'name' });
     nameInput.value = user.displayName || '';
@@ -57,6 +59,13 @@ export function initAccount() {
         const { auth, db, A, F } = await getFirebase();
         const snap = await F.getDocs(F.query(F.collection(db, 'reviews'), F.where('uid', '==', user.uid)));
         await Promise.all(snap.docs.map(d => F.deleteDoc(d.ref)));
+        const bookings = await F.getDocs(F.query(F.collection(db, 'bookings'), F.where('uid', '==', user.uid)));
+        for (const d of bookings.docs) {
+          const batch = F.writeBatch(db);
+          batch.delete(d.ref);
+          batch.delete(F.doc(db, 'slots', d.id));
+          await batch.commit();
+        }
         await F.deleteDoc(F.doc(db, 'users', user.uid));
         await A.deleteUser(auth.currentUser);
         toast(T.accountDeleted);
@@ -92,12 +101,57 @@ export function initAccount() {
             data.instagramUrl && action(data.instagramUrl, T.messageInsta, true),
             action(`${data.homeUrl}#services`, T.viewServices),
             action(`${data.homeUrl}#payment`, T.paymentInfo)))),
+      el('section', { class: 'panel', id: 'bookings' },
+        el('div', { class: 'panel-head' }, el('h2', {}, T.myBookings),
+          el('a', { class: 'button primary small', href: `${data.homeUrl}#booking` }, T.newBooking)),
+        bookingsBox),
       el('section', { class: 'panel' },
         el('div', { class: 'panel-head' }, el('h2', {}, T.myReviews),
           el('button', { type: 'button', class: 'button primary small', onclick: async () => { if (await openReviewForm()) loadMine(user); } }, T.writeNew)),
         reviewsBox));
 
     loadMine(user);
+    loadBookings();
+
+    async function loadBookings() {
+      try {
+        const { db, F } = await getFirebase();
+        const snap = await F.getDocs(F.query(F.collection(db, 'bookings'), F.where('uid', '==', user.uid)));
+        const mine = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.id.localeCompare(a.id));
+        if (!mine.length) {
+          bookingsBox.replaceChildren(el('p', { class: 'review-empty' }, T.noBookings));
+          return;
+        }
+        const services = data.services || [];
+        bookingsBox.replaceChildren(...mine.map(b => {
+          const upcoming = Date.parse(`${b.date}T${b.time}:00+05:30`) > Date.now();
+          return el('article', { class: 'review-card mine booking-card' },
+            el('header', {},
+              el('strong', {}, formatSlot(b.date, b.time)),
+              el('span', { class: `chip ${b.status}` }, T.bookingStatus[b.status] || b.status)),
+            el('p', {}, [services.find(s => s.id === b.service)?.title, b.option, T.modes[b.mode]].filter(Boolean).join(' · ')),
+            upcoming && b.status !== 'done' && el('div', { class: 'button-row' },
+              el('button', { type: 'button', class: 'button danger small', onclick: () => cancel(b) }, T.cancelBooking)));
+        }));
+      } catch (err) {
+        bookingsBox.replaceChildren(el('p', { class: 'review-empty' }, errorText(err)));
+      }
+    }
+
+    async function cancel(b) {
+      if (!confirm(T.confirmCancel)) return;
+      try {
+        const { db, F } = await getFirebase();
+        const batch = F.writeBatch(db);
+        batch.delete(F.doc(db, 'bookings', b.id));
+        batch.delete(F.doc(db, 'slots', slotId(b.date, b.time)));
+        await batch.commit();
+        toast(T.bookingCancelled);
+        loadBookings();
+      } catch (err) {
+        toast(errorText(err), 'error');
+      }
+    }
 
     async function loadMine(u) {
       try {

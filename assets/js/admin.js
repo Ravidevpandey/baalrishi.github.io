@@ -3,13 +3,15 @@ import { configured, getFirebase, isAdmin, isLive, RETENTION_MS } from './fireba
 import { T, errorText } from './i18n.js';
 import { el, stars, avatar, formatDate, formatNumber, toast, siteData } from './ui.js';
 import { onUser, openLogin } from './auth-ui.js';
+import { formatSlot, slotId } from './booking.js';
 
 export function initAdmin() {
   const root = document.querySelector('[data-app]');
   const services = siteData().services || [];
   let reviews = [];
   let users = [];
-  let tab = 'pending';
+  let bookings = [];
+  let tab = 'bookings';
   let search = '';
 
   onUser(user => {
@@ -29,10 +31,12 @@ export function initAdmin() {
     root.replaceChildren(el('p', { class: 'review-empty' }, T.reviewsLoading));
     try {
       const { db, F } = await getFirebase();
-      const [r, u] = await Promise.all([
+      const [r, u, b] = await Promise.all([
         F.getDocs(F.collection(db, 'reviews')),
-        F.getDocs(F.collection(db, 'users'))
+        F.getDocs(F.collection(db, 'users')),
+        F.getDocs(F.collection(db, 'bookings'))
       ]);
+      bookings = b.docs.map(d => ({ id: d.id, ...d.data() }));
       const byTime = (a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0);
       reviews = r.docs.map(d => ({ id: d.id, ...d.data() })).filter(isLive).sort(byTime);
       users = u.docs.map(d => ({ id: d.id, ...d.data() })).filter(isLive).sort(byTime);
@@ -60,7 +64,8 @@ export function initAdmin() {
     const avg = approved.length ? approved.reduce((s, r) => s + r.rating, 0) / approved.length : 0;
     const count = s => reviews.filter(r => r.status === s).length;
     const stat = (label, value, accent) => el('div', { class: `stat${accent ? ' accent' : ''}` }, el('strong', {}, value), el('span', {}, label));
-    const tabs = [['pending', T.tabPending, count('pending')], ['approved', T.tabApproved, count('approved')], ['hidden', T.tabHidden, count('hidden')], ['all', T.tabAll, reviews.length], ['users', T.tabUsers, users.length]];
+    const upcoming = bookings.filter(bk => startOf(bk) > Date.now() - 3600000);
+    const tabs = [['bookings', T.tabBookings, upcoming.length], ['pending', T.tabPending, count('pending')], ['approved', T.tabApproved, count('approved')], ['hidden', T.tabHidden, count('hidden')], ['all', T.tabAll, reviews.length], ['users', T.tabUsers, users.length]];
     const searchInput = el('input', { type: 'search', placeholder: T.search, 'aria-label': T.search, value: search });
     searchInput.addEventListener('input', () => { search = searchInput.value; drawList(); });
     const listBox = el('div', { class: 'admin-list', 'aria-live': 'polite' });
@@ -70,6 +75,7 @@ export function initAdmin() {
         el('img', { src: 'assets/brand/logo-mark.svg', width: 64, height: 64, alt: '' }),
         el('div', {}, el('p', { class: 'eyebrow' }, T.brand), el('h1', {}, T.adminTitle), el('p', {}, T.adminIntro), el('p', { class: 'small-note' }, T.retentionNote))),
       el('div', { class: 'stats' },
+        stat(T.statUpcoming, upcoming.length, upcoming.some(bk => bk.status === 'requested')),
         stat(T.statTotal, reviews.length),
         stat(T.statPending, count('pending'), count('pending') > 0),
         stat(T.statAvg, approved.length ? `${formatNumber(avg)} ★` : '—'),
@@ -84,6 +90,16 @@ export function initAdmin() {
     function drawList() {
       const q = search.trim().toLowerCase();
       const userOf = r => users.find(u => u.id === r.uid);
+      if (tab === 'bookings') {
+        const match = bk => !q || `${bk.name} ${bk.phone} ${bk.email} ${bk.note || ''}`.toLowerCase().includes(q);
+        const soon = upcoming.filter(match).sort((a, b) => startOf(a) - startOf(b));
+        const old = bookings.filter(bk => !upcoming.includes(bk)).filter(match).sort((a, b) => startOf(b) - startOf(a));
+        listBox.replaceChildren(...(soon.length || old.length ? [
+          soon.length && el('h3', { class: 'list-label' }, T.upcoming), ...soon.map(bookingCard),
+          old.length && el('h3', { class: 'list-label' }, T.past), ...old.map(bookingCard)].filter(Boolean)
+          : [el('p', { class: 'review-empty' }, T.noBookings)]));
+        return;
+      }
       if (tab === 'users') {
         const rows = users.filter(u => !q || `${u.name} ${u.email}`.toLowerCase().includes(q));
         listBox.replaceChildren(rows.length ? el('div', { class: 'table-wrap' }, el('table', { class: 'users-table' },
@@ -100,6 +116,57 @@ export function initAdmin() {
         && (!q || `${r.name} ${r.text} ${userOf(r)?.email || ''}`.toLowerCase().includes(q)));
       listBox.replaceChildren(...(rows.length ? rows.map(r => adminCard(r, userOf(r))) : [el('p', { class: 'review-empty' }, T.nothingHere)]));
     }
+  }
+
+  function startOf(bk) {
+    return Date.parse(`${bk.date}T${bk.time}:00+05:30`);
+  }
+
+  async function setBooking(bk, status) {
+    try {
+      const { db, F } = await getFirebase();
+      await F.updateDoc(F.doc(db, 'bookings', bk.id), { status, updatedAt: F.serverTimestamp() });
+      bk.status = status;
+      toast(T.updated);
+      render();
+    } catch (err) {
+      toast(errorText(err), 'error');
+    }
+  }
+
+  async function cancelBooking(bk) {
+    if (!confirm(T.confirmCancel)) return;
+    try {
+      const { db, F } = await getFirebase();
+      const batch = F.writeBatch(db);
+      batch.delete(F.doc(db, 'bookings', bk.id));
+      batch.delete(F.doc(db, 'slots', slotId(bk.date, bk.time)));
+      await batch.commit();
+      bookings = bookings.filter(x => x.id !== bk.id);
+      toast(T.bookingCancelled);
+      render();
+    } catch (err) {
+      toast(errorText(err), 'error');
+    }
+  }
+
+  function bookingCard(bk) {
+    const service = services.find(s => s.id === bk.service);
+    const digits = (bk.phone || '').replace(/[^0-9]/g, '');
+    const wa = `https://wa.me/${digits.length === 10 ? '91' + digits : digits}?text=${encodeURIComponent(T.waMessage(bk.name, formatSlot(bk.date, bk.time)))}`;
+    return el('article', { class: `review-card admin booking-card ${bk.status}` },
+      el('header', {},
+        el('div', {}, el('strong', { class: 'slot-time' }, formatSlot(bk.date, bk.time)), el('small', {}, `${bk.name} · ${bk.phone} · ${bk.email}`)),
+        el('span', { class: `chip ${bk.status}` }, T.bookingStatus[bk.status] || bk.status)),
+      el('p', {}, [service?.title, bk.option, T.modes[bk.mode]].filter(Boolean).join(' · ')),
+      bk.note && el('p', { class: 'review-text' }, bk.note),
+      el('div', { class: 'button-row' },
+        el('a', { class: 'button success small', href: wa, target: '_blank', rel: 'noopener noreferrer' }, 'WhatsApp'),
+        el('a', { class: 'button outline small', href: `tel:${bk.phone}` }, T.callBtn),
+        el('span', { class: 'spacer' }),
+        bk.status === 'requested' && el('button', { type: 'button', class: 'button primary small', onclick: () => setBooking(bk, 'confirmed') }, T.confirmBooking),
+        bk.status === 'confirmed' && el('button', { type: 'button', class: 'button outline small', onclick: () => setBooking(bk, 'done') }, T.markDone),
+        el('button', { type: 'button', class: 'button danger small', onclick: () => cancelBooking(bk) }, T.cancelBooking)));
   }
 
   function adminCard(r, user) {

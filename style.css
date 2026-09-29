@@ -1805,7 +1805,7 @@ button.button {
   color:#6d4b00;
   font-size:.9rem
 }
-.my-reviews,.admin-list {
+.my-reviews,.my-bookings,.admin-list {
   display:grid;
   gap:16px
 }
@@ -2456,4 +2456,244 @@ html[lang=hi] *,:lang(hi) {
 .legal p {
   font-size:.95rem;
   line-height:1.8
+}
+
+/* Booking */
+.booking-panel {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:28px;
+  box-shadow:var(--shadow)
+}
+.booking-form {
+  display:grid;
+  gap:26px
+}
+.book-step {
+  display:grid;
+  gap:12px
+}
+.book-step h3 {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:1.05rem
+}
+.step-no {
+  display:inline-grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:var(--green);
+  color:#fff;
+  font-size:.85rem
+}
+.chip-row {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px
+}
+.chip-row.scroll {
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  padding-bottom:6px;
+  scrollbar-width:thin
+}
+.slot-chip {
+  flex:none;
+  border:1px solid #d9d3c3;
+  background:#fff;
+  color:var(--ink);
+  border-radius:10px;
+  padding:9px 14px;
+  font:inherit;
+  font-size:.88rem;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums
+}
+.slot-chip:hover {
+  border-color:var(--gold)
+}
+.slot-chip.selected {
+  background:var(--green);
+  border-color:var(--green);
+  color:#fff
+}
+.time-groups {
+  display:grid;
+  gap:14px
+}
+.time-group {
+  display:grid;
+  grid-template-columns:90px 1fr;
+  gap:10px;
+  align-items:start
+}
+.time-label {
+  font-size:.8rem;
+  font-weight:700;
+  color:var(--gold);
+  padding-top:10px
+}
+.mode-option {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid #d9d3c3;
+  border-radius:10px;
+  padding:9px 14px;
+  background:#fff;
+  cursor:pointer;
+  font-size:.88rem
+}
+.mode-option:has(input:checked) {
+  border-color:var(--green);
+  background:#eef4f0
+}
+.mode-option input {
+  accent-color:var(--green)
+}
+.book-summary {
+  background:#f6efdf;
+  border-radius:12px;
+  padding:14px 16px;
+  display:grid;
+  gap:4px
+}
+.book-summary p:first-child {
+  color:var(--ink);
+  font-weight:600
+}
+.booking-form>.button {
+  justify-self:start
+}
+.booking-done {
+  display:grid;
+  justify-items:center;
+  text-align:center;
+  gap:12px;
+  padding:20px 10px
+}
+.done-mark {
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--ok);
+  color:#fff;
+  font-size:2rem
+}
+.booking-done h3 {
+  font-family:'Playfair Display','Noto Serif Devanagari',serif;
+  font-size:1.5rem
+}
+.chip.requested {
+  background:#fff1d6;
+  color:#8a5a00
+}
+.chip.confirmed {
+  background:#e1f1e6;
+  color:#1e6139
+}
+.chip.done {
+  background:#e8eef6;
+  color:#2c4a6e
+}
+.booking-card header strong,.slot-time {
+  font-size:1.05rem
+}
+.review-card.admin.booking-card.requested {
+  border-left:4px solid #e8b44a
+}
+.list-label {
+  font-size:.8rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:8px
+}
+
+/* Connect icons */
+.socials {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px
+}
+.social {
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  transition:transform .15s
+}
+.social svg {
+  width:21px;
+  height:21px
+}
+.social:hover {
+  transform:translateY(-2px);
+  color:#fff
+}
+.social.whatsapp {
+  background:#25d366
+}
+.social.phone {
+  background:#2d5146
+}
+.social.email {
+  background:#b87a35
+}
+.social.instagram {
+  background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285aeb 90%)
+}
+.social.facebook {
+  background:#1877f2
+}
+.contact-connect {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-top:26px
+}
+.footer-connect {
+  display:grid;
+  gap:8px;
+  justify-items:start
+}
+.footer-connect strong {
+  color:#fff;
+  font-size:.85rem
+}
+.footer-connect small {
+  color:#d1dacd;
+  font-size:.72rem
+}
+@media(max-width:580px) {
+  .booking-panel {
+    padding:18px
+  }
+  .time-group {
+    grid-template-columns:1fr;
+    gap:6px
+  }
+  .time-label {
+    padding-top:0
+  }
+}
+.mode-option span {
+  white-space:nowrap
+}
+.field-pair {
+  align-items:start
+}
+.stats {
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))
 }
