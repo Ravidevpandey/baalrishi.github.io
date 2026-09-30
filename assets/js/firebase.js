@@ -23,7 +23,7 @@ export function getFirebase() {
     const app = appSdk.initializeApp(emulator ? { apiKey: 'demo-key', projectId: 'demo-antarodaya', authDomain: 'localhost' } : firebaseConfig);
     // App Check makes Firebase accept requests only from the real site (blocks scripts and bots).
     // No-op until a reCAPTCHA site key is set and App Check is enforced in the console.
-    if (!emulator && recaptchaSiteKey) {
+    if (!local && recaptchaSiteKey) {
       const AC = await import(SDK + 'firebase-app-check.js');
       AC.initializeAppCheck(app, { provider: new AC.ReCaptchaV3Provider(recaptchaSiteKey), isTokenAutoRefreshEnabled: true });
     }

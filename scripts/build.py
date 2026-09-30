@@ -240,7 +240,7 @@ def csp(inline_scripts=()):
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com https://translate.googleapis.com; "
   "font-src 'self' https://fonts.gstatic.com; "
   "img-src 'self' data: https:; "
-  "connect-src 'self' https://*.googleapis.com https://script.google.com https://script.googleusercontent.com http://127.0.0.1:9099 http://127.0.0.1:8080; "
+  "connect-src 'self' https://*.googleapis.com https://www.google.com https://script.google.com https://script.googleusercontent.com http://127.0.0.1:9099 http://127.0.0.1:8080; "
   "frame-src 'self' https://antarodaya-in.firebaseapp.com https://accounts.google.com https://www.google.com https://translate.google.com; "
   "manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'").replace('  ',' ')
 def rupees(n):
