@@ -1,5 +1,5 @@
 // Lazily loads the Firebase SDK so the page itself stays fast.
-import { firebaseConfig, adminEmails } from './firebase-config.js';
+import { firebaseConfig, adminEmails, recaptchaSiteKey } from './firebase-config.js';
 
 const SDK = 'https://www.gstatic.com/firebasejs/12.19.0/';
 const local = ['localhost', '127.0.0.1'].includes(location.hostname);
@@ -21,6 +21,12 @@ export function getFirebase() {
       import(SDK + 'firebase-firestore.js')
     ]);
     const app = appSdk.initializeApp(emulator ? { apiKey: 'demo-key', projectId: 'demo-antarodaya', authDomain: 'localhost' } : firebaseConfig);
+    // App Check makes Firebase accept requests only from the real site (blocks scripts and bots).
+    // No-op until a reCAPTCHA site key is set and App Check is enforced in the console.
+    if (!emulator && recaptchaSiteKey) {
+      const AC = await import(SDK + 'firebase-app-check.js');
+      AC.initializeAppCheck(app, { provider: new AC.ReCaptchaV3Provider(recaptchaSiteKey), isTokenAutoRefreshEnabled: true });
+    }
     const auth = A.getAuth(app);
     const db = F.getFirestore(app);
     if (emulator) {
