@@ -1,0 +1,34 @@
+# DAST: a passive OWASP ZAP baseline scan of the live site. It crawls and inspects responses only;
+# it never attacks or submits forms. Known GitHub Pages limitations are listed in .zap/rules.tsv,
+# so any new warning fails the run. The HTML report is kept as a workflow artifact.
+name: DAST (ZAP baseline)
+
+on:
+  schedule:
+    - cron: '0 22 * * 0'   # Mondays 03:30 IST
+  push:
+    branches: [main]
+  pull_request:
+    paths: ['.github/workflows/zap.yml', '.zap/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  zap:
+    name: ZAP baseline scan of antarodaya.in
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: zaproxy/action-baseline@de8ad967d3548d44ef623df22cf95c3b0baf8b25 # v0.15.0
+        with:
+          target: https://antarodaya.in
+          rules_file_name: .zap/rules.tsv
+          cmd_options: '-m 2'
+          allow_issue_writing: false
+          fail_action: true
+          artifact_name: zap-report
