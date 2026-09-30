@@ -4,13 +4,18 @@ admin reply and Firestore security rules.
 Run: firebase emulators:exec --project demo-antarodaya --only auth,firestore "python3 tests/e2e.py"
 while the site is served at http://localhost:8000 (python3 -m http.server 8000).
 """
-import asyncio, json, os, sys, tempfile, urllib.request
+import asyncio, datetime, json, os, sys, tempfile, urllib.request
 from playwright.async_api import async_playwright, expect
 
 S = os.environ.get('SCREENSHOT_DIR', tempfile.gettempdir()) + '/'
 BASE = 'http://localhost:8000/'
 PID = 'demo-antarodaya'
 results = []
+
+# Month-end offer window (see assets/js/offer.js): the last 7 days of the IST month.
+IST_NOW = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30)))
+OFFER_MONTH = IST_NOW.strftime('%Y-%m')
+OFFER_ON = (IST_NOW + datetime.timedelta(days=7)).month != IST_NOW.month
 
 def check(name, ok, detail=''):
     results.append((name, ok))
@@ -155,6 +160,25 @@ async def main():
         booked = await cust.evaluate("""async()=>{const {getFirebase}=await import('/assets/js/firebase.js');const {auth,db,F}=await getFirebase();
           const s=await F.getDocs(F.query(F.collection(db,'bookings'),F.where('uid','==',auth.currentUser.uid)));const d=s.docs[0];return {id:d.id,...d.data(),createdAt:null,expireAt:null}}""")
         check('booking stored with slot id, phone and mode', booked['id'] == booked['date'] + '_' + booked['time'].replace(':', '') and booked['mode'] == 'phone' and booked['status'] == 'requested')
+        check('month-end offer applied only inside its window', booked.get('offer') == (OFFER_MONTH if OFFER_ON else None), f"offer={booked.get('offer')} window={OFFER_ON}")
+        check('booking confirmation shows the fee', ('₹51' if OFFER_ON else '₹101') in await cust.locator('.booking-done .book-fee').inner_text())
+        # A second offer booking by the same customer, or one outside the window, is refused.
+        d2 = next((d for d in [(datetime.date.today() + datetime.timedelta(days=i)) for i in range(2, 30)] if d.weekday() == 5)).isoformat()
+        offer_batch = ("const d='" + d2 + "',t='14:00',id=d+'_1400',m='" + OFFER_MONTH + "',uid=auth.currentUser.uid,ex=F.Timestamp.fromMillis(Date.now()+30*864e5);"
+                       "const b=F.writeBatch(db);b.set(F.doc(db,'bookings',id),{uid,name:'X',phone:'9876543210',email:auth.currentUser.email,service:'palm',option:'Main lines reading',mode:'whatsapp',date:d,time:t,status:'requested',createdAt:F.serverTimestamp(),expireAt:ex,offer:m});"
+                       "b.set(F.doc(db,'slots',id),{date:d,time:t,expireAt:ex});b.set(F.doc(db,'offerClaims',m+'_'+uid),{uid,booking:id,expireAt:ex});"
+                       "b.set(F.doc(db,'offers',m),{claimed:F.increment(1),expireAt:ex},{merge:true});await b.commit()")
+        r = await rules_probe(cust, offer_batch)
+        check('rules: one offer per customer per month / none outside the window', r == 'permission-denied', r)
+        r = await rules_probe(cust, f"await F.setDoc(F.doc(db,'offers','{OFFER_MONTH}'),{{claimed:0,expireAt:F.Timestamp.fromMillis(Date.now()+30*864e5)}})")
+        check('rules: customer cannot reset the offer counter', r == 'permission-denied', r)
+        if OFFER_ON:
+            left = await cust.evaluate(f"""async()=>{{const {{getFirebase}}=await import('/assets/js/firebase.js');const {{db,F}}=await getFirebase();return (await F.getDoc(F.doc(db,'offers','{OFFER_MONTH}'))).data().claimed}}""")
+            check('offer counter counts the booking', left == 1, str(left))
+            await cust.goto(BASE + 'hi.html?emulator#services', wait_until='load')
+            await expect(cust.locator('#services .offer-banner')).to_contain_text('11 में से 10')
+            check('offer banner shows places left', True)
+            check('fees show regular price struck through', await cust.locator('#kundali .option-list s.regular-fee').count() == 6)
         slot = f"{booked['date']}|{booked['time']}"
         r = await rules_probe(cust, f"const [d,t]='{slot}'.split('|');const id=d+'_'+t.replace(':','');const b=F.writeBatch(db);b.set(F.doc(db,'bookings',id),{{uid:auth.currentUser.uid,name:'Again',phone:'9876543210',email:auth.currentUser.email,service:'palm',mode:'whatsapp',date:d,time:t,status:'requested',createdAt:F.serverTimestamp(),expireAt:F.Timestamp.fromMillis(Date.now()+40*864e5)}});b.set(F.doc(db,'slots',id),{{date:d,time:t,expireAt:F.Timestamp.fromMillis(Date.now()+40*864e5)}});await b.commit()")
         check('rules: the same slot cannot be booked twice', r == 'permission-denied', r)
@@ -216,6 +240,8 @@ async def main():
         await adm.click('.booking-card button:has-text("Confirm")')
         await expect(adm.locator('.booking-card .chip.confirmed')).to_be_visible()
         check('admin confirms a booking', True)
+        price = await adm.evaluate(f"""async()=>{{const {{getFirebase}}=await import('/assets/js/firebase.js');const {{db,F}}=await getFirebase();return (await F.getDoc(F.doc(db,'bookings','{booked['id']}'))).data().price}}""")
+        check('confirming records the fee quoted', price == (51 if OFFER_ON else 101), str(price))
         await adm.click('.tabs button >> nth=1')
         await adm.screenshot(path=S + 't-admin-pending.png', full_page=True)
         await adm.click('.tabs button >> nth=1')
@@ -264,6 +290,18 @@ async def main():
         check('rules: public cannot read bookings', r == 'permission-denied', r)
         r = await rules_probe(pub, "await F.getDocs(F.query(F.collection(db,'reviews'),F.where('status','==','pending')))")
         check('rules: public cannot read pending reviews', r == 'permission-denied', r)
+        if OFFER_ON:
+            # The 12th offer booking of the month is refused; the 11th is accepted.
+            await signup(pub, 'Gita Rao', 'gita@example.com')
+            verify_email('gita@example.com')
+            await pub.evaluate("async()=>{const {refreshUser}=await import('/assets/js/auth-ui.js'); await refreshUser();}")
+            counter = f'http://127.0.0.1:8080/v1/projects/{PID}/databases/(default)/documents/offers/{OFFER_MONTH}?updateMask.fieldPaths=claimed'
+            http('PATCH', counter, {'fields': {'claimed': {'integerValue': '11'}}})
+            r = await rules_probe(pub, offer_batch)
+            check('rules: no offer after 11 places are taken', r == 'permission-denied', r)
+            http('PATCH', counter, {'fields': {'claimed': {'integerValue': '10'}}})
+            r = await rules_probe(pub, offer_batch)
+            check('rules: the 11th offer booking is accepted', r == 'ok', r)
 
         # customer edits → goes back to review
         await cust.goto(BASE + 'account-hi.html', wait_until='load')
@@ -288,8 +326,9 @@ async def main():
         check('customer can delete own account', gone)
         await adm.goto(BASE + 'admin.html', wait_until='load')
         await expect(adm.locator('.stat').nth(1)).to_contain_text('0')
-        check('deleting account removes its reviews and profile', '1' in await adm.locator('.stat').nth(4).inner_text())
-        check('deleting account removes its bookings', '0' in await adm.locator('.stat').nth(0).inner_text())
+        users_left = '2' if OFFER_ON else '1'  # admin, plus the offer-limit test user (who keeps one booking)
+        check('deleting account removes its reviews and profile', users_left in await adm.locator('.stat').nth(4).inner_text())
+        check('deleting account removes its bookings', ('1' if OFFER_ON else '0') in await adm.locator('.stat').nth(0).inner_text())
         await pub.goto(BASE + 'privacy-hi.html', wait_until='load')
         check('privacy policy page renders', await pub.locator('h1').inner_text() == 'गोपनीयता नीति')
 

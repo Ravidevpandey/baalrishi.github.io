@@ -84,6 +84,8 @@ jobs:
           npm install --global firebase-tools@15
           pip install -r tests/requirements.txt
           python -m playwright install --with-deps chromium
+      - name: Offer unit tests
+        run: node --test tests/
       - name: Serve the site
         run: |
           python3 -m http.server 8000 --bind 127.0.0.1 &

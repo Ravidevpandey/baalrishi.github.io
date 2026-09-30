@@ -1,6 +1,6 @@
 # Booking alerts: Google Sheet + email (5 minute)
 
-Website par har nayi booking is Google Sheet mein ek nayi line ban kar aayegi aur aapko email bhi aayega.
+Website par har nayi booking is Google Sheet mein ek nayi line ban kar aayegi aur aapko email bhi aayega. Admin panel mein **Confirm** dabane par customer ko bhi confirmation email jayega (date, time, service, fee) — har booking par sirf ek baar.
 
 1. **Sheet banayein:** https://sheets.new kholein (pandeyravidev2@gmail.com se). Naam rakhein: `Antarodaya Bookings`.
 2. **Code daalein:** menu **Extensions → Apps Script**. Wahan jo code hai use hata kar `docs/booking-sheet/Code.gs` ka poora code paste karein. Upar 💾 **Save** dabayein.
@@ -14,3 +14,5 @@ Website par har nayi booking is Google Sheet mein ek nayi line ban kar aayegi au
 Phone par alerts ke liye Gmail app mein notifications on rakhein. Sheet ko phone ke Google Sheets app mein bhi dekh sakte hain.
 
 Code badalne ke baad: **Deploy → Manage deployments → ✏️ → Version: New version → Deploy** (URL wahi rehta hai).
+
+Customer ko confirmation email aapke Gmail account se jata hai (Google ki free limit: ~100 email/din). Customer reply kare to reply aapke Gmail mein aayega.

@@ -1,5 +1,5 @@
 """Delete Firestore documents whose expireAt has passed (unpublished reviews, inactive profiles,
-bookings and their slots 30 days after the consultation).
+bookings and their slots 30 days after the consultation, month-end offer counters and claims).
 
 Runs daily from .github/workflows/cleanup.yml with a short-lived Google access token
 (Workload Identity, no stored keys). Logs only counts, never personal data.
@@ -32,7 +32,7 @@ def expired(collection):
 
 
 total = 0
-for collection in ('reviews', 'users', 'bookings', 'slots'):
+for collection in ('reviews', 'users', 'bookings', 'slots', 'offers', 'offerClaims'):
     names = expired(collection)
     for name in names:
         if not DRY_RUN:

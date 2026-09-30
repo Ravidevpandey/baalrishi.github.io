@@ -82,7 +82,7 @@ service cloud.firestore {
       allow read: if isAdmin() || isOwner(resource.data);
 
       allow create: if verified()
-        && request.resource.data.keys().hasOnly(['uid', 'name', 'phone', 'email', 'service', 'option', 'mode', 'note', 'date', 'time', 'lang', 'status', 'createdAt', 'expireAt'])
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'phone', 'email', 'service', 'option', 'mode', 'note', 'date', 'time', 'lang', 'status', 'createdAt', 'expireAt', 'offer'])
         && request.resource.data.keys().hasAll(['uid', 'name', 'phone', 'email', 'service', 'mode', 'date', 'time', 'status', 'createdAt', 'expireAt'])
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.email == request.auth.token.email
@@ -96,12 +96,14 @@ service cloud.firestore {
         && request.resource.data.get('note', '') is string && request.resource.data.get('note', '').size() <= 500
         && request.resource.data.get('lang', 'hi') in ['hi', 'en']
         && validSlot(slotId, request.resource.data)
-        && existsAfter(/databases/$(database)/documents/slots/$(slotId));
+        && existsAfter(/databases/$(database)/documents/slots/$(slotId))
+        && (!('offer' in request.resource.data) || validOfferBooking(request.resource.data));
 
-      // The admin confirms a booking or marks it done.
+      // The admin confirms a booking (recording the fee quoted) or marks it done.
       allow update: if isAdmin()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
-        && request.resource.data.status in ['requested', 'confirmed', 'done'];
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt', 'price'])
+        && request.resource.data.status in ['requested', 'confirmed', 'done']
+        && request.resource.data.get('price', 0) is int;
 
       // Cancelling deletes the booking and its slot together, freeing the time.
       allow delete: if isAdmin() || isOwner(resource.data);
@@ -116,6 +118,63 @@ service cloud.firestore {
         || (signedIn()
             && get(/databases/$(database)/documents/bookings/$(slotId)).data.uid == request.auth.uid
             && !existsAfter(/databases/$(database)/documents/bookings/$(slotId)));
+    }
+
+    // Month-end offer (assets/js/offer.js): in the last 7 days of each month, IST, the first 11 bookings
+    // get the offer fee, one per customer per month. An offer booking is written in one batch with its
+    // /offerClaims/{month}_{uid} doc and a +1 on the public /offers/{month} counter; each rule below
+    // checks the other two, so none can be written alone. Cancelling does not give the seat back.
+    function istNow() {
+      return request.time + duration.value(330, 'm');
+    }
+    function offerMonth() {
+      return string(istNow().year()) + '-' + (istNow().month() < 10 ? '0' : '') + string(istNow().month());
+    }
+    function inOfferWindow() {
+      return (istNow() + duration.value(7, 'd')).month() != istNow().month();
+    }
+    function offerPath() {
+      return /databases/$(database)/documents/offers/$(offerMonth());
+    }
+    function claimPath() {
+      return /databases/$(database)/documents/offerClaims/$(offerMonth() + '_' + request.auth.uid);
+    }
+    function validOfferExpiry(d) {
+      return d.expireAt is timestamp
+        && d.expireAt > request.time
+        && d.expireAt < request.time + duration.value(50, 'd');
+    }
+    function validOfferBooking(d) {
+      return inOfferWindow()
+        && d.offer == offerMonth()
+        && existsAfter(claimPath());
+    }
+    match /offers/{month} {
+      allow read: if true;
+      allow create: if verified() && inOfferWindow() && month == offerMonth()
+        && request.resource.data.keys().hasOnly(['claimed', 'expireAt'])
+        && request.resource.data.claimed == 1
+        && validOfferExpiry(request.resource.data)
+        && !exists(claimPath()) && existsAfter(claimPath());
+      allow update: if verified() && inOfferWindow() && month == offerMonth()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['claimed', 'expireAt'])
+        && request.resource.data.claimed == resource.data.claimed + 1
+        && request.resource.data.claimed <= 11
+        && validOfferExpiry(request.resource.data)
+        && !exists(claimPath()) && existsAfter(claimPath());
+    }
+    match /offerClaims/{claimId} {
+      allow read: if isAdmin() || (signedIn() && claimId.split('_').size() == 2 && claimId.split('_')[1] == request.auth.uid);
+      allow create: if verified() && inOfferWindow()
+        && claimId == offerMonth() + '_' + request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid', 'booking', 'expireAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.booking is string
+        && getAfter(/databases/$(database)/documents/bookings/$(request.resource.data.booking)).data.uid == request.auth.uid
+        && getAfter(/databases/$(database)/documents/bookings/$(request.resource.data.booking)).data.get('offer', '') == offerMonth()
+        && getAfter(offerPath()).data.claimed == (exists(offerPath()) ? get(offerPath()).data.claimed : 0) + 1
+        && validOfferExpiry(request.resource.data);
+      allow delete: if isAdmin();
     }
 
     // Customer profiles, readable by the customer and the admin.
