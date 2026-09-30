@@ -236,12 +236,12 @@ TRANSLATE_SRCDOC_HASH="'sha256-R6kjt5FwTd5vAw94Q08NLDZsSaGTzg4NsdIfKtECSp0='"
 def csp(inline_scripts=()):
  hashes=' '.join(["'sha256-"+base64.b64encode(hashlib.sha256(x.encode()).digest()).decode()+"'" for x in inline_scripts]+([TRANSLATE_SRCDOC_HASH] if inline_scripts else []))
  return ("default-src 'self'; "
-  f"script-src 'self' {hashes} https://www.gstatic.com https://apis.google.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; "
+  f"script-src 'self' {hashes} https://www.gstatic.com https://www.google.com https://apis.google.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; "
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com https://translate.googleapis.com; "
   "font-src 'self' https://fonts.gstatic.com; "
   "img-src 'self' data: https:; "
   "connect-src 'self' https://*.googleapis.com https://script.google.com https://script.googleusercontent.com http://127.0.0.1:9099 http://127.0.0.1:8080; "
-  "frame-src 'self' https://antarodaya-in.firebaseapp.com https://accounts.google.com https://translate.google.com; "
+  "frame-src 'self' https://antarodaya-in.firebaseapp.com https://accounts.google.com https://www.google.com https://translate.google.com; "
   "manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'").replace('  ',' ')
 def rupees(n):
  return '₹'+f'{n:,}'
