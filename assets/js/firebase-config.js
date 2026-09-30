@@ -13,7 +13,7 @@ export const firebaseConfig = {
 // App Check (anti-abuse): paste the reCAPTCHA v3 site key from
 // Firebase console → App Check → Apps → your web app → reCAPTCHA v3.
 // Leave empty until App Check is enabled; the site works either way.
-export const recaptchaSiteKey = '';
+export const recaptchaSiteKey = '6LfSetctAAAAAPyTRZ2Qj62lSp9MeLqLDdpSE_vZ';
 
 // Accounts that see the admin panel. Must match the list in firestore.rules,
 // which is what actually enforces admin access.
