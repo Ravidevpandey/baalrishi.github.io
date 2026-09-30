@@ -10,7 +10,7 @@ import { loadOffer, showOffer, offerApplies, rupees } from './offer-ui.js';
 export const SESSIONS = [
   ['morning', ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30']],
   ['afternoon', ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30']],
-  ['night', ['20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30']]
+  ['night', ['20:00', '20:30', '21:00', '21:30', '22:00', '22:30']]
 ];
 const DAYS_AHEAD = 60;
 const LEAD_MS = 60 * 60 * 1000; // a slot must start at least an hour from now
