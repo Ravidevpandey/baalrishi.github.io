@@ -1,4 +1,4 @@
-// Unit tests for the month-end offer dates and prices. Run: node --test tests/
+// Unit tests for the month-end offer dates and prices. Run: node --test tests/offer.test.mjs (Node 22+)
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { offerWindow, offerPrice, OFFER_PRICES } from '../assets/js/offer.js';
