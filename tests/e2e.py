@@ -187,7 +187,7 @@ async def main():
             d = datetime.date.today() + datetime.timedelta(days=1)
             while d.weekday() != weekday: d += datetime.timedelta(days=1)
             return d.isoformat()
-        for label, d, t in [('a weekday', next_day(2), '10:00'), ('a time outside consultation hours', next_day(5), '13:00')]:
+        for label, d, t in [('a weekday', next_day(2), '10:00'), ('a time outside consultation hours', next_day(5), '13:00'), ('a time after 11 pm', next_day(5), '23:00')]:
             r = await rules_probe(cust, f"const d='{d}',t='{t}';const id=d+'_'+t.replace(':','');const b=F.writeBatch(db);b.set(F.doc(db,'bookings',id),{{uid:auth.currentUser.uid,name:'X',phone:'9876543210',email:auth.currentUser.email,service:'palm',mode:'whatsapp',date:d,time:t,status:'requested',createdAt:F.serverTimestamp(),expireAt:F.Timestamp.fromMillis(Date.now()+40*864e5)}});b.set(F.doc(db,'slots',id),{{date:d,time:t,expireAt:F.Timestamp.fromMillis(Date.now()+40*864e5)}});await b.commit()")
             check(f'rules: cannot book {label}', r == 'permission-denied', r)
         r = await rules_probe(cust, f"const id='{booked['id']}';await F.updateDoc(F.doc(db,'bookings',id),{{status:'confirmed'}})")
