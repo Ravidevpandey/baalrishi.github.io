@@ -188,7 +188,7 @@ texts = {
 'login':['लॉगिन','Log in'],
 'bookTag':['समय तय करें','BOOK A TIME'],
 'bookTitle':['अपना परामर्श समय चुनें','Choose your consultation time'],
-'bookIntro':['शनिवार और रविवार को सुबह 9–12, दोपहर 2–5 और रात 8–12 बजे (भारतीय समय)। समय चुनें, अनुरोध भेजें, और हम WhatsApp पर पुष्टि करेंगे।','Saturdays and Sundays, 9 am–12 pm, 2–5 pm and 8 pm–12 am (India time). Pick a time and send a request, and we will confirm on WhatsApp.'],
+'bookIntro':['शनिवार और रविवार को सुबह 9–12, दोपहर 2–5 और रात 8–12 बजे (भारतीय समय)। समय चुनें, अनुरोध भेजें, और हम ईमेल व WhatsApp पर पुष्टि करेंगे।','Saturdays and Sundays, 9 am–12 pm, 2–5 pm and 8 pm–12 am (India time). Pick a time and send a request, and we will confirm by email and WhatsApp.'],
 'hours':['परामर्श का समय','Consultation hours'],
 'hoursText':['शनिवार–रविवार · सुबह 9–12 · दोपहर 2–5 · रात 8–12 (IST)','Sat–Sun · 9 am–12 pm · 2–5 pm · 8 pm–12 am (IST)'],
 'connect':['हमसे जुड़ें','Connect with us'],
@@ -250,7 +250,9 @@ for lang,n in [('hi',0),('en',1)]:
  brand=BRAND[n]
  home=FILES['home'][n]
  site_data={'lang':lang,'homeUrl':home,'accountUrl':FILES['account'][n],'privacyUrl':FILES['privacy'][n],'adminUrl':FILES['admin'][n],'instagramUrl':config['instagramUrl'],'formUrl':form,
-  'services':[{'id':s[0],'title':s[3][n],'options':[{'name':o[n],'fee':o[2]} for o in s[5]]} for s in services],'bookingNotifyUrl':config.get('bookingNotifyUrl','')}
+  'services':[{'id':s[0],'title':s[3][n],'options':[{'name':o[n],'fee':o[2]} for o in s[5]]} for s in services],'bookingNotifyUrl':config.get('bookingNotifyUrl',''),
+  # Bookings store the option name in the customer's language; the admin looks fees up in either.
+  'fees':{s[0]:{name:o[2] for o in s[5] for name in o[:2]} for s in services}}
  site_json=json.dumps(site_data,ensure_ascii=False).replace('</','<\\/')
  def header(kind):
   prefix='' if kind=='home' else home
@@ -271,9 +273,10 @@ for lang,n in [('hi',0),('en',1)]:
  for id,num,icon,title,desc,options,prep,inc,proc,benefits in services:
   benefit_items=''.join(f'<li>{b}</li>' for b in benefits[n])
   fees=[o[2] for o in options]
-  option_rows=''.join(f'<li><span>{o[n]}</span><b>{rupees(o[2])}</b></li>' for o in options)
-  option_detail=''.join(f'<li><strong>{o[n]} · {rupees(o[2])}</strong><span>{o[3+n]}</span></li>' for o in options)
-  cards+=f'''<article class="service-card" id="{id}"><div class="card-top"><span class="service-symbol" aria-hidden="true">{icon}</span><span class="serial">{num}</span></div><h3>{title[n]}</h3><p>{desc[n]}</p><div class="fee">{rupees(min(fees))} <small>{t('from')}</small></div><h4 class="options-title">{t('options')}</h4><ul class="option-list">{option_rows}</ul><p class="fee-note">{t('feeNote')}</p><details><summary>{t('details')}<span aria-hidden="true">{PLUS_ICON}</span></summary><div class="service-detail"><h4>{t('optionsDetail')}</h4><ul class="option-detail">{option_detail}</ul><h4>{t('benefitsHeading')}</h4><ul class="benefit-list">{benefit_items}</ul><h4>{t('prepare')}</h4><p>{prep[n]}</p><h4>{t('include')}</h4><p>{inc[n]}</p><h4>{t('process')}</h4><p>{proc[n]}</p><p class="small-note">{t('commonShort')} <a href="#notice">{t('noticeLink')}</a></p><a class="text-link" href="#contact">{t('choose')}</a></div></details></article>'''
+  # data-fee lets assets/js/offer-ui.js show the month-end offer price next to the regular fee.
+  option_rows=''.join(f'<li><span>{o[n]}</span><b data-fee="{o[2]}">{rupees(o[2])}</b></li>' for o in options)
+  option_detail=''.join(f'<li><strong>{o[n]} · <span data-fee="{o[2]}">{rupees(o[2])}</span></strong><span>{o[3+n]}</span></li>' for o in options)
+  cards+=f'''<article class="service-card" id="{id}"><div class="card-top"><span class="service-symbol" aria-hidden="true">{icon}</span><span class="serial">{num}</span></div><h3>{title[n]}</h3><p>{desc[n]}</p><div class="fee"><span data-fee="{min(fees)}">{rupees(min(fees))}</span> <small>{t('from')}</small></div><h4 class="options-title">{t('options')}</h4><ul class="option-list">{option_rows}</ul><p class="fee-note">{t('feeNote')}</p><details><summary>{t('details')}<span aria-hidden="true">{PLUS_ICON}</span></summary><div class="service-detail"><h4>{t('optionsDetail')}</h4><ul class="option-detail">{option_detail}</ul><h4>{t('benefitsHeading')}</h4><ul class="benefit-list">{benefit_items}</ul><h4>{t('prepare')}</h4><p>{prep[n]}</p><h4>{t('include')}</h4><p>{inc[n]}</p><h4>{t('process')}</h4><p>{proc[n]}</p><p class="small-note">{t('commonShort')} <a href="#notice">{t('noticeLink')}</a></p><a class="text-link" href="#contact">{t('choose')}</a></div></details></article>'''
  rashi_cards=''.join(f'''<article class="rashi-card"><span class="rashi-glyph" aria-hidden="true">{r[0]}</span><h3>{r[1+n]}<small>{r[2] if n==0 else r[1]}</small></h3><p class="rashi-meta">{t('rashiLord')}: {r[3+n]} · {r[5+n]}</p><p class="rashi-mantra" lang="sa"><span>{t('rashiMantra')}:</span> {r[7]}</p><p>{r[8+n]}</p></article>''' for r in rashis)
  steps=''.join(f'<article><span class="step-num">0{i+1}</span><h3>{a}</h3><p>{b}</p></article>' for i,(a,b) in enumerate(t('steps')))
  faqs=''.join(f'<details><summary>{q}<span aria-hidden="true">{PLUS_ICON}</span></summary><p>{a}</p></details>' for q,a in t('faqs'))

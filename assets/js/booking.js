@@ -3,6 +3,8 @@ import { configured, getFirebase } from './firebase.js';
 import { lang, T, errorText } from './i18n.js';
 import { el, toast, siteData } from './ui.js';
 import { requireUser, onUser } from './auth-ui.js';
+import { offerExpiry, offerPrice, claimId } from './offer.js';
+import { loadOffer, showOffer, offerApplies, rupees } from './offer-ui.js';
 
 // Consultation hours (IST), Saturday and Sunday. Must match slotTimes() in firestore.rules.
 export const SESSIONS = [
@@ -43,13 +45,22 @@ export function initBooking() {
   if (!root) return;
   const data = siteData();
   const services = data.services || [];
-  const state = { service: '', option: '', date: '', time: '', taken: new Set(), loadingTimes: false, done: null };
+  const state = { service: '', option: '', date: '', time: '', taken: new Set(), loadingTimes: false, done: null, offer: { active: false } };
   const dates = weekendDates();
 
   if (!configured) {
     root.replaceChildren(el('p', { class: 'review-empty' }, T.comingSoon));
     return;
   }
+
+  async function refreshOffer(user) {
+    state.offer = { ...(await loadOffer(user)), checkedFor: user?.uid };
+    showOffer(state.offer);
+    render();
+  }
+  onUser(user => refreshOffer(user));
+
+  const feeOf = () => services.find(s => s.id === state.service)?.options.find(o => o.name === state.option)?.fee;
 
   async function loadTaken(date) {
     state.loadingTimes = true;
@@ -78,8 +89,10 @@ export function initBooking() {
     serviceSelect.addEventListener('change', () => { state.service = serviceSelect.value; state.option = ''; render(); });
     const optionSelect = el('select', { id: 'book-option', disabled: !service },
       el('option', { value: '' }, T.chooseOption),
-      (service?.options || []).map(o => el('option', { value: o.name, selected: o.name === state.option }, `${o.name} · ₹${o.fee.toLocaleString('en-IN')}`)));
-    optionSelect.addEventListener('change', () => { state.option = optionSelect.value; });
+      (service?.options || []).map(o => el('option', { value: o.name, selected: o.name === state.option },
+        offerApplies(state.offer, o.fee) ? `${o.name} · ${rupees(offerPrice(o.fee))} (${T.insteadOf(rupees(o.fee))})` : `${o.name} · ${rupees(o.fee)}`)));
+    optionSelect.addEventListener('change', () => { state.option = optionSelect.value; render(); });
+    const fee = feeOf();
 
     const dateRow = el('div', { class: 'chip-row scroll', role: 'group', 'aria-label': T.stepDate },
       dates.map(d => chip(formatSlot(d), d === state.date, () => { state.date = d; state.time = ''; loadTaken(d); })));
@@ -114,6 +127,9 @@ export function initBooking() {
         el('label', { class: 'field' }, el('span', {}, T.noteLabel), el('textarea', { id: 'book-note', name: 'note', rows: 3, maxlength: 500, placeholder: T.notePlaceholder }))),
       el('div', { class: 'book-summary' },
         el('p', {}, state.date && state.time ? T.youChose(formatSlot(state.date, state.time)) : T.pickAll),
+        fee && el('p', { class: 'book-fee' }, T.feeLabel, ': ', offerApplies(state.offer, fee)
+          ? [el('s', { class: 'regular-fee' }, rupees(fee)), ' ', el('strong', { class: 'offer-fee' }, rupees(offerPrice(fee))), ' ', el('span', { class: 'chip offer' }, T.offerTitle)]
+          : el('strong', {}, rupees(fee))),
         el('p', { class: 'small-note' }, T.payNote)),
       el('p', { class: 'form-error', role: 'alert', hidden: true }),
       el('button', { class: 'button primary', type: 'submit' }, T.requestBooking));
@@ -149,6 +165,9 @@ export function initBooking() {
     button.disabled = true;
     button.textContent = T.submitting;
     const id = slotId(state.date, state.time);
+    // The offer is checked again after login: this customer may already have used it this month.
+    if (state.offer.active && state.offer.checkedFor !== user.uid) state.offer = { ...(await loadOffer(user)), checkedFor: user.uid };
+    const withOffer = offerApplies(state.offer, feeOf());
     try {
       const { db, F } = await getFirebase();
       const expireAt = F.Timestamp.fromMillis(slotStart(state.date, state.time) + RETENTION_MS);
@@ -156,18 +175,33 @@ export function initBooking() {
       batch.set(F.doc(db, 'bookings', id), {
         uid: user.uid, name, phone, email: user.email, service: state.service, option: state.option,
         mode: form.querySelector('input[name=mode]:checked').value, note: form.note.value.trim(),
-        date: state.date, time: state.time, lang, status: 'requested', createdAt: F.serverTimestamp(), expireAt
+        date: state.date, time: state.time, lang, status: 'requested', createdAt: F.serverTimestamp(), expireAt,
+        ...(withOffer && { offer: state.offer.month })
       });
       batch.set(F.doc(db, 'slots', id), { date: state.date, time: state.time, expireAt });
+      if (withOffer) {
+        const offerExpireAt = F.Timestamp.fromMillis(offerExpiry(state.offer));
+        batch.set(F.doc(db, 'offerClaims', claimId(state.offer.month, user.uid)), { uid: user.uid, booking: id, expireAt: offerExpireAt });
+        batch.set(F.doc(db, 'offers', state.offer.month), { claimed: F.increment(1), expireAt: offerExpireAt }, { merge: true });
+      }
       await batch.commit();
       notifyOwner(user, id);
-      state.done = { date: state.date, time: state.time };
+      state.done = { date: state.date, time: state.time, fee: feeOf(), withOffer };
+      if (withOffer) refreshOffer(user);
       render();
       toast(T.bookedTitle);
     } catch (err) {
       if (err.code === 'permission-denied') {
         await loadTaken(state.date);
-        toast(state.taken.has(state.time) ? T.slotTaken : errorText(err), 'error');
+        if (state.taken.has(state.time)) toast(T.slotTaken, 'error');
+        else if (withOffer) {
+          // The last seat went to someone else, or the offer just ended: show regular fees and let them resubmit.
+          state.offer = { ...(await loadOffer(user)), checkedFor: user.uid };
+          showOffer(state.offer);
+          toast(T.offerGone, 'error');
+          render();
+          return;
+        } else toast(errorText(err), 'error');
       } else {
         fail(errorText(err));
       }
@@ -187,11 +221,12 @@ export function initBooking() {
   }
 
   function renderDone() {
-    const { date, time } = state.done;
+    const { date, time, fee, withOffer } = state.done;
     root.replaceChildren(el('div', { class: 'booking-done' },
       el('span', { class: 'done-mark', 'aria-hidden': 'true' }, '✓'),
       el('h3', {}, T.bookedTitle),
       el('p', {}, T.bookedText(formatSlot(date, time))),
+      fee && el('p', { class: 'book-fee' }, T.feeLabel, ': ', el('strong', {}, rupees(withOffer ? offerPrice(fee) : fee)), withOffer && [' ', el('span', { class: 'chip offer' }, T.offerTitle)]),
       el('p', { class: 'small-note' }, T.payNote),
       el('div', { class: 'button-row' },
         el('a', { class: 'button primary', href: data.accountUrl }, T.viewBookings),

@@ -4,10 +4,13 @@ import { T, errorText } from './i18n.js';
 import { el, stars, avatar, formatDate, formatNumber, toast, siteData } from './ui.js';
 import { onUser, openLogin } from './auth-ui.js';
 import { formatSlot, slotId } from './booking.js';
+import { offerPrice } from './offer.js';
+import { rupees } from './offer-ui.js';
 
 export function initAdmin() {
   const root = document.querySelector('[data-app]');
-  const services = siteData().services || [];
+  const data = siteData();
+  const services = data.services || [];
   let reviews = [];
   let users = [];
   let bookings = [];
@@ -134,6 +137,39 @@ export function initAdmin() {
     }
   }
 
+  // Fee for the booked option (offer price if the booking got the month-end offer), or 0 if no option.
+  function priceOf(bk) {
+    const fee = data.fees?.[bk.service]?.[bk.option] || 0;
+    return bk.offer ? offerPrice(fee) : fee;
+  }
+
+  function waLink(bk, text) {
+    const digits = (bk.phone || '').replace(/[^0-9]/g, '');
+    return `https://wa.me/${digits.length === 10 ? '91' + digits : digits}?text=${encodeURIComponent(text)}`;
+  }
+
+  // Confirms the booking with its fee, opens WhatsApp with a ready confirmation message and asks the
+  // booking-sheet script to email the customer (it re-reads the booking and only emails confirmed ones).
+  async function confirmBooking(bk) {
+    const price = priceOf(bk);
+    const what = [services.find(s => s.id === bk.service)?.title, bk.option].filter(Boolean).join(' · ');
+    // Opened before any await: browsers block pop-ups that are not a direct result of the click.
+    window.open(waLink(bk, T.waConfirm(bk.name, formatSlot(bk.date, bk.time), what, price && rupees(price))), '_blank', 'noopener');
+    try {
+      const { auth, db, F } = await getFirebase();
+      await F.updateDoc(F.doc(db, 'bookings', bk.id), { status: 'confirmed', updatedAt: F.serverTimestamp(), ...(price && { price }) });
+      Object.assign(bk, { status: 'confirmed' }, price && { price });
+      toast(data.bookingNotifyUrl ? T.confirmedEmailed : T.confirmedNoEmail);
+      render();
+      if (data.bookingNotifyUrl) {
+        const idToken = await auth.currentUser.getIdToken();
+        await fetch(data.bookingNotifyUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ action: 'confirmed', id: bk.id, idToken }) }).catch(() => {});
+      }
+    } catch (err) {
+      toast(errorText(err), 'error');
+    }
+  }
+
   async function cancelBooking(bk) {
     if (!confirm(T.confirmCancel)) return;
     try {
@@ -152,19 +188,23 @@ export function initAdmin() {
 
   function bookingCard(bk) {
     const service = services.find(s => s.id === bk.service);
-    const digits = (bk.phone || '').replace(/[^0-9]/g, '');
-    const wa = `https://wa.me/${digits.length === 10 ? '91' + digits : digits}?text=${encodeURIComponent(T.waMessage(bk.name, formatSlot(bk.date, bk.time)))}`;
+    const wa = waLink(bk, T.waMessage(bk.name, formatSlot(bk.date, bk.time)));
+    const price = bk.price || priceOf(bk);
+    const fee = data.fees?.[bk.service]?.[bk.option] || 0;
     return el('article', { class: `review-card admin booking-card ${bk.status}` },
       el('header', {},
         el('div', {}, el('strong', { class: 'slot-time' }, formatSlot(bk.date, bk.time)), el('small', {}, `${bk.name} · ${bk.phone} · ${bk.email}`)),
         el('span', { class: `chip ${bk.status}` }, T.bookingStatus[bk.status] || bk.status)),
       el('p', {}, [service?.title, bk.option, T.modes[bk.mode]].filter(Boolean).join(' · ')),
+      price > 0 && el('p', { class: 'book-fee' }, T.feeLabel, ': ', bk.offer
+        ? [el('strong', {}, T.offerFee(rupees(price), rupees(fee))), ' ', el('span', { class: 'chip offer' }, T.offerTitle)]
+        : el('strong', {}, rupees(price))),
       bk.note && el('p', { class: 'review-text' }, bk.note),
       el('div', { class: 'button-row' },
         el('a', { class: 'button success small', href: wa, target: '_blank', rel: 'noopener noreferrer' }, 'WhatsApp'),
         el('a', { class: 'button outline small', href: `tel:${bk.phone}` }, T.callBtn),
         el('span', { class: 'spacer' }),
-        bk.status === 'requested' && el('button', { type: 'button', class: 'button primary small', onclick: () => setBooking(bk, 'confirmed') }, T.confirmBooking),
+        bk.status === 'requested' && el('button', { type: 'button', class: 'button primary small', onclick: () => confirmBooking(bk) }, T.confirmBooking),
         bk.status === 'confirmed' && el('button', { type: 'button', class: 'button outline small', onclick: () => setBooking(bk, 'done') }, T.markDone),
         el('button', { type: 'button', class: 'button danger small', onclick: () => cancelBooking(bk) }, T.cancelBooking)));
   }

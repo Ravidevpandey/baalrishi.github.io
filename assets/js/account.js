@@ -5,6 +5,8 @@ import { el, stars, avatar, formatDate, toast, siteData } from './ui.js';
 import { onUser, openLogin, logout, updateDisplayName, resendVerification, refreshUser } from './auth-ui.js';
 import { openReviewForm } from './review-form.js';
 import { formatSlot, slotId } from './booking.js';
+import { offerPrice } from './offer.js';
+import { rupees } from './offer-ui.js';
 
 export function initAccount() {
   const root = document.querySelector('[data-app]');
@@ -125,11 +127,14 @@ export function initAccount() {
         const services = data.services || [];
         bookingsBox.replaceChildren(...mine.map(b => {
           const upcoming = Date.parse(`${b.date}T${b.time}:00+05:30`) > Date.now();
+          const fee = data.fees?.[b.service]?.[b.option] || 0;
+          const price = b.price || (b.offer ? offerPrice(fee) : fee);
           return el('article', { class: 'review-card mine booking-card' },
             el('header', {},
               el('strong', {}, formatSlot(b.date, b.time)),
               el('span', { class: `chip ${b.status}` }, T.bookingStatus[b.status] || b.status)),
             el('p', {}, [services.find(s => s.id === b.service)?.title, b.option, T.modes[b.mode]].filter(Boolean).join(' · ')),
+            price > 0 && el('p', { class: 'book-fee' }, T.feeLabel, ': ', el('strong', {}, rupees(price)), b.offer && [' ', el('span', { class: 'chip offer' }, T.offerTitle)]),
             upcoming && b.status !== 'done' && el('div', { class: 'button-row' },
               el('button', { type: 'button', class: 'button danger small', onclick: () => cancel(b) }, T.cancelBooking)));
         }));

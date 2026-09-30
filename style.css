@@ -2697,3 +2697,37 @@ html[lang=hi] *,:lang(hi) {
 .stats {
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr))
 }
+/* Month-end offer (assets/js/offer-ui.js) */
+.offer-banner {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:2px 10px;
+  margin:14px 0 0;
+  padding:10px 14px;
+  border:1px solid #e8c48a;
+  border-radius:12px;
+  background:#fff6e6;
+  color:var(--maroon);
+  line-height:1.5
+}
+.offer-banner small {
+  flex-basis:100%;
+  color:var(--muted)
+}
+.regular-fee {
+  color:var(--muted);
+  font-weight:400;
+  text-decoration-thickness:1.5px
+}
+.offer-fee {
+  color:var(--maroon);
+  font-weight:700
+}
+.book-fee {
+  margin:4px 0
+}
+.chip.offer {
+  background:#fff1d6;
+  color:var(--maroon)
+}
